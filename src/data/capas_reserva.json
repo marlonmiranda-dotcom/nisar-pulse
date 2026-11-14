@@ -1,0 +1,750 @@
+{
+ "generado": "2026-11-14",
+ "reserva": {
+  "nombre": "Reserva Biológica Colonso Chalupas",
+  "wdpa": 555593903,
+  "area_ha": 93535.3,
+  "bbox": [
+   -78.24941,
+   -1.0784,
+   -77.87484,
+   -0.73877
+  ]
+ },
+ "bosque": {
+  "estado": "ok",
+  "producto": "Hansen/UMD/Google/USGS/NASA Global Forest Change v1.13",
+  "cita": "Hansen, M. C. et al. (2013), Science 342: 850–853. Datos GFC-2025-v1.13.",
+  "url": "https://storage.googleapis.com/earthenginepartners-hansen/GFC-2025-v1.13/download.html",
+  "licencia": "Uso libre citando a Hansen et al. 2013 y la versión del dato.",
+  "resolucion": "30 m (Landsat)",
+  "unidad": "ha/año",
+  "periodo": "Pérdida 2001–2025. El bosque de partida es el año 2000, cobertura ≥ 30 %.",
+  "descargado": "2026-11-14",
+  "version": "GFC-2025-v1.13",
+  "bosque_2000_ha": 87031.23,
+  "total_perdida_ha": 184.49,
+  "pixel_ha": 0.07744115192362083,
+  "serie": [
+   {
+    "anio": 2001,
+    "ha": 11.85
+   },
+   {
+    "anio": 2002,
+    "ha": 6.27
+   },
+   {
+    "anio": 2003,
+    "ha": 1.78
+   },
+   {
+    "anio": 2004,
+    "ha": 29.2
+   },
+   {
+    "anio": 2005,
+    "ha": 2.48
+   },
+   {
+    "anio": 2006,
+    "ha": 8.6
+   },
+   {
+    "anio": 2007,
+    "ha": 10.84
+   },
+   {
+    "anio": 2008,
+    "ha": 3.02
+   },
+   {
+    "anio": 2009,
+    "ha": 10.61
+   },
+   {
+    "anio": 2010,
+    "ha": 12.55
+   },
+   {
+    "anio": 2011,
+    "ha": 4.34
+   },
+   {
+    "anio": 2012,
+    "ha": 10.76
+   },
+   {
+    "anio": 2013,
+    "ha": 5.42
+   },
+   {
+    "anio": 2014,
+    "ha": 9.68
+   },
+   {
+    "anio": 2015,
+    "ha": 12.39
+   },
+   {
+    "anio": 2016,
+    "ha": 11.85
+   },
+   {
+    "anio": 2017,
+    "ha": 8.44
+   },
+   {
+    "anio": 2018,
+    "ha": 1.47
+   },
+   {
+    "anio": 2019,
+    "ha": 3.18
+   },
+   {
+    "anio": 2020,
+    "ha": 1.86
+   },
+   {
+    "anio": 2021,
+    "ha": 1.16
+   },
+   {
+    "anio": 2022,
+    "ha": 1.32
+   },
+   {
+    "anio": 2023,
+    "ha": 0.7
+   },
+   {
+    "anio": 2024,
+    "ha": 5.5
+   },
+   {
+    "anio": 2025,
+    "ha": 9.22
+   }
+  ],
+  "png": "capas/perdida_bosque.png",
+  "bounds": [
+   [
+    -1.0785,
+    -78.2495
+   ],
+   [
+    -0.73875,
+    -77.875
+   ]
+  ],
+  "colores": {
+   "2001-2010": "amarillo",
+   "2011-2018": "naranja",
+   "2019-2025": "rojo"
+  },
+  "pasos": [
+   "Se leyeron lossyear y treecover2000 de la tesela 00N_080W.",
+   "Se recortó la ventana del polígono WDPA 555593903.",
+   "Bosque en 2000 = píxel dentro de la reserva y cobertura ≥ 30 %.",
+   "Pérdida de un año = ese bosque y lossyear igual al año (1 = 2001 … 25 = 2025).",
+   "Hectáreas = número de píxeles × área del píxel a la latitud de la reserva.",
+   "El mapa pinta esos píxeles: amarillo 2001–2010, naranja 2011–2018, rojo 2019–2025. Cada mancha se agranda 3 píxeles (~90 m) para poder verla. Las hectáreas no usan ese agrandado."
+  ]
+ },
+ "ndvi": {
+  "estado": "ok",
+  "producto": "MODIS/Terra MOD13C2 v061 NDVI mensual",
+  "url": "https://doi.org/10.5067/MODIS/MOD13C2.061",
+  "via": "NASA LP DAAC · Earthdata Cloud OPeNDAP",
+  "licencia": "Datos NASA LP DAAC. Uso libre citando el DOI.",
+  "resolucion": "0.05° (~5,6 km)",
+  "unidad": "NDVI medio del año (sin unidad, de −1 a 1)",
+  "periodo": "2016–2026",
+  "descargado": "2026-11-14",
+  "serie": [
+   {
+    "anio": 2016,
+    "ndvi": 0.8026,
+    "meses": 12,
+    "entra_en_recta": true
+   },
+   {
+    "anio": 2017,
+    "ndvi": 0.8021,
+    "meses": 12,
+    "entra_en_recta": true
+   },
+   {
+    "anio": 2018,
+    "ndvi": 0.7847,
+    "meses": 12,
+    "entra_en_recta": true
+   },
+   {
+    "anio": 2019,
+    "ndvi": 0.8034,
+    "meses": 12,
+    "entra_en_recta": true
+   },
+   {
+    "anio": 2020,
+    "ndvi": 0.7902,
+    "meses": 12,
+    "entra_en_recta": true
+   },
+   {
+    "anio": 2021,
+    "ndvi": 0.794,
+    "meses": 12,
+    "entra_en_recta": true
+   },
+   {
+    "anio": 2022,
+    "ndvi": 0.7983,
+    "meses": 12,
+    "entra_en_recta": true
+   },
+   {
+    "anio": 2023,
+    "ndvi": 0.798,
+    "meses": 12,
+    "entra_en_recta": true
+   },
+   {
+    "anio": 2024,
+    "ndvi": 0.7996,
+    "meses": 12,
+    "entra_en_recta": true
+   },
+   {
+    "anio": 2025,
+    "ndvi": 0.7931,
+    "meses": 12,
+    "entra_en_recta": true
+   },
+   {
+    "anio": 2026,
+    "ndvi": 0.786,
+    "meses": 10,
+    "entra_en_recta": false
+   }
+  ],
+  "pasos": [
+   "Se partió de los promedios mensuales ya guardados en src/data/satellite_real.json.",
+   "Esos promedios son de MODIS MOD13C2 v061, píxeles de 0,05° cuyo centro cae en la reserva (script scripts/earthdata/).",
+   "El NDVI del año es el promedio de los meses que sí tienen número.",
+   "2026 no tiene los 12 meses, así que se muestra en el gráfico y no se usa para la recta."
+  ]
+ },
+ "agua_superficial": {
+  "estado": "ok",
+  "producto": "JRC Global Surface Water, clasificación anual (colección hasta 2021)",
+  "cita": "Pekel, J.-F., Cottam, A., Gorelick, N. y Belward, A. S. (2016), Nature 540: 418–422. doi:10.1038/nature20584",
+  "url": "https://global-surface-water.appspot.com/download",
+  "ftp": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/GSWE/YearlyClassification/LATEST/tiles/",
+  "licencia": "Copernicus / Comisión Europea (JRC). Uso libre con atribución.",
+  "resolucion": "30 m (Landsat)",
+  "unidad": "ha de agua en el año (estacional + permanente)",
+  "periodo": "1984–2021",
+  "descargado": "2026-11-14",
+  "tesela": "0000320000-0000400000",
+  "clases": {
+   "0": "sin observación",
+   "1": "no es agua",
+   "2": "agua estacional",
+   "3": "agua permanente"
+  },
+  "serie": [
+   {
+    "anio": 1984,
+    "ha_estacional": 0.0,
+    "ha_permanente": 0.0,
+    "ha_total": 0.0,
+    "pct_reserva": 0.0,
+    "pct_observado": 0.0,
+    "entra_en_recta": false
+   },
+   {
+    "anio": 1985,
+    "ha_estacional": 0.0,
+    "ha_permanente": 0.0,
+    "ha_total": 0.0,
+    "pct_reserva": 0.0,
+    "pct_observado": 0.0,
+    "entra_en_recta": false
+   },
+   {
+    "anio": 1986,
+    "ha_estacional": 7.43,
+    "ha_permanente": 2.94,
+    "ha_total": 10.38,
+    "pct_reserva": 0.0111,
+    "pct_observado": 0.02,
+    "entra_en_recta": false
+   },
+   {
+    "anio": 1987,
+    "ha_estacional": 13.32,
+    "ha_permanente": 4.65,
+    "ha_total": 17.97,
+    "pct_reserva": 0.0192,
+    "pct_observado": 0.02,
+    "entra_en_recta": false
+   },
+   {
+    "anio": 1988,
+    "ha_estacional": 0.0,
+    "ha_permanente": 0.0,
+    "ha_total": 0.0,
+    "pct_reserva": 0.0,
+    "pct_observado": 0.0,
+    "entra_en_recta": false
+   },
+   {
+    "anio": 1989,
+    "ha_estacional": 0.39,
+    "ha_permanente": 0.54,
+    "ha_total": 0.93,
+    "pct_reserva": 0.001,
+    "pct_observado": 0.01,
+    "entra_en_recta": false
+   },
+   {
+    "anio": 1990,
+    "ha_estacional": 6.43,
+    "ha_permanente": 3.56,
+    "ha_total": 9.99,
+    "pct_reserva": 0.0107,
+    "pct_observado": 0.01,
+    "entra_en_recta": false
+   },
+   {
+    "anio": 1991,
+    "ha_estacional": 7.82,
+    "ha_permanente": 2.71,
+    "ha_total": 10.53,
+    "pct_reserva": 0.0113,
+    "pct_observado": 0.02,
+    "entra_en_recta": false
+   },
+   {
+    "anio": 1992,
+    "ha_estacional": 0.0,
+    "ha_permanente": 0.0,
+    "ha_total": 0.0,
+    "pct_reserva": 0.0,
+    "pct_observado": 0.0,
+    "entra_en_recta": false
+   },
+   {
+    "anio": 1993,
+    "ha_estacional": 0.0,
+    "ha_permanente": 0.0,
+    "ha_total": 0.0,
+    "pct_reserva": 0.0,
+    "pct_observado": 0.0,
+    "entra_en_recta": false
+   },
+   {
+    "anio": 1994,
+    "ha_estacional": 0.0,
+    "ha_permanente": 0.0,
+    "ha_total": 0.0,
+    "pct_reserva": 0.0,
+    "pct_observado": 0.0,
+    "entra_en_recta": false
+   },
+   {
+    "anio": 1995,
+    "ha_estacional": 0.0,
+    "ha_permanente": 0.0,
+    "ha_total": 0.0,
+    "pct_reserva": 0.0,
+    "pct_observado": 0.0,
+    "entra_en_recta": false
+   },
+   {
+    "anio": 1996,
+    "ha_estacional": 11.93,
+    "ha_permanente": 3.48,
+    "ha_total": 15.41,
+    "pct_reserva": 0.0165,
+    "pct_observado": 0.03,
+    "entra_en_recta": false
+   },
+   {
+    "anio": 1997,
+    "ha_estacional": 10.3,
+    "ha_permanente": 4.72,
+    "ha_total": 15.02,
+    "pct_reserva": 0.0161,
+    "pct_observado": 0.02,
+    "entra_en_recta": false
+   },
+   {
+    "anio": 1998,
+    "ha_estacional": 12.16,
+    "ha_permanente": 4.96,
+    "ha_total": 17.11,
+    "pct_reserva": 0.0183,
+    "pct_observado": 0.02,
+    "entra_en_recta": false
+   },
+   {
+    "anio": 1999,
+    "ha_estacional": 14.64,
+    "ha_permanente": 4.41,
+    "ha_total": 19.05,
+    "pct_reserva": 0.0204,
+    "pct_observado": 0.02,
+    "entra_en_recta": false
+   },
+   {
+    "anio": 2000,
+    "ha_estacional": 9.68,
+    "ha_permanente": 4.34,
+    "ha_total": 14.02,
+    "pct_reserva": 0.015,
+    "pct_observado": 0.02,
+    "entra_en_recta": false
+   },
+   {
+    "anio": 2001,
+    "ha_estacional": 5.19,
+    "ha_permanente": 3.72,
+    "ha_total": 8.91,
+    "pct_reserva": 0.0095,
+    "pct_observado": 0.02,
+    "entra_en_recta": false
+   },
+   {
+    "anio": 2002,
+    "ha_estacional": 6.43,
+    "ha_permanente": 3.64,
+    "ha_total": 10.07,
+    "pct_reserva": 0.0108,
+    "pct_observado": 0.02,
+    "entra_en_recta": false
+   },
+   {
+    "anio": 2003,
+    "ha_estacional": 4.1,
+    "ha_permanente": 2.25,
+    "ha_total": 6.35,
+    "pct_reserva": 0.0068,
+    "pct_observado": 0.01,
+    "entra_en_recta": false
+   },
+   {
+    "anio": 2004,
+    "ha_estacional": 2.17,
+    "ha_permanente": 1.55,
+    "ha_total": 3.72,
+    "pct_reserva": 0.004,
+    "pct_observado": 0.01,
+    "entra_en_recta": false
+   },
+   {
+    "anio": 2005,
+    "ha_estacional": 1.78,
+    "ha_permanente": 1.94,
+    "ha_total": 3.72,
+    "pct_reserva": 0.004,
+    "pct_observado": 0.01,
+    "entra_en_recta": false
+   },
+   {
+    "anio": 2006,
+    "ha_estacional": 3.02,
+    "ha_permanente": 1.63,
+    "ha_total": 4.65,
+    "pct_reserva": 0.005,
+    "pct_observado": 0.01,
+    "entra_en_recta": false
+   },
+   {
+    "anio": 2007,
+    "ha_estacional": 2.09,
+    "ha_permanente": 1.63,
+    "ha_total": 3.72,
+    "pct_reserva": 0.004,
+    "pct_observado": 0.02,
+    "entra_en_recta": false
+   },
+   {
+    "anio": 2008,
+    "ha_estacional": 2.09,
+    "ha_permanente": 0.77,
+    "ha_total": 2.87,
+    "pct_reserva": 0.0031,
+    "pct_observado": 0.01,
+    "entra_en_recta": false
+   },
+   {
+    "anio": 2009,
+    "ha_estacional": 1.55,
+    "ha_permanente": 0.93,
+    "ha_total": 2.48,
+    "pct_reserva": 0.0026,
+    "pct_observado": 0.02,
+    "entra_en_recta": false
+   },
+   {
+    "anio": 2010,
+    "ha_estacional": 2.56,
+    "ha_permanente": 1.78,
+    "ha_total": 4.34,
+    "pct_reserva": 0.0046,
+    "pct_observado": 0.02,
+    "entra_en_recta": false
+   },
+   {
+    "anio": 2011,
+    "ha_estacional": 1.39,
+    "ha_permanente": 0.85,
+    "ha_total": 2.25,
+    "pct_reserva": 0.0024,
+    "pct_observado": 0.01,
+    "entra_en_recta": false
+   },
+   {
+    "anio": 2012,
+    "ha_estacional": 0.23,
+    "ha_permanente": 0.23,
+    "ha_total": 0.46,
+    "pct_reserva": 0.0005,
+    "pct_observado": 0.01,
+    "entra_en_recta": false
+   },
+   {
+    "anio": 2013,
+    "ha_estacional": 8.36,
+    "ha_permanente": 4.41,
+    "ha_total": 12.78,
+    "pct_reserva": 0.0137,
+    "pct_observado": 0.02,
+    "entra_en_recta": false
+   },
+   {
+    "anio": 2014,
+    "ha_estacional": 5.58,
+    "ha_permanente": 2.32,
+    "ha_total": 7.9,
+    "pct_reserva": 0.0084,
+    "pct_observado": 0.02,
+    "entra_en_recta": false
+   },
+   {
+    "anio": 2015,
+    "ha_estacional": 11.54,
+    "ha_permanente": 3.48,
+    "ha_total": 15.02,
+    "pct_reserva": 0.0161,
+    "pct_observado": 0.02,
+    "entra_en_recta": false
+   },
+   {
+    "anio": 2016,
+    "ha_estacional": 14.71,
+    "ha_permanente": 4.18,
+    "ha_total": 18.9,
+    "pct_reserva": 0.0202,
+    "pct_observado": 0.03,
+    "entra_en_recta": false
+   },
+   {
+    "anio": 2017,
+    "ha_estacional": 17.11,
+    "ha_permanente": 4.57,
+    "ha_total": 21.68,
+    "pct_reserva": 0.0232,
+    "pct_observado": 0.03,
+    "entra_en_recta": false
+   },
+   {
+    "anio": 2018,
+    "ha_estacional": 11.38,
+    "ha_permanente": 3.48,
+    "ha_total": 14.87,
+    "pct_reserva": 0.0159,
+    "pct_observado": 0.02,
+    "entra_en_recta": false
+   },
+   {
+    "anio": 2019,
+    "ha_estacional": 17.73,
+    "ha_permanente": 3.64,
+    "ha_total": 21.37,
+    "pct_reserva": 0.0229,
+    "pct_observado": 0.03,
+    "entra_en_recta": false
+   },
+   {
+    "anio": 2020,
+    "ha_estacional": 24.63,
+    "ha_permanente": 8.13,
+    "ha_total": 32.76,
+    "pct_reserva": 0.035,
+    "pct_observado": 0.04,
+    "entra_en_recta": false
+   },
+   {
+    "anio": 2021,
+    "ha_estacional": 23.54,
+    "ha_permanente": 4.03,
+    "ha_total": 27.57,
+    "pct_reserva": 0.0295,
+    "pct_observado": 0.04,
+    "entra_en_recta": false
+   }
+  ],
+  "png": "capas/agua_jrc.png",
+  "bounds": [
+   [
+    -1.0785,
+    -78.2495
+   ],
+   [
+    -0.73875,
+    -77.875
+   ]
+  ],
+  "permite_recta": false,
+  "motivo_sin_recta": "No proyectamos estas hectáreas. Casi todos los píxeles de cada año están en 'sin observación' (nubes). El número es solo el agua que sí se pudo marcar. Una recta hacia el futuro parecería que hay más agua, pero puede ser que haya más fotos. El cambio entre dos épocas sí está medido en el producto oficial y se muestra aparte, sin alargarlo al futuro.",
+  "nota_30m": "Un estanque o una quebrada más angostos que unos 30 m pueden no aparecer en esta mancha azul.",
+  "ocurrencia": {
+   "producto": "JRC Global Surface Water, Occurrence v1.4 (1984–2021)",
+   "url": "https://global-surface-water.appspot.com/download",
+   "archivo": "occurrence_80W_0Nv1_4_2021.tif",
+   "resolucion": "30 m",
+   "unidad": "% de observaciones en las que el píxel fue agua",
+   "periodo": "1984–2021",
+   "ha_alguna_vez": 44.61,
+   "ha_al_menos_50": 11.46,
+   "ocurrencia_media_en_pixeles_con_agua": 33.8,
+   "ocurrencia_maxima": 91,
+   "pasos": [
+    "Se leyó occurrence_80W_0Nv1_4_2021.tif (de 80°O a 70°O y de 0° a 10°S).",
+    "0–100 = porcentaje. No hubo píxeles 255 (sin dato) dentro de la reserva.",
+    "Hectáreas = píxeles con ocurrencia ≥ 1 × área del píxel."
+   ]
+  },
+  "cambio_epocas": {
+   "producto": "JRC Global Surface Water, Occurrence change intensity v1.4",
+   "url": "https://global-surface-water.appspot.com/download",
+   "archivo": "change_80W_0Nv1_4_2021.tif",
+   "resolucion": "30 m",
+   "unidad": "puntos porcentuales de ocurrencia (valor del archivo − 100)",
+   "epocas": "1984–1999 comparado con 2000–2021",
+   "ha_mas_agua": 28.58,
+   "ha_menos_agua": 7.67,
+   "ha_igual": 1.32,
+   "ha_no_calculable": 7.2,
+   "cambio_medio_puntos": 45.2,
+   "nota": "253 = nunca hubo agua (casi toda la reserva). 0 y 254 = no se pudo calcular. Solo se promedian los píxeles 1–200.",
+   "pasos": [
+    "Se leyó change_80W_0Nv1_4_2021.tif, misma ventana de la reserva.",
+    "En los bytes 1 a 200, el cambio es el byte menos 100.",
+    "No se alarga este cambio hacia el futuro: es la diferencia entre dos épocas ya cerradas."
+   ]
+  },
+  "pasos": [
+   "Se bajó la clasificación anual de la tesela 0000320000-0000400000 (80°O–70°O, 0°–10°S), años 1984 a 2021.",
+   "Se recortó la misma ventana del polígono de la reserva.",
+   "Clase 2 = agua estacional. Clase 3 = agua permanente. Clase 0 = sin observación: no se cuenta como tierra seca.",
+   "Hectáreas = píxeles de clase 2 o 3 dentro de la reserva × área del píxel.",
+   "El mapa azul sale del producto Occurrence (porcentaje de meses con agua, 1984–2021). El azul es más fuerte si el agua estuvo presente más a menudo.",
+   "No se traza una recta con las hectáreas anuales: la observación de cada año es casi nula."
+  ]
+ },
+ "rios": {
+  "estado": "ok",
+  "producto": "OpenStreetMap: ríos, quebradas y cuerpos de agua",
+  "url": "https://www.openstreetmap.org/copyright",
+  "licencia": "ODbL 1.0 © colaboradores de OpenStreetMap",
+  "resolucion": "Líneas dibujadas a mano. No es una grilla de 30 m.",
+  "unidad": "tramos dentro de la reserva",
+  "periodo": "mapa vivo, copia del 2026-11-14",
+  "descargado": "2026-11-14",
+  "consulta": "[out:json][timeout:90];\n(\n  way[\"waterway\"~\"^(river|stream|canal)$\"](-1.10,-78.28,-0.72,-77.85);\n  way[\"natural\"=\"water\"](-1.10,-78.28,-0.72,-77.85);\n);\nout geom;",
+  "en_la_caja": 171,
+  "dentro_de_la_reserva": {
+   "río": 16,
+   "cuerpo de agua": 6,
+   "quebrada": 43
+  },
+  "archivo": "src/data/rios_osm_colonso.geojson",
+  "hydrorivers": {
+   "estado": "dato_no_disponible",
+   "producto": "HydroSHEDS HydroRIVERS v1.0 (Sudamérica)",
+   "url": "https://data.hydrosheds.org/file/HydroRIVERS/HydroRIVERS_v10_sa_shp.zip",
+   "ficha": "https://www.hydrosheds.org/products/hydrorivers",
+   "licencia": "Licencia HydroSHEDS: uso libre con atribución",
+   "resolucion": "15 segundos de arco (unos 450 m). Solo ríos con cuenca de al menos 10 km² o caudal de 0,1 m³/s.",
+   "codigo_http": 403,
+   "motivo": "No se guardó el zip de HydroRIVERS. La descarga respondió HTTP 403 (el sitio pone un desafío de Cloudflare). Sin ese archivo no dibujamos esos ríos.",
+   "que_debe_correr_el_equipo": "Bajar el zip en una computadora donde el sitio abra, descomprimirlo y recortar el shapefile al polígono de la reserva. El enlace está en este bloque."
+  }
+ },
+ "no_disponibles": [
+  {
+   "id": "contaminacion_agua",
+   "titulo": "Contaminación del agua (minería o petróleo)",
+   "estado": "dato_no_disponible",
+   "motivo": "Los satélites de esta app (Landsat, MODIS, NISAR) no miden químicos en el agua. No hay un número que mostrar y no lo inventamos."
+  },
+  {
+   "id": "mapbiomas",
+   "titulo": "Cobertura del suelo MapBiomas Ecuador",
+   "estado": "dato_no_disponible",
+   "motivo": "Las direcciones públicas del GeoTIFF respondieron 403. Sin el archivo no hay hectáreas por clase.",
+   "url": "https://ecuador.mapbiomas.org/",
+   "licencia": "CC BY 4.0 cuando se descarga desde MapBiomas",
+   "resolucion": "30 m",
+   "pruebas": [
+    {
+     "url": "https://storage.googleapis.com/mapbiomas-public/initiatives/ecuador/collection_3/lclu/coverage/ecuador_coverage_2023.tif",
+     "codigo_http": 403
+    },
+    {
+     "url": "https://storage.googleapis.com/mapbiomas-public/initiatives/ecuador/collection4/lulc/coverage/ecuador_coverage/ecuador_coverage-col4_2023.tif",
+     "codigo_http": 403
+    }
+   ],
+   "que_debe_correr_el_equipo": "Entrar a https://ecuador.mapbiomas.org/ (o al toolkit de Google Earth Engine, hace falta una cuenta gratuita), exportar la cobertura anual recortada a la reserva y volver a calcular las hectáreas por clase. No rellenar a mano."
+  },
+  {
+   "id": "no2",
+   "titulo": "Dióxido de nitrógeno (Sentinel-5P TROPOMI)",
+   "estado": "dato_no_disponible",
+   "motivo": "No descargamos una grilla verificada de NO2 sobre la reserva. El producto existe, pero es muy grueso (unos 5,5 km × 3,5 km) y aquí no hay un número real.",
+   "url": "https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S5P_OFFL_L3_NO2",
+   "resolucion": "cerca de 5,5 km × 3,5 km",
+   "que_debe_correr_el_equipo": "Bajar el NO2 troposférico de Sentinel-5P (Copernicus, producto OFFL L3) para la caja de la reserva y promediar los píxeles. Hace falta una cuenta de Copernicus o de Google Earth Engine."
+  },
+  {
+   "id": "ndwi",
+   "titulo": "Agua por NDWI (Sentinel-2)",
+   "estado": "dato_no_disponible",
+   "motivo": "No bajamos una escena Sentinel-2 sin nubes de la reserva, así que no hay un NDWI calculado.",
+   "url": "https://planetarycomputer.microsoft.com/dataset/sentinel-2-l2a",
+   "resolucion": "10 m",
+   "que_debe_correr_el_equipo": "Elegir una escena Sentinel-2 L2A con pocas nubes, calcular NDWI = (verde − infrarrojo cercano) / (verde + infrarrojo cercano) y promediar dentro del polígono."
+  },
+  {
+   "id": "hydrorivers",
+   "titulo": "Ríos HydroRIVERS",
+   "estado": "dato_no_disponible",
+   "motivo": "No se guardó el zip de HydroRIVERS. La descarga respondió HTTP 403 (el sitio pone un desafío de Cloudflare). Sin ese archivo no dibujamos esos ríos.",
+   "url": "https://data.hydrosheds.org/file/HydroRIVERS/HydroRIVERS_v10_sa_shp.zip",
+   "que_debe_correr_el_equipo": "Bajar el zip en una computadora donde el sitio abra, descomprimirlo y recortar el shapefile al polígono de la reserva. El enlace está en este bloque."
+  }
+ ],
+ "prediccion": {
+  "metodo": "Recta de mínimos cuadrados sobre los años históricos, más una banda del 95 %.",
+  "anios_hacia_adelante": 5,
+  "donde_esta_la_cuenta": "src/prediccion.js",
+  "aviso": "Es una predicción del equipo a partir de la serie citada. Puede cambiar cuando lleguen años nuevos. No dice cuál es la causa del cambio."
+ }
+}
