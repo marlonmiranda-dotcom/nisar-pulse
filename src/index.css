@@ -52,5 +52,37 @@ input[type="range"].nisar-range::-moz-range-thumb { width: 14px; height: 14px; b
 .pulse-dot { animation: pulse 2s infinite; }
 @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(34,211,238,0.7);} 70% { box-shadow: 0 0 0 10px rgba(34,211,238,0);} 100% { box-shadow: 0 0 0 0 rgba(34,211,238,0);} }
 
+/* Foco visible, también encima del outline:none de los botones de Cesium. */
+:focus-visible,
+.cesium-button:focus-visible {
+  outline: 3px solid #facc15 !important;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pulse-dot { animation: none; }
+}
+
+/* El globo ocupa el cuadro que le deja React; los créditos siguen visibles. */
+.globo-cesium,
+.globo-cesium .cesium-viewer,
+.globo-cesium .cesium-viewer-cesiumWidgetContainer,
+.globo-cesium .cesium-widget,
+.globo-cesium .cesium-widget canvas {
+  width: 100%;
+  height: 100%;
+}
+.globo-cesium .cesium-viewer-bottom { max-width: 68%; }
+
+/* Patrones de la leyenda: el valor no se entiende solo por el color. */
+.patron-rayas { background-image: repeating-linear-gradient(90deg, transparent 0 3px, rgba(0, 0, 0, 0.55) 3px 5px); }
+.patron-puntos { background-image: radial-gradient(rgba(0, 0, 0, 0.75) 1.1px, transparent 1.4px); background-size: 6px 6px; }
+.patron-diagonal { background-image: repeating-linear-gradient(45deg, transparent 0 3px, rgba(255, 255, 255, 0.75) 3px 5px); }
+.patron-cuadros {
+  background-image:
+    repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.45) 0 2px, transparent 2px 6px),
+    repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.45) 0 2px, transparent 2px 6px);
+}
+
 ::-webkit-scrollbar { width: 8px; height: 8px; }
 ::-webkit-scrollbar-thumb { background: #1a2547; border-radius: 8px; }
