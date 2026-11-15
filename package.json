@@ -6,9 +6,11 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "typecheck": "tsc --noEmit",
     "preview": "vite preview"
   },
   "dependencies": {
+    "cesium": "^1.147.0",
     "leaflet": "^1.9.4",
     "lucide-react": "^1.73.0",
     "react": "^18.3.1",
@@ -17,10 +19,14 @@
     "recharts": "^2.15.4"
   },
   "devDependencies": {
+    "@types/react": "^18.3.31",
+    "@types/react-dom": "^18.3.7",
     "@vitejs/plugin-react": "^4.7.0",
     "autoprefixer": "^10.6.2",
     "postcss": "^8.5.33",
     "tailwindcss": "^3.4.19",
-    "vite": "^5.4.21"
+    "typescript": "^7.0.2",
+    "vite": "^5.4.21",
+    "vite-plugin-cesium": "^1.2.23"
   }
 }

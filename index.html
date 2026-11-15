@@ -1,7 +1,21 @@
 <!doctype html>
-<html lang="es-MX">
+<html lang="es-EC">
   <head>
     <meta charset="UTF-8" />
+    <style>
+      .skip-link {
+        position: absolute;
+        left: 0.75rem;
+        top: -3.5rem;
+        z-index: 2000;
+        background: #facc15;
+        color: #111;
+        padding: 0.5rem 0.75rem;
+        border-radius: 0.5rem;
+        font-weight: 700;
+      }
+      .skip-link:focus { top: 0.75rem; }
+    </style>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="NISAR Pulse: Visualizador Accesible de Ritmos de la Tierra — datos de radar NISAR (Bandas L y S) para todos." />
@@ -10,6 +24,7 @@
     <title>NISAR Pulse · Visualizador Accesible de Ritmos de la Tierra</title>
   </head>
   <body class="bg-space-950">
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

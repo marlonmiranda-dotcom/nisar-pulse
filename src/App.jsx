@@ -20,7 +20,7 @@
  *      funciones fetchNASAGibsLayer() y loadGeoTIFF(). <<<
  * ============================================================================
  */
-import React, { useEffect, useMemo, useRef, useState, useCallback } from "react";
+import React, { useEffect, useMemo, useRef, useState, useCallback, lazy, Suspense } from "react";
 import { MapContainer, TileLayer, WMSTileLayer, Pane, Polygon, ImageOverlay, Rectangle, useMap } from "react-leaflet";
 import L from "leaflet";
 import ENSO_REAL from "./data/enso_real.json"; // NOAA CPC ONI + Niño 1+2 (+ CHIRPS solo como comparación)
@@ -80,6 +80,10 @@ import {
   History,
   Clock,
 } from "lucide-react";
+
+// Globo 3D en TypeScript (src/globe). Se carga aparte para no mezclar Cesium
+// con este mapa Leaflet, que sigue siendo la vista de detalle.
+const GloboColonso = lazy(() => import("./globe/GloboColonso"));
 
 /* ============================================================================
  *  CONFIG — PUNTO ÚNICO PARA INSERTAR TUS URLS DE NISAR / SENTINEL-1 / GIBS
@@ -1291,6 +1295,8 @@ export default function App() {
   const mapWrapRef = useRef(null);
   const draggingRef = useRef(false);
   const isSci = mode === "cientifico";
+  // "3d" abre el globo Cesium. "2d" deja el mapa Leaflet (comparador NISAR).
+  const [vista, setVista] = useState(params.get("vista") === "2d" ? "2d" : "3d");
 
   const gA = NISAR_BY_KEY[keyA];
   const gB = NISAR_BY_KEY[keyB];
@@ -1469,16 +1475,36 @@ export default function App() {
         </div>
       </header>
 
-      <main className="relative z-10 mx-auto grid max-w-[1600px] grid-cols-1 gap-4 p-4 lg:grid-cols-12">
+      <main id="contenido" tabIndex={-1} className="relative z-10 mx-auto grid max-w-[1600px] grid-cols-1 gap-4 p-4 lg:grid-cols-12">
         {/* ================= MAPA + COMPARADOR NISAR ================= */}
         <section className="panel flex flex-col overflow-hidden lg:col-span-8">
           <div className="flex flex-wrap items-center gap-2 border-b border-white/10 p-3">
-            <div className="mr-auto min-w-0">
-              <h2 className="flex items-center gap-2 truncate text-base font-bold text-white">
+            <div className="mr-auto w-full min-w-0 sm:w-auto">
+              <h2 className="flex items-center gap-2 text-base font-bold text-white sm:truncate">
                 <Globe className="h-4 w-4 text-cyan-400" /> {ZONE.name}
               </h2>
               <p className="text-xs text-slate-400">{isSci ? ZONE.techTitle : ZONE.citizenTitle}</p>
             </div>
+            <div className="flex rounded-lg border border-white/10 bg-space-800 p-0.5 text-xs" role="group" aria-label="Vista geográfica">
+              <button
+                type="button"
+                aria-pressed={vista === "3d"}
+                onClick={() => setVista("3d")}
+                className={`rounded-md px-2.5 py-1.5 font-semibold ${vista === "3d" ? "bg-cyan-500/25 text-cyan-100" : "text-slate-400"}`}
+              >
+                Globo 3D
+              </button>
+              <button
+                type="button"
+                aria-pressed={vista === "2d"}
+                onClick={() => setVista("2d")}
+                className={`rounded-md px-2.5 py-1.5 font-semibold ${vista === "2d" ? "bg-cyan-500/25 text-cyan-100" : "text-slate-400"}`}
+              >
+                Mapa 2D (detalle)
+              </button>
+            </div>
+            {vista === "2d" && (
+            <>
             <div className="flex rounded-lg border border-white/10 bg-space-800 p-0.5 text-xs">
               <button
                 onClick={() => setCompareMode("swipe")}
@@ -1499,8 +1525,16 @@ export default function App() {
             <label className="flex items-center gap-1 text-xs text-slate-300">
               <Calendar className="h-3.5 w-3.5 text-cyan-300" /> B {nisarSelect(keyB, setKeyB, "Radar NISAR fecha B (después)")}
             </label>
+            </>
+            )}
           </div>
 
+          {vista === "3d" ? (
+            <Suspense fallback={<p role="status" className="p-6 text-sm text-slate-200">Cargando globo 3D…</p>}>
+              <GloboColonso />
+            </Suspense>
+          ) : (
+          <>
           <div className="flex flex-wrap items-center gap-2 border-b border-white/10 bg-space-800/50 px-3 py-2 text-xs">
             <span className="flex items-center gap-1 text-slate-400">
               <Layers className="h-3.5 w-3.5" /> Capa NASA GIBS del mes ({MONTHS[month].label}):
@@ -1631,6 +1665,8 @@ export default function App() {
               </SourceNote>
             </div>
           </div>
+          </>
+          )}
         </section>
 
         {/* ================= PANEL LATERAL ================= */}

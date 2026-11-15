@@ -33,8 +33,36 @@ gestores y científicos, centrada en la **Reserva Biológica Colonso Chalupas** 
 
 ## 🧰 Stack
 
-Vite 5 · React 18 · Tailwind CSS 3 · lucide-react · Leaflet 1.9 + react-leaflet 4 · Recharts 2.
-Toda la lógica vive en `src/App.jsx`; los datos reales están en `src/data/` y `public/nisar/`.
+Vite 5 · React 18 · TypeScript (solo el globo; el resto sigue en JavaScript) · Tailwind CSS 3 · lucide-react · CesiumJS 1.147 · Leaflet 1.9 + react-leaflet 4 · Recharts 2.
+La vista 2D sigue en `src/App.jsx`. El globo 3D está en `src/globe/`. Los datos reales están en `src/data/` y `public/nisar/`.
+
+## Globo 3D
+
+El botón **Globo 3D / Mapa 2D (detalle)** cambia entre Cesium y el mapa Leaflet.
+`?vista=2d` abre directo el mapa.
+
+```bash
+cp .env.example .env          # opcional: pega ahí VITE_CESIUM_ION_TOKEN
+npm run dev                   # http://localhost:5173
+```
+
+- **Sin token** el globo usa imágenes Esri (las mismas del mapa 2D) y NASA GIBS.
+  El relieve dice **dato no disponible** y se queda en el elipsoide. No se inventan alturas.
+- **Con token** de [Cesium ion](https://cesium.com/ion/tokens) se activa Cesium World Terrain,
+  marcado como **Capa de visualización (fuente externa)**. La exageración vertical solo estira ese modelo.
+- El límite es el GeoJSON WDPA 555593903 en `public/data/`. Si no carga, dice **dato no disponible**
+  y no dibuja otra forma. Cómo obtenerlo: `public/data/README.md`.
+- Las capas (IMERG, LST, NDVI, nubes, SMAP) son teselas públicas de NASA GIBS comprobadas
+  el 2026-11-14 contra el GetCapabilities. No son un análisis del equipo.
+  Estaciones y NISAR en el globo quedan en **dato no disponible** hasta que haya un archivo o un WMTS real.
+- Para sumar una capa: `src/globe/COMO-AGREGAR-CAPAS.md`.
+
+### Por qué TypeScript no reemplazó `App.jsx`
+
+`App.jsx` concentra el mapa Leaflet, los gráficos y las series ya probadas.
+Pasarlo entero a TypeScript de un golpe podía romper esa vista. `tsconfig.json`
+tiene `allowJs` y `checkJs: false`: el JavaScript sigue compilando, y el globo
+nuevo está en `.ts` / `.tsx`. `npm run typecheck` revisa solo esa parte.
 
 ## 🚀 Instalación
 
