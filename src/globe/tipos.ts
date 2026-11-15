@@ -4,13 +4,19 @@
  * Este archivo no calcula clima, elevación ni pendiente.
  */
 
-/** Frase obligatoria para GIBS y para el terreno de Cesium ion. */
+/** Frase obligatoria cuando la imagen llega tal cual de otra institución (GIBS, etc.). */
 export const CLASIFICACION_EXTERNA = "Capa de visualización (fuente externa)";
 
-/** Frase obligatoria cuando no hay token, archivo o servicio. */
+/** Pendiente y sombreado: se calcularon aquí a partir del DEM, no son un mapa oficial. */
+export const CLASIFICACION_DERIVADA = "Cálculo local a partir del DEM abierto";
+
+/** Frase obligatoria cuando no hay archivo o servicio. */
 export const CLASIFICACION_NO_DISPONIBLE = "dato no disponible";
 
-export type ClasificacionCapa = typeof CLASIFICACION_EXTERNA | typeof CLASIFICACION_NO_DISPONIBLE;
+export type ClasificacionCapa =
+  | typeof CLASIFICACION_EXTERNA
+  | typeof CLASIFICACION_DERIVADA
+  | typeof CLASIFICACION_NO_DISPONIBLE;
 
 /** Un tramo de la leyenda. El número y el patrón importan tanto como el color. */
 export interface ParadaLeyenda {
@@ -43,8 +49,10 @@ export interface CapaImagen extends FichaCapa {
   /**
    * "xyz": URL con {z} {y} {x} y, si hay serie, {fecha}.
    * "wms": servicio WMS; la fecha viaja en el parámetro time.
+   * "local": un PNG de public/relieve/. La extensión geográfica sale de meta.json,
+   * no se escribe a mano. Si el archivo no carga, el panel dice "dato no disponible".
    */
-  servicio: "xyz" | "wms";
+  servicio: "xyz" | "wms" | "local";
   url: string;
   capasWms?: string;
   /** Zoom nativo máximo de las teselas (el número del TileMatrixSet de GIBS). */

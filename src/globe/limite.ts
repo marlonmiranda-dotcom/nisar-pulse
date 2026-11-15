@@ -19,6 +19,8 @@ export interface EstadoLimite {
   url?: string;
   /** Encuadra la cámara con la geometría ya cargada. No usa coordenadas escritas a mano. */
   encuadrar?: (viewer: Cesium.Viewer, reducirMovimiento: boolean) => void;
+  /** La misma reserva, con la cámara más baja para ver el relieve. */
+  vistaInclinada?: (viewer: Cesium.Viewer, reducirMovimiento: boolean) => void;
 }
 
 interface FeatureWdpa {
@@ -99,13 +101,18 @@ export async function cargarLimite(viewer: Cesium.Viewer, reducirMovimiento: boo
     });
   }
 
-  const encuadrar = (visor: Cesium.Viewer, reducir: boolean) => {
+  const esfera = Cesium.BoundingSphere.fromPoints(todas);
+  const volar = (visor: Cesium.Viewer, reducir: boolean, heading: number, pitch: number, rango: number) => {
     if (visor.isDestroyed()) return;
-    const esfera = Cesium.BoundingSphere.fromPoints(todas);
-    const offset = new Cesium.HeadingPitchRange(0, Cesium.Math.toRadians(-40), esfera.radius * 2.6);
+    const offset = new Cesium.HeadingPitchRange(Cesium.Math.toRadians(heading), Cesium.Math.toRadians(pitch), esfera.radius * rango);
     // duration 0 = salto directo, sin vuelo de cámara (prefers-reduced-motion).
-    visor.camera.flyToBoundingSphere(esfera, { duration: reducir ? 0 : 1.2, offset });
+    visor.camera.flyToBoundingSphere(esfera, { duration: reducir ? 0 : 1.4, offset });
   };
+  const encuadrar = (visor: Cesium.Viewer, reducir: boolean) => volar(visor, reducir, 0, -40, 2.6);
+  // La cordillera queda al oeste del recorte (el DEM es más alto ahí). La cámara
+  // se pone al este y mira hacia el oeste, 30° bajo el horizonte, para ver
+  // las montañas sin quedar pegada al corte del borde.
+  const vistaInclinada = (visor: Cesium.Viewer, reducir: boolean) => volar(visor, reducir, 80, -20, 1.65);
 
   encuadrar(viewer, reducirMovimiento);
 
@@ -118,6 +125,7 @@ export async function cargarLimite(viewer: Cesium.Viewer, reducirMovimiento: boo
     licencia: meta?.license,
     url: meta?.url,
     encuadrar,
+    vistaInclinada,
   };
 }
 

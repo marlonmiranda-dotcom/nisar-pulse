@@ -42,14 +42,17 @@ El botón **Globo 3D / Mapa 2D (detalle)** cambia entre Cesium y el mapa Leaflet
 `?vista=2d` abre directo el mapa.
 
 ```bash
-cp .env.example .env          # opcional: pega ahí VITE_CESIUM_ION_TOKEN
-npm run dev                   # http://localhost:5173
+npm ci
+npm run dev                   # http://localhost:5173  (el relieve no necesita .env ni token)
 ```
 
-- **Sin token** el globo usa imágenes Esri (las mismas del mapa 2D) y NASA GIBS.
-  El relieve dice **dato no disponible** y se queda en el elipsoide. No se inventan alturas.
-- **Con token** de [Cesium ion](https://cesium.com/ion/tokens) se activa Cesium World Terrain,
-  marcado como **Capa de visualización (fuente externa)**. La exageración vertical solo estira ese modelo.
+- **Sin token y sin Cesium ion.** El relieve 3D es el Copernicus DEM GLO-30
+  recortado a la reserva (archivos en `public/relieve/`, script en `scripts/relieve/`).
+  El botón **Ir a la reserva** deja la cámara inclinada. La exageración vertical va de 1× a 3×
+  y solo estira la vista. Fuera del recorte el globo sigue el elipsoide (altura 0).
+- Si faltan esos archivos, el relieve dice **dato no disponible**. No se inventan alturas.
+- Las capas **Relieve sombreado** y **Pendiente (°)** se encienden en el panel.
+  La pendiente no es un mapa de riesgo oficial. Las limitaciones están en el mismo panel.
 - El límite es el GeoJSON WDPA 555593903 en `public/data/`. Si no carga, dice **dato no disponible**
   y no dibuja otra forma. Cómo obtenerlo: `public/data/README.md`.
 - Las capas (IMERG, LST, NDVI, nubes, SMAP) son teselas públicas de NASA GIBS comprobadas
@@ -100,6 +103,7 @@ Todos los valores son medias sobre el polígono WDPA 555593903, tomando los píx
 | Humedad del suelo | **SMAP SPL3SMP_E v006**, pasadas AM y PM, 1 de cada 5 días | NASA NSIDC DAAC, OPeNDAP | 9 km | Ene 2016 → Nov 2026 |
 | Pérdida de bosque | **Hansen/UMD GFC 2025 v1.13** (Landsat), cobertura ≥ 30 % | Google Cloud Storage público | 30 m | 2001 → 2025 |
 | El Niño | **NOAA CPC ONI** (ERSSTv5) y Niño 1+2 (OISST) | cpc.ncep.noaa.gov | índice | Ene 2016 → ASO 2026 |
+| Relieve | **Copernicus DEM GLO-30 Public** (COP-DEM_GLO-30-DGED) | AWS Open Data, sin clave | 1″ (~30,9 m × 30,7 m en la reserva) | Objetos S3 del 2022-05-09 |
 | Comparación (solo modo científico) | CHIRPS v2.0, satélite + estaciones | NASA SERVIR ClimateSERV | 0,05° | Ene 2016 → Sep 2026 |
 
 Archivos: `src/data/satellite_real.json` (IMERG, MODIS, SMAP, Hansen, catálogo NISAR), `src/data/enso_real.json`
@@ -186,6 +190,13 @@ nisar-pulse/
 - O'Neill, P. E. et al. (2023), SMAP Enhanced L3 Radiometer Global Daily 9 km EASE-Grid Soil Moisture, V6, NSIDC DAAC. doi:10.5067/M20OXIZHY3RJ
 - Hansen, M. C. et al. (2013), High-Resolution Global Maps of 21st-Century Forest Cover Change, *Science* 342: 850–853. Datos GFC-2025-v1.13.
 - NOAA CPC, Oceanic Niño Index (ERSSTv5). <https://www.cpc.ncep.noaa.gov/data/indices/oni.ascii.txt>
+- Copernicus DEM GLO-30 Public, copia COG en AWS Open Data del producto COP-DEM_GLO-30-DGED
+  (alturas ortométricas EGM2008). README del bucket:
+  <https://copernicus-dem-30m.s3.eu-central-1.amazonaws.com/readme.html>.
+  Teselas usadas, con Last-Modified 2022-05-09:
+  `Copernicus_DSM_COG_10_S01_00_W078_00_DEM`, `…_S01_00_W079_00_DEM`,
+  `…_S02_00_W078_00_DEM` y `…_S02_00_W079_00_DEM`.
+  Atribución: © DLR e.V. 2010-2014 and © Airbus Defence and Space GmbH 2014-2018 provided under COPERNICUS by the European Union and ESA; all rights reserved.
 - Funk, C. et al. (2015), CHIRPS, *Scientific Data* 2: 150066 (solo comparación).
 
 ### Atribución WDPA

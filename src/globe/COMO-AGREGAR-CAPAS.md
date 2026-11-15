@@ -76,17 +76,22 @@ como `estaciones` y `nisar-globo` en el mismo archivo. El panel muestra ese avis
 
 ## 3. Relieve
 
-El relieve no es una entrada de `CAPAS`. Vive en `src/globe/terreno.ts`.
+El terreno 3D no usa Cesium ion ni un token de pago. Sale del Copernicus DEM
+GLO-30 recortado a la reserva.
 
-- Con `VITE_CESIUM_ION_TOKEN` en `.env`, el globo pide **Cesium World Terrain**.
-  En el panel se marca como **Capa de visualización (fuente externa)**.
-- Sin token, o si ion falla, dice **dato no disponible** y el globo queda
-  en el elipsoide. No se fabrica un modelo de elevación.
-- El control de exageración vertical solo estira ese modelo externo.
-  No calcula pendiente ni susceptibilidad.
-- Si el equipo de relieve trae después un `CesiumTerrainProvider` propio,
-  el lugar para conectarlo es la función `activarRelieve`, en el comentario
-  `EQUIPO DE RELIEVE`. No hace falta calcular alturas en este visor.
+- El script `scripts/relieve/preparar_relieve.py` descarga las teselas públicas
+  (sin clave), recorta con 5 km de margen, calcula la pendiente en grados y
+  el sombreado, y deja los archivos en `public/relieve/`. La guía del script
+  es `scripts/relieve/README.md`.
+- `src/globe/terreno.ts` lee `altura_u16.bin` y arma un
+  `CustomHeightmapTerrainProvider`. Si el archivo no carga, el panel dice
+  **dato no disponible** y el globo se queda en el elipsoide. No se inventan alturas.
+- Fuera del rectángulo del recorte la altura es 0 (el elipsoide). El corte
+  del borde no es una falla. La ficha de limitaciones lo explica.
+- La exageración vertical (1× a 3×) solo estira la vista. No cambia la pendiente.
+- «Relieve sombreado» y «Pendiente (°)» están en `CAPAS` con `servicio: "local"`.
+  El rectángulo geográfico lo lee el globo desde `public/relieve/meta.json`.
+  No copies esas coordenadas a mano. Si cambias el recorte, vuelve a correr el script.
 
 ## 4. Qué no hacer
 
