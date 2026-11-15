@@ -36,10 +36,12 @@ antes de guardar la geometría en el repositorio.
 
 ## Relieve y capas climáticas
 
-No van en esta carpeta.
+El relieve no va en esta carpeta. Está en `public/relieve/`
+(heightmap, sombreado, pendiente y `meta.json`). Lo genera
+`scripts/relieve/preparar_relieve.py` a partir del Copernicus DEM GLO-30,
+sin token. Si esos archivos faltan, el globo dice **dato no disponible**
+y no inventa alturas.
 
-- El relieve es Cesium World Terrain y solo aparece con `VITE_CESIUM_ION_TOKEN`.
-  Sin token, la pantalla dice **dato no disponible**. No hay un DEM calculado aquí.
 - Las imágenes de NASA GIBS se piden en vivo. No se guardan rásteres sintéticos.
 - Si más adelante agregan estaciones u otra capa de puntos, dejen el GeoJSON
   en esta carpeta y escriban aquí la fuente, la fecha y la licencia.

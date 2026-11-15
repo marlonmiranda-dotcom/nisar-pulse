@@ -3,3 +3,5 @@ dist
 .env
 .env.local
 .env.*.local
+# Teselas y GeoTIFF intermedios del script de relieve (los productos web sí se versionan).
+scripts/relieve/cache/

@@ -18,6 +18,7 @@
  */
 
 import {
+  CLASIFICACION_DERIVADA,
   CLASIFICACION_EXTERNA,
   CLASIFICACION_NO_DISPONIBLE,
   type Capa,
@@ -28,7 +29,67 @@ import {
 const GIBS = "https://gibs.earthdata.nasa.gov/wmts/epsg3857/best";
 const GUIA_GIBS = "https://nasa-gibs.github.io/gibs-api-docs/";
 
+const RELIEVE = `${import.meta.env.BASE_URL}relieve`;
+const README_DEM = "https://copernicus-dem-30m.s3.eu-central-1.amazonaws.com/readme.html";
+const FECHA_DEM =
+  "Teselas COG en AWS Open Data, Last-Modified 9 de mayo de 2022 (2022-05-09T14:52:38Z y 2022-05-09T14:53:04Z). El README del bucket declara el origen COP-DEM_GLO-30-DGED.";
+const RESOLUCION_DEM =
+  "1 segundo de arco (GLO-30). En este recorte, unos 30,9 m de este a oeste y 30,7 m de norte a sur.";
+const LICENCIA_DEM =
+  "Copernicus DEM, uso público gratuito con atribución. © DLR e.V. 2010-2014 and © Airbus Defence and Space GmbH 2014-2018 provided under COPERNICUS by the European Union and ESA; all rights reserved.";
+
 export const CAPAS: Capa[] = [
+  {
+    id: "relieve-sombreado",
+    tipo: "imagen",
+    servicio: "local",
+    nombre: "Relieve sombreado",
+    variable: "Sombreado analítico (hillshade) del modelo de superficie",
+    clasificacion: CLASIFICACION_DERIVADA,
+    fuente: "Copernicus DEM GLO-30 Public (AWS Open Data), calculado con scripts/relieve/preparar_relieve.py",
+    fuenteUrl: README_DEM,
+    fecha: FECHA_DEM,
+    unidades: "adimensional, de 1 (sombra) a 255 (ladera iluminada)",
+    resolucionEspacial: RESOLUCION_DEM,
+    resolucionTemporal: "No es una serie. Es un modelo de superficie, una sola versión.",
+    licencia: LICENCIA_DEM,
+    aviso:
+      "Iluminación de mapa: azimut 315° (noroeste) y altitud 45°, el valor por defecto de gdaldem hillshade. No es una foto ni una medición de luz real. La exageración vertical del globo no cambia esta imagen.",
+    url: `${RELIEVE}/sombreado.png`,
+    opacidadInicial: 0.55,
+    activaAlInicio: false,
+    leyenda: [
+      { valor: "1", etiqueta: "Sombra (ladera de espaldas a la luz)", color: "#141414", patron: "solido" },
+      { valor: "255", etiqueta: "Ladera iluminada", color: "#f4f4f5", patron: "rayas" },
+    ],
+  },
+  {
+    id: "pendiente",
+    tipo: "imagen",
+    servicio: "local",
+    nombre: "Pendiente (°)",
+    variable: "Pendiente del terreno",
+    clasificacion: CLASIFICACION_DERIVADA,
+    fuente: "Copernicus DEM GLO-30 Public (AWS Open Data), método de Horn, igual que gdaldem slope",
+    fuenteUrl: README_DEM,
+    fecha: FECHA_DEM,
+    unidades: "grados",
+    resolucionEspacial: RESOLUCION_DEM,
+    resolucionTemporal: "No es una serie. Es un modelo de superficie, una sola versión.",
+    licencia: LICENCIA_DEM,
+    aviso:
+      "Clases de visualización calculadas en este repositorio (0–10, 10–20, 20–30, 30–45 y más de 45 grados; 45° queda en la clase 30–45). Es un factor de susceptibilidad, no un mapa de riesgo oficial. La paleta es ColorBrewer YlOrBr, no una escala del MAE ni del IGM. La exageración vertical no modifica estos grados.",
+    url: `${RELIEVE}/pendiente.png`,
+    opacidadInicial: 0.75,
+    activaAlInicio: false,
+    leyenda: [
+      { valor: "0–10", etiqueta: "0 a menos de 10 grados", color: "#fff7bc", patron: "solido" },
+      { valor: "10–20", etiqueta: "10 a menos de 20 grados", color: "#fec44f", patron: "rayas" },
+      { valor: "20–30", etiqueta: "20 a menos de 30 grados", color: "#fe9929", patron: "puntos" },
+      { valor: "30–45", etiqueta: "30 a 45 grados (incluye 45)", color: "#d95f0e", patron: "cuadros" },
+      { valor: "> 45", etiqueta: "Más de 45 grados", color: "#993404", patron: "diagonal" },
+    ],
+  },
   {
     id: "imerg-tasa",
     tipo: "imagen",

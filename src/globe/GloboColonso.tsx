@@ -2,10 +2,10 @@
  * Globo 3D de la Reserva Biológica Colonso Chalupas.
  *
  * Imágenes base: Esri World Imagery (sin token), las mismas del mapa 2D.
- * Relieve: Cesium World Terrain solo si hay token de ion.
+ * Relieve: Copernicus DEM GLO-30 recortado en public/relieve/ (sin Cesium ion).
  * Capas: las de capas.config.ts, drapeadas sobre el globo.
  *
- * No calcula clima, elevación, pendiente ni susceptibilidad.
+ * No calcula clima. La pendiente y el sombreado ya vienen calculados en los PNG.
  */
 
 import { useEffect, useRef, useState } from "react";
@@ -13,6 +13,7 @@ import * as Cesium from "cesium";
 import "cesium/Build/Cesium/Widgets/widgets.css";
 import { CAPAS } from "./capas.config";
 import PanelCapas from "./PanelCapas";
+import { cargarMetaRelieve } from "./relieveDatos";
 import { activarRelieve, type EstadoRelieve } from "./terreno";
 import { cargarLimite, prefiereMenosMovimiento, type EstadoLimite } from "./limite";
 import { acotarFecha, FECHA_MAX, fechaParaCapa, urlDeCapa } from "./tiempo";
@@ -45,11 +46,11 @@ export default function GloboColonso() {
   const [abierto, setAbierto] = useState(false);
   const [fecha, setFecha] = useState(FECHA_MAX);
   const [fechaAplicada, setFechaAplicada] = useState(FECHA_MAX);
-  const [exageracion, setExageracion] = useState(1.5);
+  const [exageracion, setExageracion] = useState(2);
   const [relieve, setRelieve] = useState<EstadoRelieve | null>(null);
   const [limite, setLimite] = useState<EstadoLimite | null>(null);
   const [capasUi, setCapasUi] = useState<Record<string, EstadoCapaUi>>(estadoInicial);
-  const [erroresPuntos, setErroresPuntos] = useState<Record<string, string>>({});
+  const [erroresCapas, setErroresCapas] = useState<Record<string, string>>({});
   const [reducirMovimiento, setReducirMovimiento] = useState(prefiereMenosMovimiento);
 
   useEffect(() => {
@@ -132,8 +133,16 @@ export default function GloboColonso() {
 
   useEffect(() => {
     const viewer = viewerRef.current;
-    if (!listo || !viewer || viewer.isDestroyed()) return;
-    sincronizarImagenes(viewer, fechaAplicada, capasUi, imagenesRef.current);
+    if (!listo || !viewer || viewer.isDestroyed()) return undefined;
+    let cancelado = false;
+    void sincronizarImagenes(viewer, fechaAplicada, capasUi, imagenesRef.current, () => cancelado, anotarError).then(() => {
+      if (!cancelado && viewerRef.current && !viewerRef.current.isDestroyed()) {
+        viewerRef.current.scene.requestRender();
+      }
+    });
+    return () => {
+      cancelado = true;
+    };
   }, [listo, fechaAplicada, capasUi]);
 
   useEffect(() => {
@@ -142,7 +151,7 @@ export default function GloboColonso() {
     let cancelado = false;
     void sincronizarPuntos(viewer, capasUi, puntosRef.current, (id, mensaje) => {
       if (cancelado) return;
-      setErroresPuntos((prev) => ({ ...prev, [id]: mensaje }));
+      anotarError(id, mensaje);
     }).then(() => {
       if (!cancelado && viewerRef.current && !viewerRef.current.isDestroyed()) {
         viewerRef.current.scene.requestRender();
@@ -153,10 +162,25 @@ export default function GloboColonso() {
     };
   }, [listo, capasUi]);
 
-  const centrar = () => {
+  const anotarError = (id: string, mensaje: string | null) => {
+    setErroresCapas((prev) => {
+      if (!mensaje) {
+        if (!(id in prev)) return prev;
+        const copia = { ...prev };
+        delete copia[id];
+        return copia;
+      }
+      if (prev[id] === mensaje) return prev;
+      return { ...prev, [id]: mensaje };
+    });
+  };
+
+  const moverCamara = (modo: "centrar" | "inclinada") => {
     const viewer = viewerRef.current;
-    if (!viewer || viewer.isDestroyed() || !limite?.encuadrar) return;
-    limite.encuadrar(viewer, reducirMovimiento || prefiereMenosMovimiento());
+    if (!viewer || viewer.isDestroyed()) return;
+    const reducir = reducirMovimiento || prefiereMenosMovimiento();
+    if (modo === "inclinada") limite?.vistaInclinada?.(viewer, reducir);
+    else limite?.encuadrar?.(viewer, reducir);
   };
 
   return (
@@ -179,7 +203,7 @@ export default function GloboColonso() {
           )}
           {relieve?.disponible && (
             <p className="pointer-events-auto max-w-md rounded-lg bg-black/75 px-3 py-2 text-[11px] text-cyan-100" role="status">
-              {relieve.clasificacion}. {relieve.detalle}
+              {relieve.clasificacion}. {relieve.resumen}
             </p>
           )}
         </div>
@@ -195,10 +219,18 @@ export default function GloboColonso() {
           </button>
           <button
             type="button"
-            className="rounded-lg bg-space-950/90 px-3 py-2 text-xs font-semibold text-white ring-1 ring-white/20 disabled:opacity-50"
-            onClick={centrar}
+            className="rounded-lg bg-cyan-700 px-3 py-2 text-xs font-semibold text-white ring-1 ring-white/20 disabled:opacity-50"
+            onClick={() => moverCamara("inclinada")}
             disabled={!limite?.disponible}
             aria-describedby={limite?.disponible ? undefined : "aviso-sin-limite"}
+          >
+            Ir a la reserva
+          </button>
+          <button
+            type="button"
+            className="rounded-lg bg-space-950/90 px-3 py-2 text-xs font-semibold text-white ring-1 ring-white/20 disabled:opacity-50"
+            onClick={() => moverCamara("centrar")}
+            disabled={!limite?.disponible}
           >
             Centrar reserva
           </button>
@@ -216,7 +248,7 @@ export default function GloboColonso() {
         relieve={relieve}
         limite={limite}
         capasUi={capasUi}
-        erroresPuntos={erroresPuntos}
+        erroresCapas={erroresCapas}
         onFecha={(iso) => setFecha(acotarFecha(iso))}
         onExageracion={setExageracion}
         onCapa={(id, cambio) => setCapasUi((prev) => ({ ...prev, [id]: { ...prev[id], ...cambio } }))}
@@ -225,33 +257,58 @@ export default function GloboColonso() {
   );
 }
 
-function sincronizarImagenes(
+async function sincronizarImagenes(
   viewer: Cesium.Viewer,
   fecha: string,
   capasUi: Record<string, EstadoCapaUi>,
   registro: Map<string, CapaDibujada>,
-): void {
+  cancelado: () => boolean,
+  alFallar: (id: string, mensaje: string | null) => void,
+): Promise<void> {
   const activas = new Set<string>();
   for (const capa of CAPAS) {
     if (capa.tipo !== "imagen") continue;
     const ui = capasUi[capa.id];
     if (!ui?.activa) continue;
     activas.add(capa.id);
-    const firma = `${fechaParaCapa(capa, fecha)}|${capa.servicio}`;
+    const firma = capa.servicio === "local"
+      ? `local|${capa.url}`
+      : `${fechaParaCapa(capa, fecha)}|${capa.servicio}|${capa.url}`;
     const previa = registro.get(capa.id);
     if (previa && previa.firma === firma) {
       previa.layer.alpha = ui.opacidad;
       continue;
     }
     quitarImagen(viewer, registro, capa.id);
-    const layer = viewer.imageryLayers.addImageryProvider(proveedorImagen(capa, fecha));
+    let proveedor: Cesium.ImageryProvider;
+    try {
+      proveedor = capa.servicio === "local"
+        ? await proveedorLocal(capa)
+        : proveedorImagen(capa, fecha);
+    } catch (error) {
+      const mensaje = error instanceof Error ? error.message : "dato no disponible. No se pudo dibujar la capa.";
+      alFallar(capa.id, mensaje.startsWith("dato no disponible") ? mensaje : `dato no disponible. ${mensaje}`);
+      continue;
+    }
+    if (cancelado() || viewer.isDestroyed()) return;
+    alFallar(capa.id, null);
+    const layer = viewer.imageryLayers.addImageryProvider(proveedor);
     layer.alpha = ui.opacidad;
     registro.set(capa.id, { layer, firma });
   }
   for (const id of [...registro.keys()]) {
     if (!activas.has(id)) quitarImagen(viewer, registro, id);
   }
-  viewer.scene.requestRender();
+  if (!viewer.isDestroyed()) viewer.scene.requestRender();
+}
+
+async function proveedorLocal(capa: CapaImagen): Promise<Cesium.ImageryProvider> {
+  const meta = await cargarMetaRelieve();
+  const { oeste, sur, este, norte } = meta.bbox;
+  return Cesium.SingleTileImageryProvider.fromUrl(capa.url, {
+    rectangle: Cesium.Rectangle.fromDegrees(oeste, sur, este, norte),
+    credit: capa.fuente,
+  });
 }
 
 function proveedorImagen(capa: CapaImagen, fecha: string): Cesium.ImageryProvider {

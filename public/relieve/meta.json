@@ -1,0 +1,155 @@
+{
+  "wdpaId": 555593903,
+  "producto": "Copernicus DEM GLO-30 Public",
+  "datasetOrigen": "COP-DEM_GLO-30-DGED",
+  "fuenteUrl": "https://copernicus-dem-30m.s3.eu-central-1.amazonaws.com/readme.html",
+  "coleccionUrl": "https://spacedata.copernicus.eu/en/web/guest/collections/copernicus-digital-elevation-model/",
+  "licenciaUrl": "https://spacedata.copernicus.eu/en/web/guest/collections/copernicus-digital-elevation-model/#Licencing",
+  "licencia": "Copernicus DEM: uso público gratuito, con la atribución obligatoria. Ver licenciaUrl.",
+  "atribucion": "© DLR e.V. 2010-2014 and © Airbus Defence and Space GmbH 2014-2018 provided under COPERNICUS by the European Union and ESA; all rights reserved.",
+  "referenciaVertical": "EGM2008 (alturas ortométricas del producto DGED). No es altura elipsoidal WGS84.",
+  "crs": "EPSG:4326",
+  "resolucionGrados": 0.0002777777777777778,
+  "resolucionMetrosLonMedia": 30.918146505282163,
+  "resolucionMetrosLatMedia": 30.715155624263723,
+  "unidadesAltura": "m",
+  "unidadesPendiente": "grados",
+  "fechaObjetosS3": [
+    "Mon, 09 May 2022 14:52:38 GMT",
+    "Mon, 09 May 2022 14:53:04 GMT"
+  ],
+  "fechaProcesoUtc": "2026-11-15T04:52:16Z",
+  "margenKm": 5.0,
+  "margenNota": "5 km hacia afuera del rectángulo que encierra el polígono WDPA, no un buffer de cada vértice.",
+  "bboxPoligono": {
+    "oeste": -78.24941,
+    "sur": -1.0784,
+    "este": -77.87484,
+    "norte": -0.73877
+  },
+  "bbox": {
+    "oeste": -78.29458333333334,
+    "sur": -1.12375,
+    "este": -77.82986111111111,
+    "norte": -0.6934722222222223
+  },
+  "ancho": 1673,
+  "alto": 1549,
+  "alturaMinM": 452.5,
+  "alturaMaxM": 4460.70166015625,
+  "alturaMediaM": 2271.168698923705,
+  "alturaEnteraMinM": 452,
+  "alturaEnteraMaxM": 4461,
+  "alturaCodificacion": "uint16 little-endian, metros redondeados al entero más cercano (numpy rint). 0 = sin dato. Este recorte no usa el 0.",
+  "pendienteMinGrados": 0.0,
+  "pendienteMaxGrados": 77.11704432457792,
+  "pendienteMediaGrados": 25.70592572639082,
+  "clasesPendiente": [
+    {
+      "clase": "0–10",
+      "desdeGrados": 0.0,
+      "hastaGrados": 10.0,
+      "incluyeHasta": false,
+      "hex": "#fff7bc",
+      "pixeles": 340497,
+      "porcentaje": 13.139109473091986
+    },
+    {
+      "clase": "10–20",
+      "desdeGrados": 10.0,
+      "hastaGrados": 20.0,
+      "incluyeHasta": false,
+      "hex": "#fec44f",
+      "pixeles": 496775,
+      "porcentaje": 19.16957009458313
+    },
+    {
+      "clase": "20–30",
+      "desdeGrados": 20.0,
+      "hastaGrados": 30.0,
+      "incluyeHasta": false,
+      "hex": "#fe9929",
+      "pixeles": 706260,
+      "porcentaje": 27.253184188013243
+    },
+    {
+      "clase": "30–45",
+      "desdeGrados": 30.0,
+      "hastaGrados": 45.0,
+      "incluyeHasta": true,
+      "hex": "#d95f0e",
+      "pixeles": 947633,
+      "porcentaje": 36.56729347781207
+    },
+    {
+      "clase": "más de 45",
+      "desdeGrados": 45.0,
+      "hastaGrados": 90.0,
+      "incluyeHasta": true,
+      "hex": "#993404",
+      "pixeles": 100312,
+      "porcentaje": 3.8708427664995675
+    }
+  ],
+  "sombreado": {
+    "azimutGrados": 315.0,
+    "altitudGrados": 45.0,
+    "metodo": "Horn, misma iluminación por defecto que gdaldem hillshade (z=1). El valor 1 es sombra y 255 es ladera iluminada."
+  },
+  "pendienteMetodo": "Horn (como gdaldem slope). El tamaño del píxel en metros usa los radios de curvatura WGS84 de cada fila.",
+  "comparacionGdaldem": {
+    "disponible": true,
+    "ambito": "píxeles interiores (sin el borde). El borde publicado usa el halo real de 1 píxel, que gdaldem no ve.",
+    "escalaMetrosPorGrado": 110940.0711266764,
+    "pendienteMaxAbsGrados": 0.0008222585382142711,
+    "pendienteRmseGrados": 9.053116657372594e-05,
+    "sombreadoMaxAbs": 0.5000075535786266,
+    "comandoPendiente": "gdaldem slope dem.tif pendiente.tif -s 110940.071127 -compute_edges",
+    "comandoSombreado": "gdaldem hillshade dem.tif sombreado.tif -s 110940.071127 -az 315.0 -alt 45.0 -z 1 -compute_edges"
+  },
+  "archivos": {
+    "altura": "altura_u16.bin",
+    "sombreado": "sombreado.png",
+    "pendiente": "pendiente.png"
+  },
+  "sha256": {
+    "altura_u16.bin": "37c19ce574d068521c3d94a9ab7b7b47297e8b2d00cf7269165f870259a7208e",
+    "sombreado.png": "0147c5c52941e66753b179a537da9aebf2c8b8ee1cb9dbafe22b7aa13067d472",
+    "pendiente.png": "2f3fa87eaf1a6c0d9091d9bd7fca907e1d0e90e9a7fdfc9c12c9e8571c7ef2da"
+  },
+  "bytes": {
+    "altura_u16.bin": 5182954,
+    "sombreado.png": 1867292,
+    "pendiente.png": 862296
+  },
+  "teselas": [
+    {
+      "nombre": "Copernicus_DSM_COG_10_S02_00_W079_00_DEM",
+      "url": "https://copernicus-dem-30m.s3.eu-central-1.amazonaws.com/Copernicus_DSM_COG_10_S02_00_W079_00_DEM/Copernicus_DSM_COG_10_S02_00_W079_00_DEM.tif",
+      "lastModified": "Mon, 09 May 2022 14:53:04 GMT",
+      "contentLength": 41524584,
+      "etag": "5b6bf393824b769316237b3b9acbfb07"
+    },
+    {
+      "nombre": "Copernicus_DSM_COG_10_S02_00_W078_00_DEM",
+      "url": "https://copernicus-dem-30m.s3.eu-central-1.amazonaws.com/Copernicus_DSM_COG_10_S02_00_W078_00_DEM/Copernicus_DSM_COG_10_S02_00_W078_00_DEM.tif",
+      "lastModified": "Mon, 09 May 2022 14:53:04 GMT",
+      "contentLength": 46226177,
+      "etag": "eefe5470635d19ce38ed375f2e035f31"
+    },
+    {
+      "nombre": "Copernicus_DSM_COG_10_S01_00_W079_00_DEM",
+      "url": "https://copernicus-dem-30m.s3.eu-central-1.amazonaws.com/Copernicus_DSM_COG_10_S01_00_W079_00_DEM/Copernicus_DSM_COG_10_S01_00_W079_00_DEM.tif",
+      "lastModified": "Mon, 09 May 2022 14:52:38 GMT",
+      "contentLength": 41363224,
+      "etag": "62f140d0ec885b4eed44648353653c72"
+    },
+    {
+      "nombre": "Copernicus_DSM_COG_10_S01_00_W078_00_DEM",
+      "url": "https://copernicus-dem-30m.s3.eu-central-1.amazonaws.com/Copernicus_DSM_COG_10_S01_00_W078_00_DEM/Copernicus_DSM_COG_10_S01_00_W078_00_DEM.tif",
+      "lastModified": "Mon, 09 May 2022 14:52:38 GMT",
+      "contentLength": 44384860,
+      "etag": "a5617f43701f791e2e3357e9f297b632"
+    }
+  ]
+}
