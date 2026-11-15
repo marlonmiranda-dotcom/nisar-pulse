@@ -1,0 +1,4139 @@
+{
+  "metadata": {
+    "descargado": "2026-11-14",
+    "poligono": {
+      "wdpa_id": 555593903,
+      "nombre": "Colonso Chalupas",
+      "desig": "Reserva Biológica",
+      "fuente": "WDPA (copia en data/colonso_wdpa.geojson)",
+      "bounds_wgs84": [
+        -78.24941,
+        -1.0784,
+        -77.87484,
+        -0.73877
+      ],
+      "area_gis_km2_wdpa": 929.41275801,
+      "area_geodesica_km2": 929.174,
+      "bbox_busqueda_escenas": [
+        -78.42,
+        -1.22,
+        -77.68,
+        -0.6
+      ]
+    },
+    "fuentes": {
+      "gcov": {
+        "producto": "NISAR L2 Geocoded Polarimetric Covariance (GCOV)",
+        "colecciones": {
+          "NISAR_L2_GCOV_V1": {
+            "short_name": "NISAR_L2_GCOV_V1",
+            "encontrada": true,
+            "concept_id": "C3622241360-ASF",
+            "titulo": "NISAR Validated Geocoded Polarimetric Covariance Product (Version 1)",
+            "version": "1",
+            "doi": "10.5067/NIL2GCOV-V1",
+            "doi_url": "https://doi.org/10.5067/NIL2GCOV-V1",
+            "urls": {
+              "GET DATA:VERTEX": "https://search.asf.alaska.edu/",
+              "GET DATA:Earthdata Search": "https://search.earthdata.nasa.gov/search/granules?p=C3622241360-ASF",
+              "PROJECT HOME PAGE": "https://nisar.jpl.nasa.gov/",
+              "VIEW RELATED INFORMATION:USER'S GUIDE": "https://nisar-docs.asf.alaska.edu/gcov/",
+              "VIEW RELATED INFORMATION:DATA PRODUCT SPECIFICATION": "https://cumulus.asf.earthdatacloud.nasa.gov/PUBLIC/DATA/NISAR/NISAR_D-102274_RevF_NASA_SDS_Product_Specification_L2_GCOV_w-esigs.pdf"
+            }
+          },
+          "NISAR_L2_GCOV_PROVISIONAL_V1": {
+            "short_name": "NISAR_L2_GCOV_PROVISIONAL_V1",
+            "encontrada": true,
+            "concept_id": "C2854338529-ASF",
+            "titulo": "NISAR Provisional Geocoded Polarimetric Covariance Product (Version 1)",
+            "version": "1",
+            "doi": "10.5067/NIL2GCOV-P1",
+            "doi_url": "https://doi.org/10.5067/NIL2GCOV-P1",
+            "urls": {
+              "GET DATA:VERTEX": "https://search.asf.alaska.edu/",
+              "GET DATA:Earthdata Search": "https://search.earthdata.nasa.gov/search/granules?p=C2854338529-ASF",
+              "PROJECT HOME PAGE": "https://nisar.jpl.nasa.gov/",
+              "VIEW RELATED INFORMATION:USER'S GUIDE": "https://nisar-docs.asf.alaska.edu/gcov/",
+              "VIEW RELATED INFORMATION:DATA PRODUCT SPECIFICATION": "https://cumulus.asf.earthdatacloud.nasa.gov/PUBLIC/DATA/NISAR/NISAR_D-102274_RevF_NASA_SDS_Product_Specification_L2_GCOV_w-esigs.pdf"
+            }
+          },
+          "NISAR_L2_GCOV_BETA_V1": {
+            "short_name": "NISAR_L2_GCOV_BETA_V1",
+            "encontrada": true,
+            "concept_id": "C3622214170-ASF",
+            "titulo": "NISAR Beta Geocoded Polarimetric Covariance Product (Version 1)",
+            "version": "1",
+            "doi": "10.5067/NIL2GCOV-B1",
+            "doi_url": "https://doi.org/10.5067/NIL2GCOV-B1",
+            "urls": {
+              "GET DATA:VERTEX": "https://search.asf.alaska.edu/",
+              "GET DATA:Earthdata Search": "https://search.earthdata.nasa.gov/search/granules?p=C3622214170-ASF",
+              "PROJECT HOME PAGE": "https://nisar.jpl.nasa.gov/",
+              "VIEW RELATED INFORMATION:USER'S GUIDE": "https://nisar-docs.asf.alaska.edu/gcov/",
+              "VIEW RELATED INFORMATION:DATA PRODUCT SPECIFICATION": "https://cumulus.asf.earthdatacloud.nasa.gov/PUBLIC/DATA/NISAR/NISAR_D-102274_RevF_NASA_SDS_Product_Specification_L2_GCOV_w-esigs.pdf"
+            }
+          }
+        },
+        "especificacion": "https://cumulus.asf.earthdatacloud.nasa.gov/PUBLIC/DATA/NISAR/NISAR_D-102274_RevF_NASA_SDS_Product_Specification_L2_GCOV_w-esigs.pdf",
+        "guia": "https://nisar-docs.asf.alaska.edu/gcov/",
+        "normalizacion": "Los términos diagonales HHHH y HVHV son gamma0 (potencia, RTC, units=1). Se convierten a sigma0 con sigma0 = gamma0 * rtcGammaToSigmaFactor cuando la capa existe. La media se calcula en lineal y luego se pasa a dB (10 log10).",
+        "resolucion": "10 m (frequency A, observado en las escenas de Colonso; xCoordinateSpacing=10 m)",
+        "via": "ASF DAAC, lectura por ventanas (S3 / HTTP Range), sin descargar el HDF5 completo",
+        "n_procesados": 27,
+        "n_con_error": 0,
+        "n_caja_sin_interseccion_de_huella": 10
+      },
+      "dswx": {
+        "producto": "OPERA Dynamic Surface Water Extent from Sentinel-1 (DSWx-S1) Version 1",
+        "short_name": "OPERA_L3_DSWX-S1_V1",
+        "doi": "10.5067/OPDSWS1-L3V1",
+        "doi_url": "https://doi.org/10.5067/OPDSWS1-L3V1",
+        "concept_id": "C2949811996-POCLOUD",
+        "especificacion": "https://archive.podaac.earthdata.nasa.gov/podaac-ops-cumulus-docs/web-misc/opera/D-108761_OPERA_DSWx_S1AB_ProductSpec_Rev_A.pdf",
+        "capa": "B01_WTR",
+        "clases_wtr": {
+          "0": "no agua (válido)",
+          "1": "agua abierta (agua)",
+          "3": "vegetación inundada (agua)",
+          "250": "HAND enmascarado (excluido)",
+          "251": "layover/sombra (excluido)",
+          "255": "fill / sin dato (excluido)"
+        },
+        "clases_agua_usadas": [
+          1,
+          3
+        ],
+        "clases_validas_denominador": [
+          0,
+          1,
+          3
+        ],
+        "resolucion": "30 m",
+        "teselas_mgrs_en_caja_que_intersectan": [
+          "T17MRU",
+          "T17MRV"
+        ],
+        "periodo": "2026-06-01 a 2026-11-14",
+        "n_fechas": 62,
+        "n_fechas_con_dato_valido": 43,
+        "n_fechas_solo_fill_255": 19
+      },
+      "watermask": {
+        "producto": "Derived Water Mask Tiles used by the NISAR Mission (NISAR_WATERMASK)",
+        "short_name": "NISAR_WATERMASK",
+        "doi": null,
+        "concept_id": "C3807638962-ASF",
+        "url_catalogo": "https://search.earthdata.nasa.gov/search/granules?p=C3807638962-ASF",
+        "readme": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/WATER_MASK/v0.5/EPSG4326/README.txt",
+        "version_teselas": "v0.5.0",
+        "resolucion": "30 m",
+        "crs": "EPSG:4326",
+        "nota_doi": "La colección no declara DOI en CMR (DOI.MissingReason=Unknown).",
+        "tipo": "clasificación de distancia a la orilla (no mapa binario de agua)",
+        "leyenda": {
+          "0": "no agua / fondo",
+          "1-100": "distancia a costa oceánica en bins de 1 km (1 = 0-1 km, …, 100 = 99-100 km)",
+          "101-200": "distancia a orilla de agua interior (lago/río) en bins de 1 km (101 = 0-1 km, …, 200 = 99-100 km)",
+          "201-254": "reservado",
+          "255": "NoData"
+        },
+        "nota": "NISAR_WATERMASK v0.5 no es un mapa binario de superficie de agua: es una clasificación de distancia a la orilla (README v0.5). La clase 101 significa '0-1 km de la orilla de lago o río', no el pixel de agua propiamente dicho. Por eso el área de agua estática queda en null; se reporta el recuento de píxeles 101 como indicador de proximidad, no como superficie inundada."
+      },
+      "sme2": {
+        "producto": "NISAR L3 Soil Moisture (SME2)",
+        "nota": "No hay colección NISAR_L3_SME2_V1 en CMR a 2026-11-14. Se listan las huellas de PROVISIONAL_V1 y BETA_V1 que sí intersectan el polígono. No se calcula una serie de humedad (fuera del alcance de esta entrega).",
+        "colecciones": {
+          "NISAR_L3_SME2_V1": {
+            "encontrada": false,
+            "doi": null,
+            "doi_url": null,
+            "n_caja_busqueda": 0,
+            "n_intersectan_poligono": 0
+          },
+          "NISAR_L3_SME2_PROVISIONAL_V1": {
+            "encontrada": true,
+            "doi": "10.5067/NIL3SME2-P1",
+            "doi_url": "https://doi.org/10.5067/NIL3SME2-P1",
+            "n_caja_busqueda": 28,
+            "n_intersectan_poligono": 19
+          },
+          "NISAR_L3_SME2_BETA_V1": {
+            "encontrada": true,
+            "doi": "10.5067/NIL3SME2-B1",
+            "doi_url": "https://doi.org/10.5067/NIL3SME2-B1",
+            "n_caja_busqueda": 6,
+            "n_intersectan_poligono": 6
+          }
+        }
+      }
+    },
+    "generado": "2026-11-14T22:03:32Z"
+  },
+  "gcov": [
+    {
+      "date": "2025-10-29",
+      "datetime_utc": "2025-10-29T23:30:52Z",
+      "datetime_end_utc": "2025-10-29T23:31:26Z",
+      "granule_id": "NISAR_L2_PR_GCOV_004_011_D_089_4005_DHDH_A_20251029T233052_20251029T233126_X05009_N_F_J_001",
+      "collection": "NISAR_L2_GCOV_BETA_V1",
+      "track": 11,
+      "frame": 89,
+      "direction": "Descending",
+      "polarization": [
+        "HH",
+        "HV"
+      ],
+      "frequency": "A",
+      "epsg": 32718,
+      "pixel_spacing_m": 10.0,
+      "units_nativas": "1",
+      "normalizacion_nativa": "gamma0_RTC",
+      "normalizacion_reportada": "sigma0 (convertido desde gamma0 RTC con rtcGammaToSigmaFactor)",
+      "convertido_a_sigma0": true,
+      "n_pixeles_poligono": 9310503,
+      "n_pixeles_validos": 9304180,
+      "hh_sigma0_mean_db": -5.243,
+      "hh_sigma0_median_db": -8.775,
+      "hh_sigma0_std_db": 4.05,
+      "hh_sigma0_mean_linear": 0.299014,
+      "hv_sigma0_mean_db": -10.607,
+      "hv_sigma0_median_db": -13.965,
+      "hv_sigma0_std_db": 3.892,
+      "hv_sigma0_mean_linear": 0.086955,
+      "hv_hh_ratio_mean_linear": 0.29081,
+      "hv_hh_ratio_mean_db": -5.364,
+      "quality_notes": [
+        "Máscara de muestras válidas GCOV (frequencyA/mask): válido = 1-5 (subswath); excluido 0 (inválido/parcialmente enfocado) y 255 (fill).",
+        "shadowMaskingApplied=False (el producto no trae capa layover/sombra; no se aplicó máscara de sombra en el procesamiento).",
+        "No hay capa independiente de layover/sombra en este producto; solo se usó la máscara de muestras válidas (mask).",
+        "Normalización nativa: gamma0 RTC (potencia). Convertido a sigma0 con sigma0 = gamma0 * rtcGammaToSigmaFactor (Shiroma 2026, JPL D-102274 Rev. F)."
+      ],
+      "identification": {
+        "absoluteOrbitNumber": 1321,
+        "compositeReleaseId": "X05009",
+        "diagnosticModeFlag": 0,
+        "frameNumber": 89,
+        "isGeocoded": "True",
+        "lookDirection": "Left",
+        "missionId": "NISAR",
+        "orbitPassDirection": "Descending",
+        "processingType": "Nominal",
+        "productType": "GCOV",
+        "productVersion": "1.0.2",
+        "trackNumber": 11,
+        "zeroDopplerEndTime": "2025-10-29T23:31:26.999342105",
+        "zeroDopplerStartTime": "2025-10-29T23:30:52.000000000"
+      },
+      "window": {
+        "row0": 12429,
+        "row1": 16197,
+        "col0": 7342,
+        "col1": 11525,
+        "ny": 3768,
+        "nx": 4183
+      },
+      "modo_apertura": "s3"
+    },
+    {
+      "date": "2025-11-22",
+      "datetime_utc": "2025-11-22T23:30:53Z",
+      "datetime_end_utc": "2025-11-22T23:31:27Z",
+      "granule_id": "NISAR_L2_PR_GCOV_006_011_D_089_4005_DHDH_A_20251122T233053_20251122T233127_X05009_N_F_J_001",
+      "collection": "NISAR_L2_GCOV_BETA_V1",
+      "track": 11,
+      "frame": 89,
+      "direction": "Descending",
+      "polarization": [
+        "HH",
+        "HV"
+      ],
+      "frequency": "A",
+      "epsg": 32718,
+      "pixel_spacing_m": 10.0,
+      "units_nativas": "1",
+      "normalizacion_nativa": "gamma0_RTC",
+      "normalizacion_reportada": "sigma0 (convertido desde gamma0 RTC con rtcGammaToSigmaFactor)",
+      "convertido_a_sigma0": true,
+      "n_pixeles_poligono": 9310503,
+      "n_pixeles_validos": 9304192,
+      "hh_sigma0_mean_db": -5.114,
+      "hh_sigma0_median_db": -8.661,
+      "hh_sigma0_std_db": 4.049,
+      "hh_sigma0_mean_linear": 0.308061,
+      "hv_sigma0_mean_db": -10.555,
+      "hv_sigma0_median_db": -13.873,
+      "hv_sigma0_std_db": 3.892,
+      "hv_sigma0_mean_linear": 0.088002,
+      "hv_hh_ratio_mean_linear": 0.28566,
+      "hv_hh_ratio_mean_db": -5.441,
+      "quality_notes": [
+        "Máscara de muestras válidas GCOV (frequencyA/mask): válido = 1-5 (subswath); excluido 0 (inválido/parcialmente enfocado) y 255 (fill).",
+        "shadowMaskingApplied=False (el producto no trae capa layover/sombra; no se aplicó máscara de sombra en el procesamiento).",
+        "No hay capa independiente de layover/sombra en este producto; solo se usó la máscara de muestras válidas (mask).",
+        "Normalización nativa: gamma0 RTC (potencia). Convertido a sigma0 con sigma0 = gamma0 * rtcGammaToSigmaFactor (Shiroma 2026, JPL D-102274 Rev. F)."
+      ],
+      "identification": {
+        "absoluteOrbitNumber": 1667,
+        "compositeReleaseId": "X05009",
+        "diagnosticModeFlag": 0,
+        "frameNumber": 89,
+        "isGeocoded": "True",
+        "lookDirection": "Left",
+        "missionId": "NISAR",
+        "orbitPassDirection": "Descending",
+        "processingType": "Nominal",
+        "productType": "GCOV",
+        "productVersion": "1.0.2",
+        "trackNumber": 11,
+        "zeroDopplerEndTime": "2025-11-22T23:31:27.999342105",
+        "zeroDopplerStartTime": "2025-11-22T23:30:53.000000000"
+      },
+      "window": {
+        "row0": 12429,
+        "row1": 16197,
+        "col0": 7342,
+        "col1": 11525,
+        "ny": 3768,
+        "nx": 4183
+      },
+      "modo_apertura": "s3"
+    },
+    {
+      "date": "2025-12-04",
+      "datetime_utc": "2025-12-04T23:30:53Z",
+      "datetime_end_utc": "2025-12-04T23:31:28Z",
+      "granule_id": "NISAR_L2_PR_GCOV_007_011_D_089_4005_DHDH_A_20251204T233053_20251204T233128_X05009_N_F_J_001",
+      "collection": "NISAR_L2_GCOV_BETA_V1",
+      "track": 11,
+      "frame": 89,
+      "direction": "Descending",
+      "polarization": [
+        "HH",
+        "HV"
+      ],
+      "frequency": "A",
+      "epsg": 32718,
+      "pixel_spacing_m": 10.0,
+      "units_nativas": "1",
+      "normalizacion_nativa": "gamma0_RTC",
+      "normalizacion_reportada": "sigma0 (convertido desde gamma0 RTC con rtcGammaToSigmaFactor)",
+      "convertido_a_sigma0": true,
+      "n_pixeles_poligono": 9310503,
+      "n_pixeles_validos": 9304216,
+      "hh_sigma0_mean_db": -5.513,
+      "hh_sigma0_median_db": -9.208,
+      "hh_sigma0_std_db": 4.022,
+      "hh_sigma0_mean_linear": 0.281019,
+      "hv_sigma0_mean_db": -11.141,
+      "hv_sigma0_median_db": -14.398,
+      "hv_sigma0_std_db": 3.889,
+      "hv_sigma0_mean_linear": 0.076898,
+      "hv_hh_ratio_mean_linear": 0.27364,
+      "hv_hh_ratio_mean_db": -5.628,
+      "quality_notes": [
+        "Máscara de muestras válidas GCOV (frequencyA/mask): válido = 1-5 (subswath); excluido 0 (inválido/parcialmente enfocado) y 255 (fill).",
+        "shadowMaskingApplied=False (el producto no trae capa layover/sombra; no se aplicó máscara de sombra en el procesamiento).",
+        "No hay capa independiente de layover/sombra en este producto; solo se usó la máscara de muestras válidas (mask).",
+        "Normalización nativa: gamma0 RTC (potencia). Convertido a sigma0 con sigma0 = gamma0 * rtcGammaToSigmaFactor (Shiroma 2026, JPL D-102274 Rev. F)."
+      ],
+      "identification": {
+        "absoluteOrbitNumber": 1840,
+        "compositeReleaseId": "X05009",
+        "diagnosticModeFlag": 0,
+        "frameNumber": 89,
+        "isGeocoded": "True",
+        "lookDirection": "Left",
+        "missionId": "NISAR",
+        "orbitPassDirection": "Descending",
+        "processingType": "Nominal",
+        "productType": "GCOV",
+        "productVersion": "1.0.2",
+        "trackNumber": 11,
+        "zeroDopplerEndTime": "2025-12-04T23:31:28.999342105",
+        "zeroDopplerStartTime": "2025-12-04T23:30:53.000000000"
+      },
+      "window": {
+        "row0": 12429,
+        "row1": 16197,
+        "col0": 7342,
+        "col1": 11525,
+        "ny": 3768,
+        "nx": 4183
+      },
+      "modo_apertura": "s3"
+    },
+    {
+      "date": "2025-12-16",
+      "datetime_utc": "2025-12-16T23:30:54Z",
+      "datetime_end_utc": "2025-12-16T23:31:28Z",
+      "granule_id": "NISAR_L2_PR_GCOV_008_011_D_089_4005_DHDH_A_20251216T233054_20251216T233128_X05009_N_F_J_001",
+      "collection": "NISAR_L2_GCOV_BETA_V1",
+      "track": 11,
+      "frame": 89,
+      "direction": "Descending",
+      "polarization": [
+        "HH",
+        "HV"
+      ],
+      "frequency": "A",
+      "epsg": 32718,
+      "pixel_spacing_m": 10.0,
+      "units_nativas": "1",
+      "normalizacion_nativa": "gamma0_RTC",
+      "normalizacion_reportada": "sigma0 (convertido desde gamma0 RTC con rtcGammaToSigmaFactor)",
+      "convertido_a_sigma0": true,
+      "n_pixeles_poligono": 9310503,
+      "n_pixeles_validos": 9304184,
+      "hh_sigma0_mean_db": -5.789,
+      "hh_sigma0_median_db": -9.306,
+      "hh_sigma0_std_db": 4.109,
+      "hh_sigma0_mean_linear": 0.263714,
+      "hv_sigma0_mean_db": -11.275,
+      "hv_sigma0_median_db": -14.56,
+      "hv_sigma0_std_db": 3.997,
+      "hv_sigma0_mean_linear": 0.074558,
+      "hv_hh_ratio_mean_linear": 0.28272,
+      "hv_hh_ratio_mean_db": -5.486,
+      "quality_notes": [
+        "Máscara de muestras válidas GCOV (frequencyA/mask): válido = 1-5 (subswath); excluido 0 (inválido/parcialmente enfocado) y 255 (fill).",
+        "shadowMaskingApplied=False (el producto no trae capa layover/sombra; no se aplicó máscara de sombra en el procesamiento).",
+        "No hay capa independiente de layover/sombra en este producto; solo se usó la máscara de muestras válidas (mask).",
+        "Normalización nativa: gamma0 RTC (potencia). Convertido a sigma0 con sigma0 = gamma0 * rtcGammaToSigmaFactor (Shiroma 2026, JPL D-102274 Rev. F)."
+      ],
+      "identification": {
+        "absoluteOrbitNumber": 2013,
+        "compositeReleaseId": "X05009",
+        "diagnosticModeFlag": 0,
+        "frameNumber": 89,
+        "isGeocoded": "True",
+        "lookDirection": "Left",
+        "missionId": "NISAR",
+        "orbitPassDirection": "Descending",
+        "processingType": "Nominal",
+        "productType": "GCOV",
+        "productVersion": "1.0.2",
+        "trackNumber": 11,
+        "zeroDopplerEndTime": "2025-12-16T23:31:28.999342105",
+        "zeroDopplerStartTime": "2025-12-16T23:30:54.000000000"
+      },
+      "window": {
+        "row0": 12429,
+        "row1": 16197,
+        "col0": 7342,
+        "col1": 11525,
+        "ny": 3768,
+        "nx": 4183
+      },
+      "modo_apertura": "s3"
+    },
+    {
+      "date": "2025-12-28",
+      "datetime_utc": "2025-12-28T23:30:54Z",
+      "datetime_end_utc": "2025-12-28T23:31:29Z",
+      "granule_id": "NISAR_L2_PR_GCOV_009_011_D_089_4005_DHDH_A_20251228T233054_20251228T233129_X05009_N_F_J_001",
+      "collection": "NISAR_L2_GCOV_BETA_V1",
+      "track": 11,
+      "frame": 89,
+      "direction": "Descending",
+      "polarization": [
+        "HH",
+        "HV"
+      ],
+      "frequency": "A",
+      "epsg": 32718,
+      "pixel_spacing_m": 10.0,
+      "units_nativas": "1",
+      "normalizacion_nativa": "gamma0_RTC",
+      "normalizacion_reportada": "sigma0 (convertido desde gamma0 RTC con rtcGammaToSigmaFactor)",
+      "convertido_a_sigma0": true,
+      "n_pixeles_poligono": 9310503,
+      "n_pixeles_validos": 9304182,
+      "hh_sigma0_mean_db": -5.944,
+      "hh_sigma0_median_db": -9.385,
+      "hh_sigma0_std_db": 4.043,
+      "hh_sigma0_mean_linear": 0.254467,
+      "hv_sigma0_mean_db": -11.318,
+      "hv_sigma0_median_db": -14.578,
+      "hv_sigma0_std_db": 3.93,
+      "hv_sigma0_mean_linear": 0.073819,
+      "hv_hh_ratio_mean_linear": 0.29009,
+      "hv_hh_ratio_mean_db": -5.375,
+      "quality_notes": [
+        "Máscara de muestras válidas GCOV (frequencyA/mask): válido = 1-5 (subswath); excluido 0 (inválido/parcialmente enfocado) y 255 (fill).",
+        "shadowMaskingApplied=False (el producto no trae capa layover/sombra; no se aplicó máscara de sombra en el procesamiento).",
+        "No hay capa independiente de layover/sombra en este producto; solo se usó la máscara de muestras válidas (mask).",
+        "Normalización nativa: gamma0 RTC (potencia). Convertido a sigma0 con sigma0 = gamma0 * rtcGammaToSigmaFactor (Shiroma 2026, JPL D-102274 Rev. F)."
+      ],
+      "identification": {
+        "absoluteOrbitNumber": 2186,
+        "compositeReleaseId": "X05009",
+        "diagnosticModeFlag": 0,
+        "frameNumber": 89,
+        "isGeocoded": "True",
+        "lookDirection": "Left",
+        "missionId": "NISAR",
+        "orbitPassDirection": "Descending",
+        "processingType": "Nominal",
+        "productType": "GCOV",
+        "productVersion": "1.0.2",
+        "trackNumber": 11,
+        "zeroDopplerEndTime": "2025-12-28T23:31:29.999342105",
+        "zeroDopplerStartTime": "2025-12-28T23:30:54.000000000"
+      },
+      "window": {
+        "row0": 12429,
+        "row1": 16197,
+        "col0": 7342,
+        "col1": 11525,
+        "ny": 3768,
+        "nx": 4183
+      },
+      "modo_apertura": "s3"
+    },
+    {
+      "date": "2026-01-09",
+      "datetime_utc": "2026-01-09T23:30:55Z",
+      "datetime_end_utc": "2026-01-09T23:31:29Z",
+      "granule_id": "NISAR_L2_PR_GCOV_010_011_D_089_4005_DHDH_A_20260109T233055_20260109T233129_X05009_N_F_J_001",
+      "collection": "NISAR_L2_GCOV_BETA_V1",
+      "track": 11,
+      "frame": 89,
+      "direction": "Descending",
+      "polarization": [
+        "HH",
+        "HV"
+      ],
+      "frequency": "A",
+      "epsg": 32718,
+      "pixel_spacing_m": 10.0,
+      "units_nativas": "1",
+      "normalizacion_nativa": "gamma0_RTC",
+      "normalizacion_reportada": "sigma0 (convertido desde gamma0 RTC con rtcGammaToSigmaFactor)",
+      "convertido_a_sigma0": true,
+      "n_pixeles_poligono": 9310503,
+      "n_pixeles_validos": 9304227,
+      "hh_sigma0_mean_db": -5.556,
+      "hh_sigma0_median_db": -9.053,
+      "hh_sigma0_std_db": 4.053,
+      "hh_sigma0_mean_linear": 0.278238,
+      "hv_sigma0_mean_db": -11.059,
+      "hv_sigma0_median_db": -14.257,
+      "hv_sigma0_std_db": 3.906,
+      "hv_sigma0_mean_linear": 0.07837,
+      "hv_hh_ratio_mean_linear": 0.28166,
+      "hv_hh_ratio_mean_db": -5.503,
+      "quality_notes": [
+        "Máscara de muestras válidas GCOV (frequencyA/mask): válido = 1-5 (subswath); excluido 0 (inválido/parcialmente enfocado) y 255 (fill).",
+        "shadowMaskingApplied=False (el producto no trae capa layover/sombra; no se aplicó máscara de sombra en el procesamiento).",
+        "No hay capa independiente de layover/sombra en este producto; solo se usó la máscara de muestras válidas (mask).",
+        "Normalización nativa: gamma0 RTC (potencia). Convertido a sigma0 con sigma0 = gamma0 * rtcGammaToSigmaFactor (Shiroma 2026, JPL D-102274 Rev. F)."
+      ],
+      "identification": {
+        "absoluteOrbitNumber": 2359,
+        "compositeReleaseId": "X05009",
+        "diagnosticModeFlag": 0,
+        "frameNumber": 89,
+        "isGeocoded": "True",
+        "lookDirection": "Left",
+        "missionId": "NISAR",
+        "orbitPassDirection": "Descending",
+        "processingType": "Nominal",
+        "productType": "GCOV",
+        "productVersion": "1.0.2",
+        "trackNumber": 11,
+        "zeroDopplerEndTime": "2026-01-09T23:31:29.999342105",
+        "zeroDopplerStartTime": "2026-01-09T23:30:55.000000000"
+      },
+      "window": {
+        "row0": 12429,
+        "row1": 16197,
+        "col0": 7342,
+        "col1": 11525,
+        "ny": 3768,
+        "nx": 4183
+      },
+      "modo_apertura": "s3"
+    },
+    {
+      "date": "2026-06-19",
+      "datetime_utc": "2026-06-19T10:53:31Z",
+      "datetime_end_utc": "2026-06-19T10:54:06Z",
+      "granule_id": "NISAR_L2_PR_GCOV_023_076_A_001_4005_DHDH_A_20260619T105331_20260619T105406_P05023_N_F_J_001",
+      "collection": "NISAR_L2_GCOV_PROVISIONAL_V1",
+      "track": 76,
+      "frame": 1,
+      "direction": "Ascending",
+      "polarization": [
+        "HH",
+        "HV"
+      ],
+      "frequency": "A",
+      "epsg": 32718,
+      "pixel_spacing_m": 10.0,
+      "units_nativas": "1",
+      "normalizacion_nativa": "gamma0_RTC",
+      "normalizacion_reportada": "sigma0 (convertido desde gamma0 RTC con rtcGammaToSigmaFactor)",
+      "convertido_a_sigma0": true,
+      "n_pixeles_poligono": 9310503,
+      "n_pixeles_validos": 9294195,
+      "hh_sigma0_mean_db": -6.118,
+      "hh_sigma0_median_db": -7.997,
+      "hh_sigma0_std_db": 4.12,
+      "hh_sigma0_mean_linear": 0.244446,
+      "hv_sigma0_mean_db": -11.042,
+      "hv_sigma0_median_db": -12.826,
+      "hv_sigma0_std_db": 4.016,
+      "hv_sigma0_mean_linear": 0.078663,
+      "hv_hh_ratio_mean_linear": 0.3218,
+      "hv_hh_ratio_mean_db": -4.924,
+      "quality_notes": [
+        "Máscara de muestras válidas GCOV (frequencyA/mask): válido = 1-5 (subswath); excluido 0 (inválido/parcialmente enfocado) y 255 (fill).",
+        "inputDataExceptionMask es uint8 (máx=0); no caben los bits 256/512 de validez HH/HV. Se excluyen fill y bit 2 (sample slip) si aparecen.",
+        "shadowMaskingApplied=False (el producto no trae capa layover/sombra; no se aplicó máscara de sombra en el procesamiento).",
+        "No hay capa independiente de layover/sombra en este producto; solo se usó la máscara de muestras válidas (mask).",
+        "Normalización nativa: gamma0 RTC (potencia). Convertido a sigma0 con sigma0 = gamma0 * rtcGammaToSigmaFactor (Shiroma 2026, JPL D-102274 Rev. F)."
+      ],
+      "identification": {
+        "absoluteOrbitNumber": 4672,
+        "compositeReleaseId": "P05023",
+        "diagnosticModeFlag": 0,
+        "frameNumber": 1,
+        "isGeocoded": "True",
+        "lookDirection": "Left",
+        "missionId": "NISAR",
+        "orbitPassDirection": "Ascending",
+        "processingType": "Nominal",
+        "productType": "GCOV",
+        "productVersion": "1.0.11",
+        "trackNumber": 76,
+        "zeroDopplerEndTime": "2026-06-19T10:54:06.999342105",
+        "zeroDopplerStartTime": "2026-06-19T10:53:31.000000000"
+      },
+      "window": {
+        "row0": 12429,
+        "row1": 16197,
+        "col0": 14542,
+        "col1": 18725,
+        "ny": 3768,
+        "nx": 4183
+      },
+      "modo_apertura": "s3"
+    },
+    {
+      "date": "2026-06-26",
+      "datetime_utc": "2026-06-26T23:30:54Z",
+      "datetime_end_utc": "2026-06-26T23:31:28Z",
+      "granule_id": "NISAR_L2_PR_GCOV_024_011_D_089_4005_DHDH_A_20260626T233054_20260626T233128_P05023_N_F_J_001",
+      "collection": "NISAR_L2_GCOV_PROVISIONAL_V1",
+      "track": 11,
+      "frame": 89,
+      "direction": "Descending",
+      "polarization": [
+        "HH",
+        "HV"
+      ],
+      "frequency": "A",
+      "epsg": 32718,
+      "pixel_spacing_m": 10.0,
+      "units_nativas": "1",
+      "normalizacion_nativa": "gamma0_RTC",
+      "normalizacion_reportada": "sigma0 (convertido desde gamma0 RTC con rtcGammaToSigmaFactor)",
+      "convertido_a_sigma0": true,
+      "n_pixeles_poligono": 9310503,
+      "n_pixeles_validos": 9304195,
+      "hh_sigma0_mean_db": -4.396,
+      "hh_sigma0_median_db": -7.921,
+      "hh_sigma0_std_db": 4.138,
+      "hh_sigma0_mean_linear": 0.363387,
+      "hv_sigma0_mean_db": -9.244,
+      "hv_sigma0_median_db": -12.472,
+      "hv_sigma0_std_db": 3.991,
+      "hv_sigma0_mean_linear": 0.119005,
+      "hv_hh_ratio_mean_linear": 0.32749,
+      "hv_hh_ratio_mean_db": -4.848,
+      "quality_notes": [
+        "Máscara de muestras válidas GCOV (frequencyA/mask): válido = 1-5 (subswath); excluido 0 (inválido/parcialmente enfocado) y 255 (fill).",
+        "inputDataExceptionMask es uint8 (máx=0); no caben los bits 256/512 de validez HH/HV. Se excluyen fill y bit 2 (sample slip) si aparecen.",
+        "shadowMaskingApplied=False (el producto no trae capa layover/sombra; no se aplicó máscara de sombra en el procesamiento).",
+        "No hay capa independiente de layover/sombra en este producto; solo se usó la máscara de muestras válidas (mask).",
+        "Normalización nativa: gamma0 RTC (potencia). Convertido a sigma0 con sigma0 = gamma0 * rtcGammaToSigmaFactor (Shiroma 2026, JPL D-102274 Rev. F)."
+      ],
+      "identification": {
+        "absoluteOrbitNumber": 4781,
+        "compositeReleaseId": "P05023",
+        "diagnosticModeFlag": 0,
+        "frameNumber": 89,
+        "isGeocoded": "True",
+        "lookDirection": "Left",
+        "missionId": "NISAR",
+        "orbitPassDirection": "Descending",
+        "processingType": "Nominal",
+        "productType": "GCOV",
+        "productVersion": "1.0.11",
+        "trackNumber": 11,
+        "zeroDopplerEndTime": "2026-06-26T23:31:28.999342105",
+        "zeroDopplerStartTime": "2026-06-26T23:30:54.000000000"
+      },
+      "window": {
+        "row0": 12429,
+        "row1": 16197,
+        "col0": 7342,
+        "col1": 11525,
+        "ny": 3768,
+        "nx": 4183
+      },
+      "modo_apertura": "s3"
+    },
+    {
+      "date": "2026-07-01",
+      "datetime_utc": "2026-07-01T10:53:31Z",
+      "datetime_end_utc": "2026-07-01T10:54:05Z",
+      "granule_id": "NISAR_L2_PR_GCOV_024_076_A_001_4005_DHDH_A_20260701T105331_20260701T105405_P05023_N_F_J_001",
+      "collection": "NISAR_L2_GCOV_PROVISIONAL_V1",
+      "track": 76,
+      "frame": 1,
+      "direction": "Ascending",
+      "polarization": [
+        "HH",
+        "HV"
+      ],
+      "frequency": "A",
+      "epsg": 32718,
+      "pixel_spacing_m": 10.0,
+      "units_nativas": "1",
+      "normalizacion_nativa": "gamma0_RTC",
+      "normalizacion_reportada": "sigma0 (convertido desde gamma0 RTC con rtcGammaToSigmaFactor)",
+      "convertido_a_sigma0": true,
+      "n_pixeles_poligono": 9310503,
+      "n_pixeles_validos": 9294188,
+      "hh_sigma0_mean_db": -5.808,
+      "hh_sigma0_median_db": -7.662,
+      "hh_sigma0_std_db": 4.117,
+      "hh_sigma0_mean_linear": 0.262554,
+      "hv_sigma0_mean_db": -10.75,
+      "hv_sigma0_median_db": -12.505,
+      "hv_sigma0_std_db": 4.008,
+      "hv_sigma0_mean_linear": 0.084135,
+      "hv_hh_ratio_mean_linear": 0.32045,
+      "hv_hh_ratio_mean_db": -4.942,
+      "quality_notes": [
+        "Máscara de muestras válidas GCOV (frequencyA/mask): válido = 1-5 (subswath); excluido 0 (inválido/parcialmente enfocado) y 255 (fill).",
+        "inputDataExceptionMask es uint8 (máx=0); no caben los bits 256/512 de validez HH/HV. Se excluyen fill y bit 2 (sample slip) si aparecen.",
+        "shadowMaskingApplied=False (el producto no trae capa layover/sombra; no se aplicó máscara de sombra en el procesamiento).",
+        "No hay capa independiente de layover/sombra en este producto; solo se usó la máscara de muestras válidas (mask).",
+        "Normalización nativa: gamma0 RTC (potencia). Convertido a sigma0 con sigma0 = gamma0 * rtcGammaToSigmaFactor (Shiroma 2026, JPL D-102274 Rev. F)."
+      ],
+      "identification": {
+        "absoluteOrbitNumber": 4845,
+        "compositeReleaseId": "P05023",
+        "diagnosticModeFlag": 0,
+        "frameNumber": 1,
+        "isGeocoded": "True",
+        "lookDirection": "Left",
+        "missionId": "NISAR",
+        "orbitPassDirection": "Ascending",
+        "processingType": "Nominal",
+        "productType": "GCOV",
+        "productVersion": "1.0.11",
+        "trackNumber": 76,
+        "zeroDopplerEndTime": "2026-07-01T10:54:05.999342105",
+        "zeroDopplerStartTime": "2026-07-01T10:53:31.000000000"
+      },
+      "window": {
+        "row0": 12429,
+        "row1": 16197,
+        "col0": 14542,
+        "col1": 18725,
+        "ny": 3768,
+        "nx": 4183
+      },
+      "modo_apertura": "s3"
+    },
+    {
+      "date": "2026-07-08",
+      "datetime_utc": "2026-07-08T23:30:53Z",
+      "datetime_end_utc": "2026-07-08T23:31:27Z",
+      "granule_id": "NISAR_L2_PR_GCOV_025_011_D_089_4005_DHDH_A_20260708T233053_20260708T233127_P05023_N_F_J_001",
+      "collection": "NISAR_L2_GCOV_PROVISIONAL_V1",
+      "track": 11,
+      "frame": 89,
+      "direction": "Descending",
+      "polarization": [
+        "HH",
+        "HV"
+      ],
+      "frequency": "A",
+      "epsg": 32718,
+      "pixel_spacing_m": 10.0,
+      "units_nativas": "1",
+      "normalizacion_nativa": "gamma0_RTC",
+      "normalizacion_reportada": "sigma0 (convertido desde gamma0 RTC con rtcGammaToSigmaFactor)",
+      "convertido_a_sigma0": true,
+      "n_pixeles_poligono": 9310503,
+      "n_pixeles_validos": 9304193,
+      "hh_sigma0_mean_db": -4.444,
+      "hh_sigma0_median_db": -7.912,
+      "hh_sigma0_std_db": 4.162,
+      "hh_sigma0_mean_linear": 0.359456,
+      "hv_sigma0_mean_db": -9.177,
+      "hv_sigma0_median_db": -12.497,
+      "hv_sigma0_std_db": 4.031,
+      "hv_sigma0_mean_linear": 0.120855,
+      "hv_hh_ratio_mean_linear": 0.33622,
+      "hv_hh_ratio_mean_db": -4.734,
+      "quality_notes": [
+        "Máscara de muestras válidas GCOV (frequencyA/mask): válido = 1-5 (subswath); excluido 0 (inválido/parcialmente enfocado) y 255 (fill).",
+        "inputDataExceptionMask es uint8 (máx=0); no caben los bits 256/512 de validez HH/HV. Se excluyen fill y bit 2 (sample slip) si aparecen.",
+        "shadowMaskingApplied=False (el producto no trae capa layover/sombra; no se aplicó máscara de sombra en el procesamiento).",
+        "No hay capa independiente de layover/sombra en este producto; solo se usó la máscara de muestras válidas (mask).",
+        "Normalización nativa: gamma0 RTC (potencia). Convertido a sigma0 con sigma0 = gamma0 * rtcGammaToSigmaFactor (Shiroma 2026, JPL D-102274 Rev. F)."
+      ],
+      "identification": {
+        "absoluteOrbitNumber": 4954,
+        "compositeReleaseId": "P05023",
+        "diagnosticModeFlag": 0,
+        "frameNumber": 89,
+        "isGeocoded": "True",
+        "lookDirection": "Left",
+        "missionId": "NISAR",
+        "orbitPassDirection": "Descending",
+        "processingType": "Nominal",
+        "productType": "GCOV",
+        "productVersion": "1.0.11",
+        "trackNumber": 11,
+        "zeroDopplerEndTime": "2026-07-08T23:31:27.999342105",
+        "zeroDopplerStartTime": "2026-07-08T23:30:53.000000000"
+      },
+      "window": {
+        "row0": 12429,
+        "row1": 16197,
+        "col0": 7342,
+        "col1": 11525,
+        "ny": 3768,
+        "nx": 4183
+      },
+      "modo_apertura": "s3"
+    },
+    {
+      "date": "2026-07-13",
+      "datetime_utc": "2026-07-13T10:53:30Z",
+      "datetime_end_utc": "2026-07-13T10:54:04Z",
+      "granule_id": "NISAR_L2_PR_GCOV_025_076_A_001_4005_DHDH_A_20260713T105330_20260713T105404_P05023_N_F_J_001",
+      "collection": "NISAR_L2_GCOV_PROVISIONAL_V1",
+      "track": 76,
+      "frame": 1,
+      "direction": "Ascending",
+      "polarization": [
+        "HH",
+        "HV"
+      ],
+      "frequency": "A",
+      "epsg": 32718,
+      "pixel_spacing_m": 10.0,
+      "units_nativas": "1",
+      "normalizacion_nativa": "gamma0_RTC",
+      "normalizacion_reportada": "sigma0 (convertido desde gamma0 RTC con rtcGammaToSigmaFactor)",
+      "convertido_a_sigma0": true,
+      "n_pixeles_poligono": 9310503,
+      "n_pixeles_validos": 9294235,
+      "hh_sigma0_mean_db": -6.022,
+      "hh_sigma0_median_db": -7.836,
+      "hh_sigma0_std_db": 4.072,
+      "hh_sigma0_mean_linear": 0.249936,
+      "hv_sigma0_mean_db": -10.874,
+      "hv_sigma0_median_db": -12.582,
+      "hv_sigma0_std_db": 3.953,
+      "hv_sigma0_mean_linear": 0.081769,
+      "hv_hh_ratio_mean_linear": 0.32716,
+      "hv_hh_ratio_mean_db": -4.852,
+      "quality_notes": [
+        "Máscara de muestras válidas GCOV (frequencyA/mask): válido = 1-5 (subswath); excluido 0 (inválido/parcialmente enfocado) y 255 (fill).",
+        "inputDataExceptionMask es uint8 (máx=0); no caben los bits 256/512 de validez HH/HV. Se excluyen fill y bit 2 (sample slip) si aparecen.",
+        "shadowMaskingApplied=False (el producto no trae capa layover/sombra; no se aplicó máscara de sombra en el procesamiento).",
+        "No hay capa independiente de layover/sombra en este producto; solo se usó la máscara de muestras válidas (mask).",
+        "Normalización nativa: gamma0 RTC (potencia). Convertido a sigma0 con sigma0 = gamma0 * rtcGammaToSigmaFactor (Shiroma 2026, JPL D-102274 Rev. F)."
+      ],
+      "identification": {
+        "absoluteOrbitNumber": 5018,
+        "compositeReleaseId": "P05023",
+        "diagnosticModeFlag": 0,
+        "frameNumber": 1,
+        "isGeocoded": "True",
+        "lookDirection": "Left",
+        "missionId": "NISAR",
+        "orbitPassDirection": "Ascending",
+        "processingType": "Nominal",
+        "productType": "GCOV",
+        "productVersion": "1.0.11",
+        "trackNumber": 76,
+        "zeroDopplerEndTime": "2026-07-13T10:54:04.999342105",
+        "zeroDopplerStartTime": "2026-07-13T10:53:30.000000000"
+      },
+      "window": {
+        "row0": 12429,
+        "row1": 16197,
+        "col0": 14542,
+        "col1": 18725,
+        "ny": 3768,
+        "nx": 4183
+      },
+      "modo_apertura": "s3"
+    },
+    {
+      "date": "2026-07-20",
+      "datetime_utc": "2026-07-20T23:30:52Z",
+      "datetime_end_utc": "2026-07-20T23:31:27Z",
+      "granule_id": "NISAR_L2_PR_GCOV_026_011_D_089_4005_DHDH_A_20260720T233052_20260720T233127_P05023_N_F_J_001",
+      "collection": "NISAR_L2_GCOV_PROVISIONAL_V1",
+      "track": 11,
+      "frame": 89,
+      "direction": "Descending",
+      "polarization": [
+        "HH",
+        "HV"
+      ],
+      "frequency": "A",
+      "epsg": 32718,
+      "pixel_spacing_m": 10.0,
+      "units_nativas": "1",
+      "normalizacion_nativa": "gamma0_RTC",
+      "normalizacion_reportada": "sigma0 (convertido desde gamma0 RTC con rtcGammaToSigmaFactor)",
+      "convertido_a_sigma0": true,
+      "n_pixeles_poligono": 9310503,
+      "n_pixeles_validos": 9304187,
+      "hh_sigma0_mean_db": -4.624,
+      "hh_sigma0_median_db": -8.159,
+      "hh_sigma0_std_db": 4.186,
+      "hh_sigma0_mean_linear": 0.344807,
+      "hv_sigma0_mean_db": -9.414,
+      "hv_sigma0_median_db": -12.745,
+      "hv_sigma0_std_db": 4.044,
+      "hv_sigma0_mean_linear": 0.114438,
+      "hv_hh_ratio_mean_linear": 0.33189,
+      "hv_hh_ratio_mean_db": -4.79,
+      "quality_notes": [
+        "Máscara de muestras válidas GCOV (frequencyA/mask): válido = 1-5 (subswath); excluido 0 (inválido/parcialmente enfocado) y 255 (fill).",
+        "inputDataExceptionMask es uint8 (máx=0); no caben los bits 256/512 de validez HH/HV. Se excluyen fill y bit 2 (sample slip) si aparecen.",
+        "shadowMaskingApplied=False (el producto no trae capa layover/sombra; no se aplicó máscara de sombra en el procesamiento).",
+        "No hay capa independiente de layover/sombra en este producto; solo se usó la máscara de muestras válidas (mask).",
+        "Normalización nativa: gamma0 RTC (potencia). Convertido a sigma0 con sigma0 = gamma0 * rtcGammaToSigmaFactor (Shiroma 2026, JPL D-102274 Rev. F)."
+      ],
+      "identification": {
+        "absoluteOrbitNumber": 5127,
+        "compositeReleaseId": "P05023",
+        "diagnosticModeFlag": 0,
+        "frameNumber": 89,
+        "isGeocoded": "True",
+        "lookDirection": "Left",
+        "missionId": "NISAR",
+        "orbitPassDirection": "Descending",
+        "processingType": "Nominal",
+        "productType": "GCOV",
+        "productVersion": "1.0.11",
+        "trackNumber": 11,
+        "zeroDopplerEndTime": "2026-07-20T23:31:27.999342105",
+        "zeroDopplerStartTime": "2026-07-20T23:30:52.000000000"
+      },
+      "window": {
+        "row0": 12429,
+        "row1": 16197,
+        "col0": 7342,
+        "col1": 11525,
+        "ny": 3768,
+        "nx": 4183
+      },
+      "modo_apertura": "s3"
+    },
+    {
+      "date": "2026-07-25",
+      "datetime_utc": "2026-07-25T10:53:29Z",
+      "datetime_end_utc": "2026-07-25T10:54:04Z",
+      "granule_id": "NISAR_L2_PR_GCOV_026_076_A_001_4005_DHDH_A_20260725T105329_20260725T105404_P05023_N_F_J_001",
+      "collection": "NISAR_L2_GCOV_PROVISIONAL_V1",
+      "track": 76,
+      "frame": 1,
+      "direction": "Ascending",
+      "polarization": [
+        "HH",
+        "HV"
+      ],
+      "frequency": "A",
+      "epsg": 32718,
+      "pixel_spacing_m": 10.0,
+      "units_nativas": "1",
+      "normalizacion_nativa": "gamma0_RTC",
+      "normalizacion_reportada": "sigma0 (convertido desde gamma0 RTC con rtcGammaToSigmaFactor)",
+      "convertido_a_sigma0": true,
+      "n_pixeles_poligono": 9310503,
+      "n_pixeles_validos": 9294209,
+      "hh_sigma0_mean_db": -6.005,
+      "hh_sigma0_median_db": -7.817,
+      "hh_sigma0_std_db": 4.071,
+      "hh_sigma0_mean_linear": 0.250921,
+      "hv_sigma0_mean_db": -10.855,
+      "hv_sigma0_median_db": -12.569,
+      "hv_sigma0_std_db": 3.956,
+      "hv_sigma0_mean_linear": 0.082133,
+      "hv_hh_ratio_mean_linear": 0.32733,
+      "hv_hh_ratio_mean_db": -4.85,
+      "quality_notes": [
+        "Máscara de muestras válidas GCOV (frequencyA/mask): válido = 1-5 (subswath); excluido 0 (inválido/parcialmente enfocado) y 255 (fill).",
+        "inputDataExceptionMask es uint8 (máx=0); no caben los bits 256/512 de validez HH/HV. Se excluyen fill y bit 2 (sample slip) si aparecen.",
+        "shadowMaskingApplied=False (el producto no trae capa layover/sombra; no se aplicó máscara de sombra en el procesamiento).",
+        "No hay capa independiente de layover/sombra en este producto; solo se usó la máscara de muestras válidas (mask).",
+        "Normalización nativa: gamma0 RTC (potencia). Convertido a sigma0 con sigma0 = gamma0 * rtcGammaToSigmaFactor (Shiroma 2026, JPL D-102274 Rev. F)."
+      ],
+      "identification": {
+        "absoluteOrbitNumber": 5191,
+        "compositeReleaseId": "P05023",
+        "diagnosticModeFlag": 0,
+        "frameNumber": 1,
+        "isGeocoded": "True",
+        "lookDirection": "Left",
+        "missionId": "NISAR",
+        "orbitPassDirection": "Ascending",
+        "processingType": "Nominal",
+        "productType": "GCOV",
+        "productVersion": "1.0.11",
+        "trackNumber": 76,
+        "zeroDopplerEndTime": "2026-07-25T10:54:04.999342105",
+        "zeroDopplerStartTime": "2026-07-25T10:53:29.000000000"
+      },
+      "window": {
+        "row0": 12429,
+        "row1": 16197,
+        "col0": 14542,
+        "col1": 18725,
+        "ny": 3768,
+        "nx": 4183
+      },
+      "modo_apertura": "s3"
+    },
+    {
+      "date": "2026-08-13",
+      "datetime_utc": "2026-08-13T23:30:51Z",
+      "datetime_end_utc": "2026-08-13T23:31:25Z",
+      "granule_id": "NISAR_L2_PR_GCOV_028_011_D_089_4005_DHDH_A_20260813T233051_20260813T233125_P05023_N_F_J_001",
+      "collection": "NISAR_L2_GCOV_PROVISIONAL_V1",
+      "track": 11,
+      "frame": 89,
+      "direction": "Descending",
+      "polarization": [
+        "HH",
+        "HV"
+      ],
+      "frequency": "A",
+      "epsg": 32718,
+      "pixel_spacing_m": 10.0,
+      "units_nativas": "1",
+      "normalizacion_nativa": "gamma0_RTC",
+      "normalizacion_reportada": "sigma0 (convertido desde gamma0 RTC con rtcGammaToSigmaFactor)",
+      "convertido_a_sigma0": true,
+      "n_pixeles_poligono": 9310503,
+      "n_pixeles_validos": 9304198,
+      "hh_sigma0_mean_db": -4.516,
+      "hh_sigma0_median_db": -7.81,
+      "hh_sigma0_std_db": 3.803,
+      "hh_sigma0_mean_linear": 0.35351,
+      "hv_sigma0_mean_db": -9.307,
+      "hv_sigma0_median_db": -12.466,
+      "hv_sigma0_std_db": 3.703,
+      "hv_sigma0_mean_linear": 0.117297,
+      "hv_hh_ratio_mean_linear": 0.33181,
+      "hv_hh_ratio_mean_db": -4.791,
+      "quality_notes": [
+        "Máscara de muestras válidas GCOV (frequencyA/mask): válido = 1-5 (subswath); excluido 0 (inválido/parcialmente enfocado) y 255 (fill).",
+        "inputDataExceptionMask es uint8 (máx=0); no caben los bits 256/512 de validez HH/HV. Se excluyen fill y bit 2 (sample slip) si aparecen.",
+        "shadowMaskingApplied=False (el producto no trae capa layover/sombra; no se aplicó máscara de sombra en el procesamiento).",
+        "No hay capa independiente de layover/sombra en este producto; solo se usó la máscara de muestras válidas (mask).",
+        "Normalización nativa: gamma0 RTC (potencia). Convertido a sigma0 con sigma0 = gamma0 * rtcGammaToSigmaFactor (Shiroma 2026, JPL D-102274 Rev. F)."
+      ],
+      "identification": {
+        "absoluteOrbitNumber": 5473,
+        "compositeReleaseId": "P05023",
+        "diagnosticModeFlag": 0,
+        "frameNumber": 89,
+        "isGeocoded": "True",
+        "lookDirection": "Left",
+        "missionId": "NISAR",
+        "orbitPassDirection": "Descending",
+        "processingType": "Nominal",
+        "productType": "GCOV",
+        "productVersion": "1.0.11",
+        "trackNumber": 11,
+        "zeroDopplerEndTime": "2026-08-13T23:31:25.999342105",
+        "zeroDopplerStartTime": "2026-08-13T23:30:51.000000000"
+      },
+      "window": {
+        "row0": 12429,
+        "row1": 16197,
+        "col0": 7342,
+        "col1": 11525,
+        "ny": 3768,
+        "nx": 4183
+      },
+      "modo_apertura": "s3"
+    },
+    {
+      "date": "2026-08-18",
+      "datetime_utc": "2026-08-18T10:53:28Z",
+      "datetime_end_utc": "2026-08-18T10:54:02Z",
+      "granule_id": "NISAR_L2_PR_GCOV_028_076_A_001_4005_DHDH_A_20260818T105328_20260818T105402_P05023_N_F_J_001",
+      "collection": "NISAR_L2_GCOV_PROVISIONAL_V1",
+      "track": 76,
+      "frame": 1,
+      "direction": "Ascending",
+      "polarization": [
+        "HH",
+        "HV"
+      ],
+      "frequency": "A",
+      "epsg": 32718,
+      "pixel_spacing_m": 10.0,
+      "units_nativas": "1",
+      "normalizacion_nativa": "gamma0_RTC",
+      "normalizacion_reportada": "sigma0 (convertido desde gamma0 RTC con rtcGammaToSigmaFactor)",
+      "convertido_a_sigma0": true,
+      "n_pixeles_poligono": 9310503,
+      "n_pixeles_validos": 9294201,
+      "hh_sigma0_mean_db": -5.929,
+      "hh_sigma0_median_db": -7.775,
+      "hh_sigma0_std_db": 4.098,
+      "hh_sigma0_mean_linear": 0.255333,
+      "hv_sigma0_mean_db": -10.759,
+      "hv_sigma0_median_db": -12.499,
+      "hv_sigma0_std_db": 3.981,
+      "hv_sigma0_mean_linear": 0.083962,
+      "hv_hh_ratio_mean_linear": 0.32883,
+      "hv_hh_ratio_mean_db": -4.83,
+      "quality_notes": [
+        "Máscara de muestras válidas GCOV (frequencyA/mask): válido = 1-5 (subswath); excluido 0 (inválido/parcialmente enfocado) y 255 (fill).",
+        "inputDataExceptionMask es uint8 (máx=0); no caben los bits 256/512 de validez HH/HV. Se excluyen fill y bit 2 (sample slip) si aparecen.",
+        "shadowMaskingApplied=False (el producto no trae capa layover/sombra; no se aplicó máscara de sombra en el procesamiento).",
+        "No hay capa independiente de layover/sombra en este producto; solo se usó la máscara de muestras válidas (mask).",
+        "Normalización nativa: gamma0 RTC (potencia). Convertido a sigma0 con sigma0 = gamma0 * rtcGammaToSigmaFactor (Shiroma 2026, JPL D-102274 Rev. F)."
+      ],
+      "identification": {
+        "absoluteOrbitNumber": 5537,
+        "compositeReleaseId": "P05023",
+        "diagnosticModeFlag": 0,
+        "frameNumber": 1,
+        "isGeocoded": "True",
+        "lookDirection": "Left",
+        "missionId": "NISAR",
+        "orbitPassDirection": "Ascending",
+        "processingType": "Nominal",
+        "productType": "GCOV",
+        "productVersion": "1.0.11",
+        "trackNumber": 76,
+        "zeroDopplerEndTime": "2026-08-18T10:54:02.999342105",
+        "zeroDopplerStartTime": "2026-08-18T10:53:28.000000000"
+      },
+      "window": {
+        "row0": 12429,
+        "row1": 16197,
+        "col0": 14542,
+        "col1": 18725,
+        "ny": 3768,
+        "nx": 4183
+      },
+      "modo_apertura": "s3"
+    },
+    {
+      "date": "2026-08-25",
+      "datetime_utc": "2026-08-25T23:30:51Z",
+      "datetime_end_utc": "2026-08-25T23:31:25Z",
+      "granule_id": "NISAR_L2_PR_GCOV_029_011_D_089_4005_DHDH_A_20260825T233051_20260825T233125_P05023_N_F_J_001",
+      "collection": "NISAR_L2_GCOV_PROVISIONAL_V1",
+      "track": 11,
+      "frame": 89,
+      "direction": "Descending",
+      "polarization": [
+        "HH",
+        "HV"
+      ],
+      "frequency": "A",
+      "epsg": 32718,
+      "pixel_spacing_m": 10.0,
+      "units_nativas": "1",
+      "normalizacion_nativa": "gamma0_RTC",
+      "normalizacion_reportada": "sigma0 (convertido desde gamma0 RTC con rtcGammaToSigmaFactor)",
+      "convertido_a_sigma0": true,
+      "n_pixeles_poligono": 9310503,
+      "n_pixeles_validos": 9304228,
+      "hh_sigma0_mean_db": -4.263,
+      "hh_sigma0_median_db": -7.529,
+      "hh_sigma0_std_db": 3.863,
+      "hh_sigma0_mean_linear": 0.374692,
+      "hv_sigma0_mean_db": -9.164,
+      "hv_sigma0_median_db": -12.232,
+      "hv_sigma0_std_db": 3.763,
+      "hv_sigma0_mean_linear": 0.121224,
+      "hv_hh_ratio_mean_linear": 0.32353,
+      "hv_hh_ratio_mean_db": -4.901,
+      "quality_notes": [
+        "Máscara de muestras válidas GCOV (frequencyA/mask): válido = 1-5 (subswath); excluido 0 (inválido/parcialmente enfocado) y 255 (fill).",
+        "inputDataExceptionMask es uint8 (máx=0); no caben los bits 256/512 de validez HH/HV. Se excluyen fill y bit 2 (sample slip) si aparecen.",
+        "shadowMaskingApplied=False (el producto no trae capa layover/sombra; no se aplicó máscara de sombra en el procesamiento).",
+        "No hay capa independiente de layover/sombra en este producto; solo se usó la máscara de muestras válidas (mask).",
+        "Normalización nativa: gamma0 RTC (potencia). Convertido a sigma0 con sigma0 = gamma0 * rtcGammaToSigmaFactor (Shiroma 2026, JPL D-102274 Rev. F)."
+      ],
+      "identification": {
+        "absoluteOrbitNumber": 5646,
+        "compositeReleaseId": "P05023",
+        "diagnosticModeFlag": 0,
+        "frameNumber": 89,
+        "isGeocoded": "True",
+        "lookDirection": "Left",
+        "missionId": "NISAR",
+        "orbitPassDirection": "Descending",
+        "processingType": "Nominal",
+        "productType": "GCOV",
+        "productVersion": "1.0.11",
+        "trackNumber": 11,
+        "zeroDopplerEndTime": "2026-08-25T23:31:25.999342105",
+        "zeroDopplerStartTime": "2026-08-25T23:30:51.000000000"
+      },
+      "window": {
+        "row0": 12429,
+        "row1": 16197,
+        "col0": 7342,
+        "col1": 11525,
+        "ny": 3768,
+        "nx": 4183
+      },
+      "modo_apertura": "s3"
+    },
+    {
+      "date": "2026-08-30",
+      "datetime_utc": "2026-08-30T10:53:28Z",
+      "datetime_end_utc": "2026-08-30T10:54:02Z",
+      "granule_id": "NISAR_L2_PR_GCOV_029_076_A_001_4005_DHDH_A_20260830T105328_20260830T105402_P05023_N_F_J_001",
+      "collection": "NISAR_L2_GCOV_PROVISIONAL_V1",
+      "track": 76,
+      "frame": 1,
+      "direction": "Ascending",
+      "polarization": [
+        "HH",
+        "HV"
+      ],
+      "frequency": "A",
+      "epsg": 32718,
+      "pixel_spacing_m": 10.0,
+      "units_nativas": "1",
+      "normalizacion_nativa": "gamma0_RTC",
+      "normalizacion_reportada": "sigma0 (convertido desde gamma0 RTC con rtcGammaToSigmaFactor)",
+      "convertido_a_sigma0": true,
+      "n_pixeles_poligono": 9310503,
+      "n_pixeles_validos": 9294226,
+      "hh_sigma0_mean_db": -5.961,
+      "hh_sigma0_median_db": -7.797,
+      "hh_sigma0_std_db": 4.083,
+      "hh_sigma0_mean_linear": 0.253463,
+      "hv_sigma0_mean_db": -10.812,
+      "hv_sigma0_median_db": -12.534,
+      "hv_sigma0_std_db": 3.962,
+      "hv_sigma0_mean_linear": 0.082954,
+      "hv_hh_ratio_mean_linear": 0.32728,
+      "hv_hh_ratio_mean_db": -4.851,
+      "quality_notes": [
+        "Máscara de muestras válidas GCOV (frequencyA/mask): válido = 1-5 (subswath); excluido 0 (inválido/parcialmente enfocado) y 255 (fill).",
+        "inputDataExceptionMask es uint8 (máx=0); no caben los bits 256/512 de validez HH/HV. Se excluyen fill y bit 2 (sample slip) si aparecen.",
+        "shadowMaskingApplied=False (el producto no trae capa layover/sombra; no se aplicó máscara de sombra en el procesamiento).",
+        "No hay capa independiente de layover/sombra en este producto; solo se usó la máscara de muestras válidas (mask).",
+        "Normalización nativa: gamma0 RTC (potencia). Convertido a sigma0 con sigma0 = gamma0 * rtcGammaToSigmaFactor (Shiroma 2026, JPL D-102274 Rev. F)."
+      ],
+      "identification": {
+        "absoluteOrbitNumber": 5710,
+        "compositeReleaseId": "P05023",
+        "diagnosticModeFlag": 0,
+        "frameNumber": 1,
+        "isGeocoded": "True",
+        "lookDirection": "Left",
+        "missionId": "NISAR",
+        "orbitPassDirection": "Ascending",
+        "processingType": "Nominal",
+        "productType": "GCOV",
+        "productVersion": "1.0.11",
+        "trackNumber": 76,
+        "zeroDopplerEndTime": "2026-08-30T10:54:02.999342105",
+        "zeroDopplerStartTime": "2026-08-30T10:53:28.000000000"
+      },
+      "window": {
+        "row0": 12429,
+        "row1": 16197,
+        "col0": 14542,
+        "col1": 18725,
+        "ny": 3768,
+        "nx": 4183
+      },
+      "modo_apertura": "s3"
+    },
+    {
+      "date": "2026-09-06",
+      "datetime_utc": "2026-09-06T23:30:51Z",
+      "datetime_end_utc": "2026-09-06T23:31:25Z",
+      "granule_id": "NISAR_L2_PR_GCOV_030_011_D_089_4005_DHDH_A_20260906T233051_20260906T233125_P05023_N_F_J_001",
+      "collection": "NISAR_L2_GCOV_PROVISIONAL_V1",
+      "track": 11,
+      "frame": 89,
+      "direction": "Descending",
+      "polarization": [
+        "HH",
+        "HV"
+      ],
+      "frequency": "A",
+      "epsg": 32718,
+      "pixel_spacing_m": 10.0,
+      "units_nativas": "1",
+      "normalizacion_nativa": "gamma0_RTC",
+      "normalizacion_reportada": "sigma0 (convertido desde gamma0 RTC con rtcGammaToSigmaFactor)",
+      "convertido_a_sigma0": true,
+      "n_pixeles_poligono": 9310503,
+      "n_pixeles_validos": 9299735,
+      "hh_sigma0_mean_db": -4.41,
+      "hh_sigma0_median_db": -7.991,
+      "hh_sigma0_std_db": 4.191,
+      "hh_sigma0_mean_linear": 0.362247,
+      "hv_sigma0_mean_db": -9.397,
+      "hv_sigma0_median_db": -12.684,
+      "hv_sigma0_std_db": 4.028,
+      "hv_sigma0_mean_linear": 0.114904,
+      "hv_hh_ratio_mean_linear": 0.3172,
+      "hv_hh_ratio_mean_db": -4.987,
+      "quality_notes": [
+        "Máscara de muestras válidas GCOV (frequencyA/mask): válido = 1-5 (subswath); excluido 0 (inválido/parcialmente enfocado) y 255 (fill).",
+        "inputDataExceptionMask es uint8 (máx=0); no caben los bits 256/512 de validez HH/HV. Se excluyen fill y bit 2 (sample slip) si aparecen.",
+        "shadowMaskingApplied=False (el producto no trae capa layover/sombra; no se aplicó máscara de sombra en el procesamiento).",
+        "No hay capa independiente de layover/sombra en este producto; solo se usó la máscara de muestras válidas (mask).",
+        "Normalización nativa: gamma0 RTC (potencia). Convertido a sigma0 con sigma0 = gamma0 * rtcGammaToSigmaFactor (Shiroma 2026, JPL D-102274 Rev. F)."
+      ],
+      "identification": {
+        "absoluteOrbitNumber": 5819,
+        "compositeReleaseId": "P05023",
+        "diagnosticModeFlag": 0,
+        "frameNumber": 89,
+        "isGeocoded": "True",
+        "lookDirection": "Left",
+        "missionId": "NISAR",
+        "orbitPassDirection": "Descending",
+        "processingType": "Nominal",
+        "productType": "GCOV",
+        "productVersion": "1.0.11",
+        "trackNumber": 11,
+        "zeroDopplerEndTime": "2026-09-06T23:31:25.999342105",
+        "zeroDopplerStartTime": "2026-09-06T23:30:51.000000000"
+      },
+      "window": {
+        "row0": 12429,
+        "row1": 16197,
+        "col0": 7342,
+        "col1": 11525,
+        "ny": 3768,
+        "nx": 4183
+      },
+      "modo_apertura": "s3"
+    },
+    {
+      "date": "2026-09-11",
+      "datetime_utc": "2026-09-11T10:53:28Z",
+      "datetime_end_utc": "2026-09-11T10:54:02Z",
+      "granule_id": "NISAR_L2_PR_GCOV_030_076_A_001_4005_DHDH_A_20260911T105328_20260911T105402_P05023_N_F_J_001",
+      "collection": "NISAR_L2_GCOV_PROVISIONAL_V1",
+      "track": 76,
+      "frame": 1,
+      "direction": "Ascending",
+      "polarization": [
+        "HH",
+        "HV"
+      ],
+      "frequency": "A",
+      "epsg": 32718,
+      "pixel_spacing_m": 10.0,
+      "units_nativas": "1",
+      "normalizacion_nativa": "gamma0_RTC",
+      "normalizacion_reportada": "sigma0 (convertido desde gamma0 RTC con rtcGammaToSigmaFactor)",
+      "convertido_a_sigma0": true,
+      "n_pixeles_poligono": 9310503,
+      "n_pixeles_validos": 9290192,
+      "hh_sigma0_mean_db": -5.744,
+      "hh_sigma0_median_db": -7.568,
+      "hh_sigma0_std_db": 4.082,
+      "hh_sigma0_mean_linear": 0.266424,
+      "hv_sigma0_mean_db": -10.69,
+      "hv_sigma0_median_db": -12.396,
+      "hv_sigma0_std_db": 3.953,
+      "hv_sigma0_mean_linear": 0.085313,
+      "hv_hh_ratio_mean_linear": 0.32022,
+      "hv_hh_ratio_mean_db": -4.946,
+      "quality_notes": [
+        "Máscara de muestras válidas GCOV (frequencyA/mask): válido = 1-5 (subswath); excluido 0 (inválido/parcialmente enfocado) y 255 (fill).",
+        "inputDataExceptionMask es uint8 (máx=0); no caben los bits 256/512 de validez HH/HV. Se excluyen fill y bit 2 (sample slip) si aparecen.",
+        "shadowMaskingApplied=False (el producto no trae capa layover/sombra; no se aplicó máscara de sombra en el procesamiento).",
+        "No hay capa independiente de layover/sombra en este producto; solo se usó la máscara de muestras válidas (mask).",
+        "Normalización nativa: gamma0 RTC (potencia). Convertido a sigma0 con sigma0 = gamma0 * rtcGammaToSigmaFactor (Shiroma 2026, JPL D-102274 Rev. F)."
+      ],
+      "identification": {
+        "absoluteOrbitNumber": 5883,
+        "compositeReleaseId": "P05023",
+        "diagnosticModeFlag": 0,
+        "frameNumber": 1,
+        "isGeocoded": "True",
+        "lookDirection": "Left",
+        "missionId": "NISAR",
+        "orbitPassDirection": "Ascending",
+        "processingType": "Nominal",
+        "productType": "GCOV",
+        "productVersion": "1.0.11",
+        "trackNumber": 76,
+        "zeroDopplerEndTime": "2026-09-11T10:54:02.999342105",
+        "zeroDopplerStartTime": "2026-09-11T10:53:28.000000000"
+      },
+      "window": {
+        "row0": 12429,
+        "row1": 16197,
+        "col0": 14542,
+        "col1": 18725,
+        "ny": 3768,
+        "nx": 4183
+      },
+      "modo_apertura": "s3"
+    },
+    {
+      "date": "2026-09-18",
+      "datetime_utc": "2026-09-18T23:30:51Z",
+      "datetime_end_utc": "2026-09-18T23:31:25Z",
+      "granule_id": "NISAR_L2_PR_GCOV_031_011_D_089_4005_DHDH_A_20260918T233051_20260918T233125_P05023_F_F_J_001",
+      "collection": "NISAR_L2_GCOV_PROVISIONAL_V1",
+      "track": 11,
+      "frame": 89,
+      "direction": "Descending",
+      "polarization": [
+        "HH",
+        "HV"
+      ],
+      "frequency": "A",
+      "epsg": 32718,
+      "pixel_spacing_m": 10.0,
+      "units_nativas": "1",
+      "normalizacion_nativa": "gamma0_RTC",
+      "normalizacion_reportada": "sigma0 (convertido desde gamma0 RTC con rtcGammaToSigmaFactor)",
+      "convertido_a_sigma0": true,
+      "n_pixeles_poligono": 9310503,
+      "n_pixeles_validos": 9304212,
+      "hh_sigma0_mean_db": -4.333,
+      "hh_sigma0_median_db": -7.774,
+      "hh_sigma0_std_db": 4.107,
+      "hh_sigma0_mean_linear": 0.368688,
+      "hv_sigma0_mean_db": -9.174,
+      "hv_sigma0_median_db": -12.436,
+      "hv_sigma0_std_db": 3.938,
+      "hv_sigma0_mean_linear": 0.120951,
+      "hv_hh_ratio_mean_linear": 0.32806,
+      "hv_hh_ratio_mean_db": -4.84,
+      "quality_notes": [
+        "Máscara de muestras válidas GCOV (frequencyA/mask): válido = 1-5 (subswath); excluido 0 (inválido/parcialmente enfocado) y 255 (fill).",
+        "inputDataExceptionMask es uint8 (máx=0); no caben los bits 256/512 de validez HH/HV. Se excluyen fill y bit 2 (sample slip) si aparecen.",
+        "shadowMaskingApplied=False (el producto no trae capa layover/sombra; no se aplicó máscara de sombra en el procesamiento).",
+        "No hay capa independiente de layover/sombra en este producto; solo se usó la máscara de muestras válidas (mask).",
+        "Normalización nativa: gamma0 RTC (potencia). Convertido a sigma0 con sigma0 = gamma0 * rtcGammaToSigmaFactor (Shiroma 2026, JPL D-102274 Rev. F)."
+      ],
+      "identification": {
+        "absoluteOrbitNumber": 5992,
+        "compositeReleaseId": "P05023",
+        "diagnosticModeFlag": 0,
+        "frameNumber": 89,
+        "isGeocoded": "True",
+        "lookDirection": "Left",
+        "missionId": "NISAR",
+        "orbitPassDirection": "Descending",
+        "processingType": "Nominal",
+        "productType": "GCOV",
+        "productVersion": "1.0.11",
+        "trackNumber": 11,
+        "zeroDopplerEndTime": "2026-09-18T23:31:25.999342105",
+        "zeroDopplerStartTime": "2026-09-18T23:30:51.000000000"
+      },
+      "window": {
+        "row0": 12429,
+        "row1": 16197,
+        "col0": 7342,
+        "col1": 11525,
+        "ny": 3768,
+        "nx": 4183
+      },
+      "modo_apertura": "s3"
+    },
+    {
+      "date": "2026-09-23",
+      "datetime_utc": "2026-09-23T10:53:28Z",
+      "datetime_end_utc": "2026-09-23T10:54:02Z",
+      "granule_id": "NISAR_L2_PR_GCOV_031_076_A_001_4005_DHDH_A_20260923T105328_20260923T105402_P05023_N_F_J_001",
+      "collection": "NISAR_L2_GCOV_PROVISIONAL_V1",
+      "track": 76,
+      "frame": 1,
+      "direction": "Ascending",
+      "polarization": [
+        "HH",
+        "HV"
+      ],
+      "frequency": "A",
+      "epsg": 32718,
+      "pixel_spacing_m": 10.0,
+      "units_nativas": "1",
+      "normalizacion_nativa": "gamma0_RTC",
+      "normalizacion_reportada": "sigma0 (convertido desde gamma0 RTC con rtcGammaToSigmaFactor)",
+      "convertido_a_sigma0": true,
+      "n_pixeles_poligono": 9310503,
+      "n_pixeles_validos": 9294217,
+      "hh_sigma0_mean_db": -6.007,
+      "hh_sigma0_median_db": -7.865,
+      "hh_sigma0_std_db": 4.103,
+      "hh_sigma0_mean_linear": 0.250775,
+      "hv_sigma0_mean_db": -10.875,
+      "hv_sigma0_median_db": -12.62,
+      "hv_sigma0_std_db": 3.992,
+      "hv_sigma0_mean_linear": 0.081753,
+      "hv_hh_ratio_mean_linear": 0.326,
+      "hv_hh_ratio_mean_db": -4.868,
+      "quality_notes": [
+        "Máscara de muestras válidas GCOV (frequencyA/mask): válido = 1-5 (subswath); excluido 0 (inválido/parcialmente enfocado) y 255 (fill).",
+        "inputDataExceptionMask es uint8 (máx=0); no caben los bits 256/512 de validez HH/HV. Se excluyen fill y bit 2 (sample slip) si aparecen.",
+        "shadowMaskingApplied=False (el producto no trae capa layover/sombra; no se aplicó máscara de sombra en el procesamiento).",
+        "No hay capa independiente de layover/sombra en este producto; solo se usó la máscara de muestras válidas (mask).",
+        "Normalización nativa: gamma0 RTC (potencia). Convertido a sigma0 con sigma0 = gamma0 * rtcGammaToSigmaFactor (Shiroma 2026, JPL D-102274 Rev. F)."
+      ],
+      "identification": {
+        "absoluteOrbitNumber": 6056,
+        "compositeReleaseId": "P05023",
+        "diagnosticModeFlag": 0,
+        "frameNumber": 1,
+        "isGeocoded": "True",
+        "lookDirection": "Left",
+        "missionId": "NISAR",
+        "orbitPassDirection": "Ascending",
+        "processingType": "Nominal",
+        "productType": "GCOV",
+        "productVersion": "1.0.11",
+        "trackNumber": 76,
+        "zeroDopplerEndTime": "2026-09-23T10:54:02.999342105",
+        "zeroDopplerStartTime": "2026-09-23T10:53:28.000000000"
+      },
+      "window": {
+        "row0": 12429,
+        "row1": 16197,
+        "col0": 14542,
+        "col1": 18725,
+        "ny": 3768,
+        "nx": 4183
+      },
+      "modo_apertura": "s3"
+    },
+    {
+      "date": "2026-09-30",
+      "datetime_utc": "2026-09-30T23:30:51Z",
+      "datetime_end_utc": "2026-09-30T23:31:25Z",
+      "granule_id": "NISAR_L2_PR_GCOV_032_011_D_089_4005_DHDH_A_20260930T233051_20260930T233125_P05023_N_F_J_001",
+      "collection": "NISAR_L2_GCOV_PROVISIONAL_V1",
+      "track": 11,
+      "frame": 89,
+      "direction": "Descending",
+      "polarization": [
+        "HH",
+        "HV"
+      ],
+      "frequency": "A",
+      "epsg": 32718,
+      "pixel_spacing_m": 10.0,
+      "units_nativas": "1",
+      "normalizacion_nativa": "gamma0_RTC",
+      "normalizacion_reportada": "sigma0 (convertido desde gamma0 RTC con rtcGammaToSigmaFactor)",
+      "convertido_a_sigma0": true,
+      "n_pixeles_poligono": 9310503,
+      "n_pixeles_validos": 9304188,
+      "hh_sigma0_mean_db": -4.526,
+      "hh_sigma0_median_db": -7.939,
+      "hh_sigma0_std_db": 4.102,
+      "hh_sigma0_mean_linear": 0.3527,
+      "hv_sigma0_mean_db": -9.344,
+      "hv_sigma0_median_db": -12.541,
+      "hv_sigma0_std_db": 3.928,
+      "hv_sigma0_mean_linear": 0.116306,
+      "hv_hh_ratio_mean_linear": 0.32976,
+      "hv_hh_ratio_mean_db": -4.818,
+      "quality_notes": [
+        "Máscara de muestras válidas GCOV (frequencyA/mask): válido = 1-5 (subswath); excluido 0 (inválido/parcialmente enfocado) y 255 (fill).",
+        "inputDataExceptionMask es uint8 (máx=0); no caben los bits 256/512 de validez HH/HV. Se excluyen fill y bit 2 (sample slip) si aparecen.",
+        "shadowMaskingApplied=False (el producto no trae capa layover/sombra; no se aplicó máscara de sombra en el procesamiento).",
+        "No hay capa independiente de layover/sombra en este producto; solo se usó la máscara de muestras válidas (mask).",
+        "Normalización nativa: gamma0 RTC (potencia). Convertido a sigma0 con sigma0 = gamma0 * rtcGammaToSigmaFactor (Shiroma 2026, JPL D-102274 Rev. F)."
+      ],
+      "identification": {
+        "absoluteOrbitNumber": 6165,
+        "compositeReleaseId": "P05023",
+        "diagnosticModeFlag": 0,
+        "frameNumber": 89,
+        "isGeocoded": "True",
+        "lookDirection": "Left",
+        "missionId": "NISAR",
+        "orbitPassDirection": "Descending",
+        "processingType": "Nominal",
+        "productType": "GCOV",
+        "productVersion": "1.0.11",
+        "trackNumber": 11,
+        "zeroDopplerEndTime": "2026-09-30T23:31:25.999342105",
+        "zeroDopplerStartTime": "2026-09-30T23:30:51.000000000"
+      },
+      "window": {
+        "row0": 12429,
+        "row1": 16197,
+        "col0": 7342,
+        "col1": 11525,
+        "ny": 3768,
+        "nx": 4183
+      },
+      "modo_apertura": "s3"
+    },
+    {
+      "date": "2026-10-05",
+      "datetime_utc": "2026-10-05T10:53:28Z",
+      "datetime_end_utc": "2026-10-05T10:54:02Z",
+      "granule_id": "NISAR_L2_PR_GCOV_032_076_A_001_4005_DHDH_A_20261005T105328_20261005T105402_P05023_N_F_J_001",
+      "collection": "NISAR_L2_GCOV_PROVISIONAL_V1",
+      "track": 76,
+      "frame": 1,
+      "direction": "Ascending",
+      "polarization": [
+        "HH",
+        "HV"
+      ],
+      "frequency": "A",
+      "epsg": 32718,
+      "pixel_spacing_m": 10.0,
+      "units_nativas": "1",
+      "normalizacion_nativa": "gamma0_RTC",
+      "normalizacion_reportada": "sigma0 (convertido desde gamma0 RTC con rtcGammaToSigmaFactor)",
+      "convertido_a_sigma0": true,
+      "n_pixeles_poligono": 9310503,
+      "n_pixeles_validos": 9294216,
+      "hh_sigma0_mean_db": -6.13,
+      "hh_sigma0_median_db": -7.994,
+      "hh_sigma0_std_db": 4.105,
+      "hh_sigma0_mean_linear": 0.243805,
+      "hv_sigma0_mean_db": -10.888,
+      "hv_sigma0_median_db": -12.639,
+      "hv_sigma0_std_db": 3.987,
+      "hv_sigma0_mean_linear": 0.081507,
+      "hv_hh_ratio_mean_linear": 0.33431,
+      "hv_hh_ratio_mean_db": -4.758,
+      "quality_notes": [
+        "Máscara de muestras válidas GCOV (frequencyA/mask): válido = 1-5 (subswath); excluido 0 (inválido/parcialmente enfocado) y 255 (fill).",
+        "inputDataExceptionMask es uint8 (máx=0); no caben los bits 256/512 de validez HH/HV. Se excluyen fill y bit 2 (sample slip) si aparecen.",
+        "shadowMaskingApplied=False (el producto no trae capa layover/sombra; no se aplicó máscara de sombra en el procesamiento).",
+        "No hay capa independiente de layover/sombra en este producto; solo se usó la máscara de muestras válidas (mask).",
+        "Normalización nativa: gamma0 RTC (potencia). Convertido a sigma0 con sigma0 = gamma0 * rtcGammaToSigmaFactor (Shiroma 2026, JPL D-102274 Rev. F)."
+      ],
+      "identification": {
+        "absoluteOrbitNumber": 6229,
+        "compositeReleaseId": "P05023",
+        "diagnosticModeFlag": 0,
+        "frameNumber": 1,
+        "isGeocoded": "True",
+        "lookDirection": "Left",
+        "missionId": "NISAR",
+        "orbitPassDirection": "Ascending",
+        "processingType": "Nominal",
+        "productType": "GCOV",
+        "productVersion": "1.0.11",
+        "trackNumber": 76,
+        "zeroDopplerEndTime": "2026-10-05T10:54:02.999342105",
+        "zeroDopplerStartTime": "2026-10-05T10:53:28.000000000"
+      },
+      "window": {
+        "row0": 12429,
+        "row1": 16197,
+        "col0": 14542,
+        "col1": 18725,
+        "ny": 3768,
+        "nx": 4183
+      },
+      "modo_apertura": "s3"
+    },
+    {
+      "date": "2026-10-12",
+      "datetime_utc": "2026-10-12T23:30:51Z",
+      "datetime_end_utc": "2026-10-12T23:31:25Z",
+      "granule_id": "NISAR_L2_PR_GCOV_033_011_D_089_4005_DHDH_A_20261012T233051_20261012T233125_P05023_N_F_J_001",
+      "collection": "NISAR_L2_GCOV_PROVISIONAL_V1",
+      "track": 11,
+      "frame": 89,
+      "direction": "Descending",
+      "polarization": [
+        "HH",
+        "HV"
+      ],
+      "frequency": "A",
+      "epsg": 32718,
+      "pixel_spacing_m": 10.0,
+      "units_nativas": "1",
+      "normalizacion_nativa": "gamma0_RTC",
+      "normalizacion_reportada": "sigma0 (convertido desde gamma0 RTC con rtcGammaToSigmaFactor)",
+      "convertido_a_sigma0": true,
+      "n_pixeles_poligono": 9310503,
+      "n_pixeles_validos": 9304195,
+      "hh_sigma0_mean_db": -4.545,
+      "hh_sigma0_median_db": -8.071,
+      "hh_sigma0_std_db": 4.146,
+      "hh_sigma0_mean_linear": 0.351191,
+      "hv_sigma0_mean_db": -9.467,
+      "hv_sigma0_median_db": -12.701,
+      "hv_sigma0_std_db": 4.0,
+      "hv_sigma0_mean_linear": 0.113051,
+      "hv_hh_ratio_mean_linear": 0.32191,
+      "hv_hh_ratio_mean_db": -4.923,
+      "quality_notes": [
+        "Máscara de muestras válidas GCOV (frequencyA/mask): válido = 1-5 (subswath); excluido 0 (inválido/parcialmente enfocado) y 255 (fill).",
+        "inputDataExceptionMask es uint8 (máx=0); no caben los bits 256/512 de validez HH/HV. Se excluyen fill y bit 2 (sample slip) si aparecen.",
+        "shadowMaskingApplied=False (el producto no trae capa layover/sombra; no se aplicó máscara de sombra en el procesamiento).",
+        "No hay capa independiente de layover/sombra en este producto; solo se usó la máscara de muestras válidas (mask).",
+        "Normalización nativa: gamma0 RTC (potencia). Convertido a sigma0 con sigma0 = gamma0 * rtcGammaToSigmaFactor (Shiroma 2026, JPL D-102274 Rev. F)."
+      ],
+      "identification": {
+        "absoluteOrbitNumber": 6338,
+        "compositeReleaseId": "P05023",
+        "diagnosticModeFlag": 0,
+        "frameNumber": 89,
+        "isGeocoded": "True",
+        "lookDirection": "Left",
+        "missionId": "NISAR",
+        "orbitPassDirection": "Descending",
+        "processingType": "Nominal",
+        "productType": "GCOV",
+        "productVersion": "1.0.11",
+        "trackNumber": 11,
+        "zeroDopplerEndTime": "2026-10-12T23:31:25.999342105",
+        "zeroDopplerStartTime": "2026-10-12T23:30:51.000000000"
+      },
+      "window": {
+        "row0": 12429,
+        "row1": 16197,
+        "col0": 7342,
+        "col1": 11525,
+        "ny": 3768,
+        "nx": 4183
+      },
+      "modo_apertura": "s3"
+    },
+    {
+      "date": "2026-10-17",
+      "datetime_utc": "2026-10-17T10:53:28Z",
+      "datetime_end_utc": "2026-10-17T10:54:02Z",
+      "granule_id": "NISAR_L2_PR_GCOV_033_076_A_001_4005_DHDH_A_20261017T105328_20261017T105402_P05023_N_F_J_001",
+      "collection": "NISAR_L2_GCOV_PROVISIONAL_V1",
+      "track": 76,
+      "frame": 1,
+      "direction": "Ascending",
+      "polarization": [
+        "HH",
+        "HV"
+      ],
+      "frequency": "A",
+      "epsg": 32718,
+      "pixel_spacing_m": 10.0,
+      "units_nativas": "1",
+      "normalizacion_nativa": "gamma0_RTC",
+      "normalizacion_reportada": "sigma0 (convertido desde gamma0 RTC con rtcGammaToSigmaFactor)",
+      "convertido_a_sigma0": true,
+      "n_pixeles_poligono": 9310503,
+      "n_pixeles_validos": 9294207,
+      "hh_sigma0_mean_db": -6.067,
+      "hh_sigma0_median_db": -7.919,
+      "hh_sigma0_std_db": 4.128,
+      "hh_sigma0_mean_linear": 0.247366,
+      "hv_sigma0_mean_db": -10.892,
+      "hv_sigma0_median_db": -12.66,
+      "hv_sigma0_std_db": 4.014,
+      "hv_sigma0_mean_linear": 0.081439,
+      "hv_hh_ratio_mean_linear": 0.32923,
+      "hv_hh_ratio_mean_db": -4.825,
+      "quality_notes": [
+        "Máscara de muestras válidas GCOV (frequencyA/mask): válido = 1-5 (subswath); excluido 0 (inválido/parcialmente enfocado) y 255 (fill).",
+        "inputDataExceptionMask es uint8 (máx=0); no caben los bits 256/512 de validez HH/HV. Se excluyen fill y bit 2 (sample slip) si aparecen.",
+        "shadowMaskingApplied=False (el producto no trae capa layover/sombra; no se aplicó máscara de sombra en el procesamiento).",
+        "No hay capa independiente de layover/sombra en este producto; solo se usó la máscara de muestras válidas (mask).",
+        "Normalización nativa: gamma0 RTC (potencia). Convertido a sigma0 con sigma0 = gamma0 * rtcGammaToSigmaFactor (Shiroma 2026, JPL D-102274 Rev. F)."
+      ],
+      "identification": {
+        "absoluteOrbitNumber": 6402,
+        "compositeReleaseId": "P05023",
+        "diagnosticModeFlag": 0,
+        "frameNumber": 1,
+        "isGeocoded": "True",
+        "lookDirection": "Left",
+        "missionId": "NISAR",
+        "orbitPassDirection": "Ascending",
+        "processingType": "Nominal",
+        "productType": "GCOV",
+        "productVersion": "1.0.11",
+        "trackNumber": 76,
+        "zeroDopplerEndTime": "2026-10-17T10:54:02.999342105",
+        "zeroDopplerStartTime": "2026-10-17T10:53:28.000000000"
+      },
+      "window": {
+        "row0": 12429,
+        "row1": 16197,
+        "col0": 14542,
+        "col1": 18725,
+        "ny": 3768,
+        "nx": 4183
+      },
+      "modo_apertura": "s3"
+    },
+    {
+      "date": "2026-10-24",
+      "datetime_utc": "2026-10-24T23:30:51Z",
+      "datetime_end_utc": "2026-10-24T23:31:26Z",
+      "granule_id": "NISAR_L2_PR_GCOV_034_011_D_089_4005_DHDH_A_20261024T233051_20261024T233126_P05036_N_F_J_001",
+      "collection": "NISAR_L2_GCOV_V1",
+      "track": 11,
+      "frame": 89,
+      "direction": "Descending",
+      "polarization": [
+        "HH",
+        "HV"
+      ],
+      "frequency": "A",
+      "epsg": 32718,
+      "pixel_spacing_m": 10.0,
+      "units_nativas": "1",
+      "normalizacion_nativa": "gamma0_RTC",
+      "normalizacion_reportada": "sigma0 (convertido desde gamma0 RTC con rtcGammaToSigmaFactor)",
+      "convertido_a_sigma0": true,
+      "n_pixeles_poligono": 9310503,
+      "n_pixeles_validos": 9304160,
+      "hh_sigma0_mean_db": -4.536,
+      "hh_sigma0_median_db": -8.05,
+      "hh_sigma0_std_db": 4.128,
+      "hh_sigma0_mean_linear": 0.351922,
+      "hv_sigma0_mean_db": -9.009,
+      "hv_sigma0_median_db": -12.295,
+      "hv_sigma0_std_db": 3.967,
+      "hv_sigma0_mean_linear": 0.125626,
+      "hv_hh_ratio_mean_linear": 0.35697,
+      "hv_hh_ratio_mean_db": -4.474,
+      "quality_notes": [
+        "Máscara de muestras válidas GCOV (frequencyA/mask): válido = 1-5 (subswath); excluido 0 (inválido/parcialmente enfocado) y 255 (fill).",
+        "Se aplicó inputDataExceptionMask: se exigen bits HH (256) y HV (512) de muestra completamente enfocada, y se excluye el bit 2 (qFSP-H1 sample slip) y el fill 65535.",
+        "shadowMaskingApplied=False (el producto no trae capa layover/sombra; no se aplicó máscara de sombra en el procesamiento).",
+        "No hay capa independiente de layover/sombra en este producto; solo se usó la máscara de muestras válidas (mask).",
+        "Normalización nativa: gamma0 RTC (potencia). Convertido a sigma0 con sigma0 = gamma0 * rtcGammaToSigmaFactor (Shiroma 2026, JPL D-102274 Rev. F)."
+      ],
+      "identification": {
+        "absoluteOrbitNumber": 6511,
+        "compositeReleaseId": "P05036",
+        "diagnosticModeFlag": 0,
+        "frameNumber": 89,
+        "isGeocoded": "True",
+        "lookDirection": "Left",
+        "missionId": "NISAR",
+        "orbitPassDirection": "Descending",
+        "processingType": "Nominal",
+        "productType": "GCOV",
+        "productVersion": "1.0.20",
+        "trackNumber": 11,
+        "zeroDopplerEndTime": "2026-10-24T23:31:26.999342105",
+        "zeroDopplerStartTime": "2026-10-24T23:30:51.000000000"
+      },
+      "window": {
+        "row0": 12429,
+        "row1": 16197,
+        "col0": 7342,
+        "col1": 11525,
+        "ny": 3768,
+        "nx": 4183
+      },
+      "modo_apertura": "s3"
+    },
+    {
+      "date": "2026-10-29",
+      "datetime_utc": "2026-10-29T10:53:28Z",
+      "datetime_end_utc": "2026-10-29T10:54:03Z",
+      "granule_id": "NISAR_L2_PR_GCOV_034_076_A_001_4005_DHDH_A_20261029T105328_20261029T105403_P05036_N_F_J_001",
+      "collection": "NISAR_L2_GCOV_V1",
+      "track": 76,
+      "frame": 1,
+      "direction": "Ascending",
+      "polarization": [
+        "HH",
+        "HV"
+      ],
+      "frequency": "A",
+      "epsg": 32718,
+      "pixel_spacing_m": 10.0,
+      "units_nativas": "1",
+      "normalizacion_nativa": "gamma0_RTC",
+      "normalizacion_reportada": "sigma0 (convertido desde gamma0 RTC con rtcGammaToSigmaFactor)",
+      "convertido_a_sigma0": true,
+      "n_pixeles_poligono": 9310503,
+      "n_pixeles_validos": 9291174,
+      "hh_sigma0_mean_db": -6.264,
+      "hh_sigma0_median_db": -8.113,
+      "hh_sigma0_std_db": 4.124,
+      "hh_sigma0_mean_linear": 0.236359,
+      "hv_sigma0_mean_db": -10.777,
+      "hv_sigma0_median_db": -12.541,
+      "hv_sigma0_std_db": 4.008,
+      "hv_sigma0_mean_linear": 0.083609,
+      "hv_hh_ratio_mean_linear": 0.35374,
+      "hv_hh_ratio_mean_db": -4.513,
+      "quality_notes": [
+        "Máscara de muestras válidas GCOV (frequencyA/mask): válido = 1-5 (subswath); excluido 0 (inválido/parcialmente enfocado) y 255 (fill).",
+        "Se aplicó inputDataExceptionMask: se exigen bits HH (256) y HV (512) de muestra completamente enfocada, y se excluye el bit 2 (qFSP-H1 sample slip) y el fill 65535.",
+        "shadowMaskingApplied=False (el producto no trae capa layover/sombra; no se aplicó máscara de sombra en el procesamiento).",
+        "No hay capa independiente de layover/sombra en este producto; solo se usó la máscara de muestras válidas (mask).",
+        "Normalización nativa: gamma0 RTC (potencia). Convertido a sigma0 con sigma0 = gamma0 * rtcGammaToSigmaFactor (Shiroma 2026, JPL D-102274 Rev. F)."
+      ],
+      "identification": {
+        "absoluteOrbitNumber": 6575,
+        "compositeReleaseId": "P05036",
+        "diagnosticModeFlag": 0,
+        "frameNumber": 1,
+        "isGeocoded": "True",
+        "lookDirection": "Left",
+        "missionId": "NISAR",
+        "orbitPassDirection": "Ascending",
+        "processingType": "Nominal",
+        "productType": "GCOV",
+        "productVersion": "1.0.20",
+        "trackNumber": 76,
+        "zeroDopplerEndTime": "2026-10-29T10:54:03.999342105",
+        "zeroDopplerStartTime": "2026-10-29T10:53:28.000000000"
+      },
+      "window": {
+        "row0": 12429,
+        "row1": 16197,
+        "col0": 14542,
+        "col1": 18725,
+        "ny": 3768,
+        "nx": 4183
+      },
+      "modo_apertura": "s3"
+    }
+  ],
+  "gcov_sin_interseccion": [
+    {
+      "collection": "NISAR_L2_GCOV_V1",
+      "granule_id": "NISAR_L2_PR_GCOV_034_112_D_089_4005_DHDH_A_20261031T233908_20261031T233945_P05036_N_F_J_001",
+      "start": "2026-10-31T23:39:08.000000Z",
+      "motivo": "La huella (GPolygon) no intersecta el polígono WDPA; solo cae en la caja de búsqueda."
+    },
+    {
+      "collection": "NISAR_L2_GCOV_PROVISIONAL_V1",
+      "granule_id": "NISAR_L2_PR_GCOV_023_112_D_089_4005_DHDH_A_20260621T233911_20260621T233948_P05023_N_F_J_001",
+      "start": "2026-06-21T23:39:11.000000Z",
+      "motivo": "La huella (GPolygon) no intersecta el polígono WDPA; solo cae en la caja de búsqueda."
+    },
+    {
+      "collection": "NISAR_L2_GCOV_PROVISIONAL_V1",
+      "granule_id": "NISAR_L2_PR_GCOV_024_112_D_089_4005_DHDH_A_20260703T233910_20260703T233947_P05023_N_F_J_001",
+      "start": "2026-07-03T23:39:10.000000Z",
+      "motivo": "La huella (GPolygon) no intersecta el polígono WDPA; solo cae en la caja de búsqueda."
+    },
+    {
+      "collection": "NISAR_L2_GCOV_PROVISIONAL_V1",
+      "granule_id": "NISAR_L2_PR_GCOV_025_112_D_089_4005_DHDH_A_20260715T233909_20260715T233947_P05023_N_F_J_001",
+      "start": "2026-07-15T23:39:09.000000Z",
+      "motivo": "La huella (GPolygon) no intersecta el polígono WDPA; solo cae en la caja de búsqueda."
+    },
+    {
+      "collection": "NISAR_L2_GCOV_PROVISIONAL_V1",
+      "granule_id": "NISAR_L2_PR_GCOV_028_112_D_089_4005_DHDH_A_20260820T233908_20260820T233945_P05023_N_F_J_001",
+      "start": "2026-08-20T23:39:08.000000Z",
+      "motivo": "La huella (GPolygon) no intersecta el polígono WDPA; solo cae en la caja de búsqueda."
+    },
+    {
+      "collection": "NISAR_L2_GCOV_PROVISIONAL_V1",
+      "granule_id": "NISAR_L2_PR_GCOV_029_112_D_089_4005_DHDH_A_20260901T233907_20260901T233945_P05023_N_F_J_001",
+      "start": "2026-09-01T23:39:07.000000Z",
+      "motivo": "La huella (GPolygon) no intersecta el polígono WDPA; solo cae en la caja de búsqueda."
+    },
+    {
+      "collection": "NISAR_L2_GCOV_PROVISIONAL_V1",
+      "granule_id": "NISAR_L2_PR_GCOV_030_112_D_089_4005_DHDH_A_20260913T233907_20260913T233945_P05023_N_F_J_001",
+      "start": "2026-09-13T23:39:07.000000Z",
+      "motivo": "La huella (GPolygon) no intersecta el polígono WDPA; solo cae en la caja de búsqueda."
+    },
+    {
+      "collection": "NISAR_L2_GCOV_PROVISIONAL_V1",
+      "granule_id": "NISAR_L2_PR_GCOV_031_112_D_089_4005_DHDH_A_20260925T233907_20260925T233945_P05023_N_F_J_001",
+      "start": "2026-09-25T23:39:07.000000Z",
+      "motivo": "La huella (GPolygon) no intersecta el polígono WDPA; solo cae en la caja de búsqueda."
+    },
+    {
+      "collection": "NISAR_L2_GCOV_PROVISIONAL_V1",
+      "granule_id": "NISAR_L2_PR_GCOV_032_112_D_089_4005_DHDH_A_20261007T233908_20261007T233945_P05023_N_F_J_001",
+      "start": "2026-10-07T23:39:08.000000Z",
+      "motivo": "La huella (GPolygon) no intersecta el polígono WDPA; solo cae en la caja de búsqueda."
+    },
+    {
+      "collection": "NISAR_L2_GCOV_PROVISIONAL_V1",
+      "granule_id": "NISAR_L2_PR_GCOV_033_112_D_089_4005_DHDH_A_20261019T233908_20261019T233945_P05023_N_F_J_001",
+      "start": "2026-10-19T23:39:08.000000Z",
+      "motivo": "La huella (GPolygon) no intersecta el polígono WDPA; solo cae en la caja de búsqueda."
+    }
+  ],
+  "dswx": [
+    {
+      "date": "2026-06-02",
+      "area_agua_km2": 0.7137,
+      "fraccion_agua": 0.000825,
+      "n_pixeles_agua": 793,
+      "n_pixeles_validos": 961138,
+      "n_agua_abierta": 585,
+      "n_veg_inundada": 208,
+      "tiles": [
+        "T17MRV",
+        "T17MRU"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRV_20260602T105242Z_20260912T062926Z_S1A_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRU_20260602T105242Z_20260912T062926Z_S1A_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "0": 960345,
+        "1": 585,
+        "3": 208,
+        "250": 273238,
+        "251": 69600,
+        "255": 9669
+      },
+      "reason": null,
+      "errores": null
+    },
+    {
+      "date": "2026-06-05",
+      "area_agua_km2": null,
+      "fraccion_agua": null,
+      "n_pixeles_agua": 0,
+      "n_pixeles_validos": 0,
+      "n_agua_abierta": 0,
+      "n_veg_inundada": 0,
+      "tiles": [
+        "T17MRU",
+        "T17MRV"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRU_20260605T233659Z_20260909T161334Z_S1A_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRV_20260605T233659Z_20260909T161334Z_S1A_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "255": 1313645
+      },
+      "reason": "Todos los píxeles del polígono son clase WTR 255 (fill / sin dato) en esa fecha; no hay clasificación válida de agua. El área no es 0, es desconocida.",
+      "errores": null
+    },
+    {
+      "date": "2026-06-06",
+      "area_agua_km2": 0.7992,
+      "fraccion_agua": 0.000968,
+      "n_pixeles_agua": 888,
+      "n_pixeles_validos": 917194,
+      "n_agua_abierta": 532,
+      "n_veg_inundada": 356,
+      "tiles": [
+        "T17MRU",
+        "T17MRV"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRU_20260606T232753Z_20260614T230518Z_S1C_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRV_20260606T232753Z_20260614T230518Z_S1C_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "0": 916306,
+        "1": 532,
+        "3": 356,
+        "250": 266665,
+        "251": 128059,
+        "255": 1727
+      },
+      "reason": null,
+      "errores": null
+    },
+    {
+      "date": "2026-06-08",
+      "area_agua_km2": 0.7281,
+      "fraccion_agua": 0.000842,
+      "n_pixeles_agua": 809,
+      "n_pixeles_validos": 961031,
+      "n_agua_abierta": 560,
+      "n_veg_inundada": 249,
+      "tiles": [
+        "T17MRV",
+        "T17MRU"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRV_20260608T105149Z_20260612T163120Z_S1C_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRU_20260608T105149Z_20260612T163120Z_S1C_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "0": 960222,
+        "1": 560,
+        "3": 249,
+        "250": 273127,
+        "251": 69839,
+        "255": 9648
+      },
+      "reason": null,
+      "errores": null
+    },
+    {
+      "date": "2026-06-12",
+      "area_agua_km2": 0.9423,
+      "fraccion_agua": 0.001142,
+      "n_pixeles_agua": 1047,
+      "n_pixeles_validos": 917009,
+      "n_agua_abierta": 577,
+      "n_veg_inundada": 470,
+      "tiles": [
+        "T17MRU",
+        "T17MRV"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRU_20260612T232845Z_20260618T044624Z_S1A_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRV_20260612T232845Z_20260618T044624Z_S1A_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "0": 915962,
+        "1": 577,
+        "3": 470,
+        "250": 266803,
+        "251": 128102,
+        "255": 1731
+      },
+      "reason": null,
+      "errores": null
+    },
+    {
+      "date": "2026-06-14",
+      "area_agua_km2": 0.7101,
+      "fraccion_agua": 0.000821,
+      "n_pixeles_agua": 789,
+      "n_pixeles_validos": 961101,
+      "n_agua_abierta": 541,
+      "n_veg_inundada": 248,
+      "tiles": [
+        "T17MRV",
+        "T17MRU"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRV_20260614T105241Z_20260829T115116Z_S1A_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRU_20260614T105241Z_20260829T115116Z_S1A_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "0": 960312,
+        "1": 541,
+        "3": 248,
+        "250": 273157,
+        "251": 69722,
+        "255": 9665
+      },
+      "reason": null,
+      "errores": null
+    },
+    {
+      "date": "2026-06-17",
+      "area_agua_km2": null,
+      "fraccion_agua": null,
+      "n_pixeles_agua": 0,
+      "n_pixeles_validos": 0,
+      "n_agua_abierta": 0,
+      "n_veg_inundada": 0,
+      "tiles": [
+        "T17MRU",
+        "T17MRV"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRU_20260617T233658Z_20260826T090302Z_S1A_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRV_20260617T233658Z_20260826T090302Z_S1A_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "255": 1313645
+      },
+      "reason": "Todos los píxeles del polígono son clase WTR 255 (fill / sin dato) en esa fecha; no hay clasificación válida de agua. El área no es 0, es desconocida.",
+      "errores": null
+    },
+    {
+      "date": "2026-06-24",
+      "area_agua_km2": 0.9297,
+      "fraccion_agua": 0.001126,
+      "n_pixeles_agua": 1033,
+      "n_pixeles_validos": 917193,
+      "n_agua_abierta": 541,
+      "n_veg_inundada": 492,
+      "tiles": [
+        "T17MRU",
+        "T17MRV"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRU_20260624T232845Z_20260829T035457Z_S1A_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRV_20260624T232845Z_20260829T035457Z_S1A_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "0": 916160,
+        "1": 541,
+        "3": 492,
+        "250": 266660,
+        "251": 128070,
+        "255": 1722
+      },
+      "reason": null,
+      "errores": null
+    },
+    {
+      "date": "2026-06-25",
+      "area_agua_km2": 0.72,
+      "fraccion_agua": 0.000872,
+      "n_pixeles_agua": 800,
+      "n_pixeles_validos": 916993,
+      "n_agua_abierta": 488,
+      "n_veg_inundada": 312,
+      "tiles": [
+        "T17MRU",
+        "T17MRV"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRU_20260625T232751Z_20260829T035451Z_S1C_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRV_20260625T232751Z_20260829T035451Z_S1C_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "0": 916193,
+        "1": 488,
+        "3": 312,
+        "250": 266790,
+        "251": 128131,
+        "255": 1731
+      },
+      "reason": null,
+      "errores": null
+    },
+    {
+      "date": "2026-06-26",
+      "area_agua_km2": 0.7209,
+      "fraccion_agua": 0.000834,
+      "n_pixeles_agua": 801,
+      "n_pixeles_validos": 960983,
+      "n_agua_abierta": 585,
+      "n_veg_inundada": 216,
+      "tiles": [
+        "T17MRV",
+        "T17MRU"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRV_20260626T105240Z_20260829T115124Z_S1A_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRU_20260626T105240Z_20260829T115124Z_S1A_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "0": 960182,
+        "1": 585,
+        "3": 216,
+        "250": 273198,
+        "251": 69796,
+        "255": 9668
+      },
+      "reason": null,
+      "errores": null
+    },
+    {
+      "date": "2026-06-27",
+      "area_agua_km2": 0.6741,
+      "fraccion_agua": 0.000779,
+      "n_pixeles_agua": 749,
+      "n_pixeles_validos": 961151,
+      "n_agua_abierta": 591,
+      "n_veg_inundada": 158,
+      "tiles": [
+        "T17MRV",
+        "T17MRU"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRV_20260627T105147Z_20260708T090754Z_S1C_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRU_20260627T105147Z_20260708T090754Z_S1C_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "0": 960402,
+        "1": 591,
+        "3": 158,
+        "250": 273070,
+        "251": 69777,
+        "255": 9647
+      },
+      "reason": null,
+      "errores": null
+    },
+    {
+      "date": "2026-06-30",
+      "area_agua_km2": null,
+      "fraccion_agua": null,
+      "n_pixeles_agua": 0,
+      "n_pixeles_validos": 0,
+      "n_agua_abierta": 0,
+      "n_veg_inundada": 0,
+      "tiles": [
+        "T17MRU",
+        "T17MRV"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRU_20260630T233604Z_20260713T113547Z_S1C_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRV_20260630T233604Z_20260713T113547Z_S1C_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "255": 1313645
+      },
+      "reason": "Todos los píxeles del polígono son clase WTR 255 (fill / sin dato) en esa fecha; no hay clasificación válida de agua. El área no es 0, es desconocida.",
+      "errores": null
+    },
+    {
+      "date": "2026-07-07",
+      "area_agua_km2": 0.819,
+      "fraccion_agua": 0.000992,
+      "n_pixeles_agua": 910,
+      "n_pixeles_validos": 917059,
+      "n_agua_abierta": 542,
+      "n_veg_inundada": 368,
+      "tiles": [
+        "T17MRU",
+        "T17MRV"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRU_20260707T232752Z_20260721T022001Z_S1C_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRV_20260707T232752Z_20260721T022001Z_S1C_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "0": 916149,
+        "1": 542,
+        "3": 368,
+        "250": 266562,
+        "251": 128300,
+        "255": 1724
+      },
+      "reason": null,
+      "errores": null
+    },
+    {
+      "date": "2026-07-09",
+      "area_agua_km2": 0.7722,
+      "fraccion_agua": 0.000893,
+      "n_pixeles_agua": 858,
+      "n_pixeles_validos": 961028,
+      "n_agua_abierta": 609,
+      "n_veg_inundada": 249,
+      "tiles": [
+        "T17MRV",
+        "T17MRU"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRV_20260709T105148Z_20260716T193417Z_S1C_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRU_20260709T105148Z_20260716T193417Z_S1C_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "0": 960170,
+        "1": 609,
+        "3": 249,
+        "250": 273105,
+        "251": 69869,
+        "255": 9643
+      },
+      "reason": null,
+      "errores": null
+    },
+    {
+      "date": "2026-07-12",
+      "area_agua_km2": null,
+      "fraccion_agua": null,
+      "n_pixeles_agua": 0,
+      "n_pixeles_validos": 0,
+      "n_agua_abierta": 0,
+      "n_veg_inundada": 0,
+      "tiles": [
+        "T17MRU",
+        "T17MRV"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRU_20260712T233605Z_20260804T154540Z_S1C_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRV_20260712T233605Z_20260804T154540Z_S1C_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "255": 1313645
+      },
+      "reason": "Todos los píxeles del polígono son clase WTR 255 (fill / sin dato) en esa fecha; no hay clasificación válida de agua. El área no es 0, es desconocida.",
+      "errores": null
+    },
+    {
+      "date": "2026-07-19",
+      "area_agua_km2": 0.8109,
+      "fraccion_agua": 0.000983,
+      "n_pixeles_agua": 901,
+      "n_pixeles_validos": 916817,
+      "n_agua_abierta": 532,
+      "n_veg_inundada": 369,
+      "tiles": [
+        "T17MRU",
+        "T17MRV"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRU_20260719T232752Z_20260726T021611Z_S1C_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRV_20260719T232752Z_20260726T021611Z_S1C_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "0": 915916,
+        "1": 532,
+        "3": 369,
+        "250": 266555,
+        "251": 128544,
+        "255": 1729
+      },
+      "reason": null,
+      "errores": null
+    },
+    {
+      "date": "2026-07-21",
+      "area_agua_km2": 0.7803,
+      "fraccion_agua": 0.000902,
+      "n_pixeles_agua": 867,
+      "n_pixeles_validos": 961125,
+      "n_agua_abierta": 624,
+      "n_veg_inundada": 243,
+      "tiles": [
+        "T17MRV",
+        "T17MRU"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRV_20260721T105148Z_20260726T222154Z_S1C_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRU_20260721T105148Z_20260726T222154Z_S1C_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "0": 960258,
+        "1": 624,
+        "3": 243,
+        "250": 273240,
+        "251": 69645,
+        "255": 9635
+      },
+      "reason": null,
+      "errores": null
+    },
+    {
+      "date": "2026-07-24",
+      "area_agua_km2": null,
+      "fraccion_agua": null,
+      "n_pixeles_agua": 0,
+      "n_pixeles_validos": 0,
+      "n_agua_abierta": 0,
+      "n_veg_inundada": 0,
+      "tiles": [
+        "T17MRU",
+        "T17MRV"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRU_20260724T233605Z_20260727T222456Z_S1C_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRV_20260724T233605Z_20260727T222456Z_S1C_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "255": 1313645
+      },
+      "reason": "Todos los píxeles del polígono son clase WTR 255 (fill / sin dato) en esa fecha; no hay clasificación válida de agua. El área no es 0, es desconocida.",
+      "errores": null
+    },
+    {
+      "date": "2026-07-31",
+      "area_agua_km2": 0.8181,
+      "fraccion_agua": 0.000991,
+      "n_pixeles_agua": 909,
+      "n_pixeles_validos": 917201,
+      "n_agua_abierta": 531,
+      "n_veg_inundada": 378,
+      "tiles": [
+        "T17MRU",
+        "T17MRV"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRU_20260731T232753Z_20260803T210228Z_S1C_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRV_20260731T232753Z_20260803T210228Z_S1C_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "0": 916292,
+        "1": 531,
+        "3": 378,
+        "250": 266688,
+        "251": 128040,
+        "255": 1716
+      },
+      "reason": null,
+      "errores": null
+    },
+    {
+      "date": "2026-08-02",
+      "area_agua_km2": 0.7587,
+      "fraccion_agua": 0.000877,
+      "n_pixeles_agua": 843,
+      "n_pixeles_validos": 961089,
+      "n_agua_abierta": 624,
+      "n_veg_inundada": 219,
+      "tiles": [
+        "T17MRV",
+        "T17MRU"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRV_20260802T105149Z_20260924T061507Z_S1C_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRU_20260802T105149Z_20260924T061507Z_S1C_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "0": 960246,
+        "1": 624,
+        "3": 219,
+        "250": 273174,
+        "251": 69725,
+        "255": 9657
+      },
+      "reason": null,
+      "errores": null
+    },
+    {
+      "date": "2026-08-05",
+      "area_agua_km2": null,
+      "fraccion_agua": null,
+      "n_pixeles_agua": 0,
+      "n_pixeles_validos": 0,
+      "n_agua_abierta": 0,
+      "n_veg_inundada": 0,
+      "tiles": [
+        "T17MRU",
+        "T17MRV"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRU_20260805T233606Z_20260806T131437Z_S1C_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRV_20260805T233606Z_20260806T131437Z_S1C_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "255": 1313645
+      },
+      "reason": "Todos los píxeles del polígono son clase WTR 255 (fill / sin dato) en esa fecha; no hay clasificación válida de agua. El área no es 0, es desconocida.",
+      "errores": null
+    },
+    {
+      "date": "2026-08-12",
+      "area_agua_km2": 0.828,
+      "fraccion_agua": 0.001003,
+      "n_pixeles_agua": 920,
+      "n_pixeles_validos": 917182,
+      "n_agua_abierta": 558,
+      "n_veg_inundada": 362,
+      "tiles": [
+        "T17MRU",
+        "T17MRV"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRU_20260812T232754Z_20260924T055522Z_S1C_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRV_20260812T232754Z_20260924T055522Z_S1C_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "0": 916262,
+        "1": 558,
+        "3": 362,
+        "250": 266671,
+        "251": 128074,
+        "255": 1718
+      },
+      "reason": null,
+      "errores": null
+    },
+    {
+      "date": "2026-08-14",
+      "area_agua_km2": 0.8082,
+      "fraccion_agua": 0.000934,
+      "n_pixeles_agua": 898,
+      "n_pixeles_validos": 961140,
+      "n_agua_abierta": 592,
+      "n_veg_inundada": 306,
+      "tiles": [
+        "T17MRV",
+        "T17MRU"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRV_20260814T105150Z_20260814T232208Z_S1C_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRU_20260814T105150Z_20260814T232208Z_S1C_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "0": 960242,
+        "1": 592,
+        "3": 306,
+        "250": 273139,
+        "251": 69695,
+        "255": 9671
+      },
+      "reason": null,
+      "errores": null
+    },
+    {
+      "date": "2026-08-17",
+      "area_agua_km2": null,
+      "fraccion_agua": null,
+      "n_pixeles_agua": 0,
+      "n_pixeles_validos": 0,
+      "n_agua_abierta": 0,
+      "n_veg_inundada": 0,
+      "tiles": [
+        "T17MRU",
+        "T17MRV"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRU_20260817T233607Z_20260818T081541Z_S1C_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRV_20260817T233607Z_20260818T081541Z_S1C_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "255": 1313645
+      },
+      "reason": "Todos los píxeles del polígono son clase WTR 255 (fill / sin dato) en esa fecha; no hay clasificación válida de agua. El área no es 0, es desconocida.",
+      "errores": null
+    },
+    {
+      "date": "2026-08-24",
+      "area_agua_km2": 0.7767,
+      "fraccion_agua": 0.000941,
+      "n_pixeles_agua": 863,
+      "n_pixeles_validos": 916875,
+      "n_agua_abierta": 540,
+      "n_veg_inundada": 323,
+      "tiles": [
+        "T17MRU",
+        "T17MRV"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRU_20260824T232754Z_20260924T055213Z_S1C_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRV_20260824T232754Z_20260924T055213Z_S1C_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "0": 916012,
+        "1": 540,
+        "3": 323,
+        "250": 266628,
+        "251": 128421,
+        "255": 1721
+      },
+      "reason": null,
+      "errores": null
+    },
+    {
+      "date": "2026-08-26",
+      "area_agua_km2": 0.7371,
+      "fraccion_agua": 0.000852,
+      "n_pixeles_agua": 819,
+      "n_pixeles_validos": 961154,
+      "n_agua_abierta": 626,
+      "n_veg_inundada": 193,
+      "tiles": [
+        "T17MRV",
+        "T17MRU"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRV_20260826T105206Z_20260923T210929Z_S1C_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRU_20260826T105206Z_20260923T210929Z_S1C_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "0": 960335,
+        "1": 626,
+        "3": 193,
+        "250": 273149,
+        "251": 69683,
+        "255": 9659
+      },
+      "reason": null,
+      "errores": null
+    },
+    {
+      "date": "2026-08-29",
+      "area_agua_km2": null,
+      "fraccion_agua": null,
+      "n_pixeles_agua": 0,
+      "n_pixeles_validos": 0,
+      "n_agua_abierta": 0,
+      "n_veg_inundada": 0,
+      "tiles": [
+        "T17MRU",
+        "T17MRV"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRU_20260829T233607Z_20260911T075013Z_S1C_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRV_20260829T233607Z_20260911T075013Z_S1C_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "255": 1313645
+      },
+      "reason": "Todos los píxeles del polígono son clase WTR 255 (fill / sin dato) en esa fecha; no hay clasificación válida de agua. El área no es 0, es desconocida.",
+      "errores": null
+    },
+    {
+      "date": "2026-09-05",
+      "area_agua_km2": 0.8235,
+      "fraccion_agua": 0.000998,
+      "n_pixeles_agua": 915,
+      "n_pixeles_validos": 917183,
+      "n_agua_abierta": 558,
+      "n_veg_inundada": 357,
+      "tiles": [
+        "T17MRU",
+        "T17MRV"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRU_20260905T232755Z_20260917T033608Z_S1C_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRV_20260905T232755Z_20260917T033608Z_S1C_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "0": 916268,
+        "1": 558,
+        "3": 357,
+        "250": 266729,
+        "251": 127986,
+        "255": 1747
+      },
+      "reason": null,
+      "errores": null
+    },
+    {
+      "date": "2026-09-07",
+      "area_agua_km2": 0.6867,
+      "fraccion_agua": 0.000794,
+      "n_pixeles_agua": 763,
+      "n_pixeles_validos": 961154,
+      "n_agua_abierta": 546,
+      "n_veg_inundada": 217,
+      "tiles": [
+        "T17MRV",
+        "T17MRU"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRV_20260907T105151Z_20260916T145634Z_S1C_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRU_20260907T105151Z_20260916T145634Z_S1C_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "0": 960391,
+        "1": 546,
+        "3": 217,
+        "250": 273135,
+        "251": 69713,
+        "255": 9643
+      },
+      "reason": null,
+      "errores": null
+    },
+    {
+      "date": "2026-09-10",
+      "area_agua_km2": null,
+      "fraccion_agua": null,
+      "n_pixeles_agua": 0,
+      "n_pixeles_validos": 0,
+      "n_agua_abierta": 0,
+      "n_veg_inundada": 0,
+      "tiles": [
+        "T17MRU",
+        "T17MRV"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRU_20260910T233608Z_20260914T150512Z_S1C_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRV_20260910T233608Z_20260914T150512Z_S1C_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "255": 1313645
+      },
+      "reason": "Todos los píxeles del polígono son clase WTR 255 (fill / sin dato) en esa fecha; no hay clasificación válida de agua. El área no es 0, es desconocida.",
+      "errores": null
+    },
+    {
+      "date": "2026-09-11",
+      "area_agua_km2": 0.7434,
+      "fraccion_agua": 0.000901,
+      "n_pixeles_agua": 826,
+      "n_pixeles_validos": 916790,
+      "n_agua_abierta": 530,
+      "n_veg_inundada": 296,
+      "tiles": [
+        "T17MRU",
+        "T17MRV"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRU_20260911T232808Z_20261012T060618Z_S1D_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRV_20260911T232808Z_20261012T060618Z_S1D_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "0": 915964,
+        "1": 530,
+        "3": 296,
+        "250": 266669,
+        "251": 128461,
+        "255": 1725
+      },
+      "reason": null,
+      "errores": null
+    },
+    {
+      "date": "2026-09-13",
+      "area_agua_km2": 0.7398,
+      "fraccion_agua": 0.000855,
+      "n_pixeles_agua": 822,
+      "n_pixeles_validos": 961038,
+      "n_agua_abierta": 569,
+      "n_veg_inundada": 253,
+      "tiles": [
+        "T17MRV",
+        "T17MRU"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRV_20260913T105204Z_20261012T050847Z_S1D_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRU_20260913T105204Z_20261012T050847Z_S1D_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "0": 960216,
+        "1": 569,
+        "3": 253,
+        "250": 273286,
+        "251": 69662,
+        "255": 9659
+      },
+      "reason": null,
+      "errores": null
+    },
+    {
+      "date": "2026-09-16",
+      "area_agua_km2": null,
+      "fraccion_agua": null,
+      "n_pixeles_agua": 0,
+      "n_pixeles_validos": 0,
+      "n_agua_abierta": 0,
+      "n_veg_inundada": 0,
+      "tiles": [
+        "T17MRU",
+        "T17MRV"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRU_20260916T233621Z_20261012T215954Z_S1D_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRV_20260916T233621Z_20261012T215954Z_S1D_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "255": 1313645
+      },
+      "reason": "Todos los píxeles del polígono son clase WTR 255 (fill / sin dato) en esa fecha; no hay clasificación válida de agua. El área no es 0, es desconocida.",
+      "errores": null
+    },
+    {
+      "date": "2026-09-17",
+      "area_agua_km2": 0.5634,
+      "fraccion_agua": 0.000968,
+      "n_pixeles_agua": 626,
+      "n_pixeles_validos": 646778,
+      "n_agua_abierta": 456,
+      "n_veg_inundada": 170,
+      "tiles": [
+        "T17MRU",
+        "T17MRV"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRU_20260917T232800Z_20260921T011952Z_S1C_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRV_20260917T232800Z_20260921T011952Z_S1C_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "0": 646152,
+        "1": 456,
+        "3": 170,
+        "250": 184360,
+        "251": 96808,
+        "255": 385699
+      },
+      "reason": null,
+      "errores": null
+    },
+    {
+      "date": "2026-09-19",
+      "area_agua_km2": 0.6651,
+      "fraccion_agua": 0.000938,
+      "n_pixeles_agua": 739,
+      "n_pixeles_validos": 787524,
+      "n_agua_abierta": 579,
+      "n_veg_inundada": 160,
+      "tiles": [
+        "T17MRV",
+        "T17MRU"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRV_20260919T105151Z_20260921T031424Z_S1C_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRU_20260919T105151Z_20260921T031424Z_S1C_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "0": 786785,
+        "1": 579,
+        "3": 160,
+        "250": 214097,
+        "251": 54306,
+        "255": 257718
+      },
+      "reason": null,
+      "errores": null
+    },
+    {
+      "date": "2026-09-22",
+      "area_agua_km2": null,
+      "fraccion_agua": null,
+      "n_pixeles_agua": 0,
+      "n_pixeles_validos": 0,
+      "n_agua_abierta": 0,
+      "n_veg_inundada": 0,
+      "tiles": [
+        "T17MRU",
+        "T17MRV"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRU_20260922T233608Z_20260923T171303Z_S1C_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRV_20260922T233608Z_20260923T171303Z_S1C_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "255": 1313645
+      },
+      "reason": "Todos los píxeles del polígono son clase WTR 255 (fill / sin dato) en esa fecha; no hay clasificación válida de agua. El área no es 0, es desconocida.",
+      "errores": null
+    },
+    {
+      "date": "2026-09-23",
+      "area_agua_km2": 0.7479,
+      "fraccion_agua": 0.000906,
+      "n_pixeles_agua": 831,
+      "n_pixeles_validos": 916902,
+      "n_agua_abierta": 555,
+      "n_veg_inundada": 276,
+      "tiles": [
+        "T17MRU",
+        "T17MRV"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRU_20260923T232808Z_20261012T141132Z_S1D_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRV_20260923T232808Z_20261012T141132Z_S1D_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "0": 916071,
+        "1": 555,
+        "3": 276,
+        "250": 266599,
+        "251": 128425,
+        "255": 1719
+      },
+      "reason": null,
+      "errores": null
+    },
+    {
+      "date": "2026-09-25",
+      "area_agua_km2": 0.7839,
+      "fraccion_agua": 0.000906,
+      "n_pixeles_agua": 871,
+      "n_pixeles_validos": 960993,
+      "n_agua_abierta": 596,
+      "n_veg_inundada": 275,
+      "tiles": [
+        "T17MRV",
+        "T17MRU"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRV_20260925T105204Z_20261012T123932Z_S1D_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRU_20260925T105204Z_20261012T123932Z_S1D_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "0": 960122,
+        "1": 596,
+        "3": 275,
+        "250": 273105,
+        "251": 69896,
+        "255": 9651
+      },
+      "reason": null,
+      "errores": null
+    },
+    {
+      "date": "2026-09-28",
+      "area_agua_km2": null,
+      "fraccion_agua": null,
+      "n_pixeles_agua": 0,
+      "n_pixeles_validos": 0,
+      "n_agua_abierta": 0,
+      "n_veg_inundada": 0,
+      "tiles": [
+        "T17MRU",
+        "T17MRV"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRU_20260928T233621Z_20261012T090120Z_S1D_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRV_20260928T233621Z_20261012T090120Z_S1D_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "255": 1313645
+      },
+      "reason": "Todos los píxeles del polígono son clase WTR 255 (fill / sin dato) en esa fecha; no hay clasificación válida de agua. El área no es 0, es desconocida.",
+      "errores": null
+    },
+    {
+      "date": "2026-09-29",
+      "area_agua_km2": 0.4761,
+      "fraccion_agua": 0.000853,
+      "n_pixeles_agua": 529,
+      "n_pixeles_validos": 620139,
+      "n_agua_abierta": 421,
+      "n_veg_inundada": 108,
+      "tiles": [
+        "T17MRU",
+        "T17MRV"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRU_20260929T232757Z_20261001T020427Z_S1C_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRV_20260929T232757Z_20261001T020427Z_S1C_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "0": 619610,
+        "1": 421,
+        "3": 108,
+        "250": 174677,
+        "251": 90641,
+        "255": 428188
+      },
+      "reason": null,
+      "errores": null
+    },
+    {
+      "date": "2026-10-01",
+      "area_agua_km2": 0.6885,
+      "fraccion_agua": 0.000796,
+      "n_pixeles_agua": 765,
+      "n_pixeles_validos": 961086,
+      "n_agua_abierta": 620,
+      "n_veg_inundada": 145,
+      "tiles": [
+        "T17MRV",
+        "T17MRU"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRV_20261001T105151Z_20261001T191429Z_S1C_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRU_20261001T105151Z_20261001T191429Z_S1C_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "0": 960321,
+        "1": 620,
+        "3": 145,
+        "250": 273232,
+        "251": 69673,
+        "255": 9654
+      },
+      "reason": null,
+      "errores": null
+    },
+    {
+      "date": "2026-10-04",
+      "area_agua_km2": null,
+      "fraccion_agua": null,
+      "n_pixeles_agua": 0,
+      "n_pixeles_validos": 0,
+      "n_agua_abierta": 0,
+      "n_veg_inundada": 0,
+      "tiles": [
+        "T17MRU",
+        "T17MRV"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRU_20261004T233609Z_20261005T041413Z_S1C_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRV_20261004T233609Z_20261005T041413Z_S1C_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "255": 1313645
+      },
+      "reason": "Todos los píxeles del polígono son clase WTR 255 (fill / sin dato) en esa fecha; no hay clasificación válida de agua. El área no es 0, es desconocida.",
+      "errores": null
+    },
+    {
+      "date": "2026-10-05",
+      "area_agua_km2": 0.7776,
+      "fraccion_agua": 0.000942,
+      "n_pixeles_agua": 864,
+      "n_pixeles_validos": 917221,
+      "n_agua_abierta": 564,
+      "n_veg_inundada": 300,
+      "tiles": [
+        "T17MRU",
+        "T17MRV"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRU_20261005T232808Z_20261013T092250Z_S1D_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRV_20261005T232808Z_20261013T092250Z_S1D_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "0": 916357,
+        "1": 564,
+        "3": 300,
+        "250": 266498,
+        "251": 128202,
+        "255": 1724
+      },
+      "reason": null,
+      "errores": null
+    },
+    {
+      "date": "2026-10-07",
+      "area_agua_km2": 0.7488,
+      "fraccion_agua": 0.000866,
+      "n_pixeles_agua": 832,
+      "n_pixeles_validos": 960959,
+      "n_agua_abierta": 611,
+      "n_veg_inundada": 221,
+      "tiles": [
+        "T17MRV",
+        "T17MRU"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRV_20261007T105204Z_20261013T075559Z_S1D_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRU_20261007T105204Z_20261013T075559Z_S1D_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "0": 960127,
+        "1": 611,
+        "3": 221,
+        "250": 273196,
+        "251": 69829,
+        "255": 9661
+      },
+      "reason": null,
+      "errores": null
+    },
+    {
+      "date": "2026-10-10",
+      "area_agua_km2": null,
+      "fraccion_agua": null,
+      "n_pixeles_agua": 0,
+      "n_pixeles_validos": 0,
+      "n_agua_abierta": 0,
+      "n_veg_inundada": 0,
+      "tiles": [
+        "T17MRU",
+        "T17MRV"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRU_20261010T233621Z_20261013T003701Z_S1D_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRV_20261010T233621Z_20261013T003701Z_S1D_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "255": 1313645
+      },
+      "reason": "Todos los píxeles del polígono son clase WTR 255 (fill / sin dato) en esa fecha; no hay clasificación válida de agua. El área no es 0, es desconocida.",
+      "errores": null
+    },
+    {
+      "date": "2026-10-11",
+      "area_agua_km2": 0.8118,
+      "fraccion_agua": 0.000984,
+      "n_pixeles_agua": 902,
+      "n_pixeles_validos": 916950,
+      "n_agua_abierta": 555,
+      "n_veg_inundada": 347,
+      "tiles": [
+        "T17MRU",
+        "T17MRV"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRU_20261011T232755Z_20261013T072119Z_S1C_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRV_20261011T232755Z_20261013T072119Z_S1C_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "0": 916048,
+        "1": 555,
+        "3": 347,
+        "250": 266646,
+        "251": 128324,
+        "255": 1725
+      },
+      "reason": null,
+      "errores": null
+    },
+    {
+      "date": "2026-10-13",
+      "area_agua_km2": 0.756,
+      "fraccion_agua": 0.000874,
+      "n_pixeles_agua": 840,
+      "n_pixeles_validos": 961248,
+      "n_agua_abierta": 637,
+      "n_veg_inundada": 203,
+      "tiles": [
+        "T17MRV",
+        "T17MRU"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRV_20261013T105151Z_20261014T111427Z_S1C_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRU_20261013T105151Z_20261014T111427Z_S1C_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "0": 960408,
+        "1": 637,
+        "3": 203,
+        "250": 273229,
+        "251": 69521,
+        "255": 9647
+      },
+      "reason": null,
+      "errores": null
+    },
+    {
+      "date": "2026-10-16",
+      "area_agua_km2": null,
+      "fraccion_agua": null,
+      "n_pixeles_agua": 0,
+      "n_pixeles_validos": 0,
+      "n_agua_abierta": 0,
+      "n_veg_inundada": 0,
+      "tiles": [
+        "T17MRU",
+        "T17MRV"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRU_20261016T233608Z_20261017T075912Z_S1C_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRV_20261016T233608Z_20261017T075912Z_S1C_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "255": 1313645
+      },
+      "reason": "Todos los píxeles del polígono son clase WTR 255 (fill / sin dato) en esa fecha; no hay clasificación válida de agua. El área no es 0, es desconocida.",
+      "errores": null
+    },
+    {
+      "date": "2026-10-17",
+      "area_agua_km2": 0.6525,
+      "fraccion_agua": 0.000791,
+      "n_pixeles_agua": 725,
+      "n_pixeles_validos": 916895,
+      "n_agua_abierta": 443,
+      "n_veg_inundada": 282,
+      "tiles": [
+        "T17MRU",
+        "T17MRV"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRU_20261017T232808Z_20261018T040445Z_S1D_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRV_20261017T232808Z_20261018T040445Z_S1D_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "0": 916170,
+        "1": 443,
+        "3": 282,
+        "250": 266632,
+        "251": 128396,
+        "255": 1722
+      },
+      "reason": null,
+      "errores": null
+    },
+    {
+      "date": "2026-10-19",
+      "area_agua_km2": 0.8433,
+      "fraccion_agua": 0.000975,
+      "n_pixeles_agua": 937,
+      "n_pixeles_validos": 961012,
+      "n_agua_abierta": 588,
+      "n_veg_inundada": 349,
+      "tiles": [
+        "T17MRV",
+        "T17MRU"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRV_20261019T105204Z_20261021T234252Z_S1D_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRU_20261019T105204Z_20261021T234252Z_S1D_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "0": 960075,
+        "1": 588,
+        "3": 349,
+        "250": 273215,
+        "251": 69768,
+        "255": 9650
+      },
+      "reason": null,
+      "errores": null
+    },
+    {
+      "date": "2026-10-22",
+      "area_agua_km2": null,
+      "fraccion_agua": null,
+      "n_pixeles_agua": 0,
+      "n_pixeles_validos": 0,
+      "n_agua_abierta": 0,
+      "n_veg_inundada": 0,
+      "tiles": [
+        "T17MRU",
+        "T17MRV"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRU_20261022T233621Z_20261023T150745Z_S1D_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRV_20261022T233621Z_20261023T150745Z_S1D_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "255": 1313645
+      },
+      "reason": "Todos los píxeles del polígono son clase WTR 255 (fill / sin dato) en esa fecha; no hay clasificación válida de agua. El área no es 0, es desconocida.",
+      "errores": null
+    },
+    {
+      "date": "2026-10-23",
+      "area_agua_km2": 0.7929,
+      "fraccion_agua": 0.000961,
+      "n_pixeles_agua": 881,
+      "n_pixeles_validos": 916772,
+      "n_agua_abierta": 554,
+      "n_veg_inundada": 327,
+      "tiles": [
+        "T17MRU",
+        "T17MRV"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRU_20261023T232754Z_20261024T155634Z_S1C_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRV_20261023T232754Z_20261024T155634Z_S1C_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "0": 915891,
+        "1": 554,
+        "3": 327,
+        "250": 266521,
+        "251": 128638,
+        "255": 1714
+      },
+      "reason": null,
+      "errores": null
+    },
+    {
+      "date": "2026-10-25",
+      "area_agua_km2": 0.621,
+      "fraccion_agua": 0.000718,
+      "n_pixeles_agua": 690,
+      "n_pixeles_validos": 961134,
+      "n_agua_abierta": 564,
+      "n_veg_inundada": 126,
+      "tiles": [
+        "T17MRV",
+        "T17MRU"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRV_20261025T105150Z_20261025T230247Z_S1C_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRU_20261025T105150Z_20261025T230247Z_S1C_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "0": 960444,
+        "1": 564,
+        "3": 126,
+        "250": 273237,
+        "251": 69588,
+        "255": 9686
+      },
+      "reason": null,
+      "errores": null
+    },
+    {
+      "date": "2026-10-28",
+      "area_agua_km2": null,
+      "fraccion_agua": null,
+      "n_pixeles_agua": 0,
+      "n_pixeles_validos": 0,
+      "n_agua_abierta": 0,
+      "n_veg_inundada": 0,
+      "tiles": [
+        "T17MRU",
+        "T17MRV"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRU_20261028T233608Z_20261030T094459Z_S1C_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRV_20261028T233608Z_20261030T094459Z_S1C_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "255": 1313645
+      },
+      "reason": "Todos los píxeles del polígono son clase WTR 255 (fill / sin dato) en esa fecha; no hay clasificación válida de agua. El área no es 0, es desconocida.",
+      "errores": null
+    },
+    {
+      "date": "2026-10-29",
+      "area_agua_km2": 0.7713,
+      "fraccion_agua": 0.000934,
+      "n_pixeles_agua": 857,
+      "n_pixeles_validos": 917152,
+      "n_agua_abierta": 511,
+      "n_veg_inundada": 346,
+      "tiles": [
+        "T17MRU",
+        "T17MRV"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRU_20261029T232808Z_20261030T235641Z_S1D_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRV_20261029T232808Z_20261030T235641Z_S1D_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "0": 916295,
+        "1": 511,
+        "3": 346,
+        "250": 266665,
+        "251": 128104,
+        "255": 1724
+      },
+      "reason": null,
+      "errores": null
+    },
+    {
+      "date": "2026-10-31",
+      "area_agua_km2": 0.7128,
+      "fraccion_agua": 0.000824,
+      "n_pixeles_agua": 792,
+      "n_pixeles_validos": 961006,
+      "n_agua_abierta": 587,
+      "n_veg_inundada": 205,
+      "tiles": [
+        "T17MRV",
+        "T17MRU"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRV_20261031T105204Z_20261101T080252Z_S1D_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRU_20261031T105204Z_20261101T080252Z_S1D_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "0": 960214,
+        "1": 587,
+        "3": 205,
+        "250": 273128,
+        "251": 69853,
+        "255": 9658
+      },
+      "reason": null,
+      "errores": null
+    },
+    {
+      "date": "2026-11-03",
+      "area_agua_km2": null,
+      "fraccion_agua": null,
+      "n_pixeles_agua": 0,
+      "n_pixeles_validos": 0,
+      "n_agua_abierta": 0,
+      "n_veg_inundada": 0,
+      "tiles": [
+        "T17MRU",
+        "T17MRV"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRU_20261103T233621Z_20261104T192259Z_S1D_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRV_20261103T233621Z_20261104T192259Z_S1D_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "255": 1313645
+      },
+      "reason": "Todos los píxeles del polígono son clase WTR 255 (fill / sin dato) en esa fecha; no hay clasificación válida de agua. El área no es 0, es desconocida.",
+      "errores": null
+    },
+    {
+      "date": "2026-11-04",
+      "area_agua_km2": 0.7938,
+      "fraccion_agua": 0.000962,
+      "n_pixeles_agua": 882,
+      "n_pixeles_validos": 916823,
+      "n_agua_abierta": 546,
+      "n_veg_inundada": 336,
+      "tiles": [
+        "T17MRU",
+        "T17MRV"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRU_20261104T232755Z_20261107T035849Z_S1C_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRV_20261104T232755Z_20261107T035849Z_S1C_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "0": 915941,
+        "1": 546,
+        "3": 336,
+        "250": 266653,
+        "251": 128441,
+        "255": 1728
+      },
+      "reason": null,
+      "errores": null
+    },
+    {
+      "date": "2026-11-06",
+      "area_agua_km2": 0.6876,
+      "fraccion_agua": 0.000795,
+      "n_pixeles_agua": 764,
+      "n_pixeles_validos": 961094,
+      "n_agua_abierta": 572,
+      "n_veg_inundada": 192,
+      "tiles": [
+        "T17MRV",
+        "T17MRU"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRV_20261106T105151Z_20261108T061619Z_S1C_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRU_20261106T105151Z_20261108T061619Z_S1C_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "0": 960330,
+        "1": 572,
+        "3": 192,
+        "250": 273032,
+        "251": 69871,
+        "255": 9648
+      },
+      "reason": null,
+      "errores": null
+    },
+    {
+      "date": "2026-11-09",
+      "area_agua_km2": null,
+      "fraccion_agua": null,
+      "n_pixeles_agua": 0,
+      "n_pixeles_validos": 0,
+      "n_agua_abierta": 0,
+      "n_veg_inundada": 0,
+      "tiles": [
+        "T17MRU",
+        "T17MRV"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRU_20261109T233607Z_20261111T024733Z_S1C_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRV_20261109T233607Z_20261111T024733Z_S1C_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "255": 1313645
+      },
+      "reason": "Todos los píxeles del polígono son clase WTR 255 (fill / sin dato) en esa fecha; no hay clasificación válida de agua. El área no es 0, es desconocida.",
+      "errores": null
+    },
+    {
+      "date": "2026-11-10",
+      "area_agua_km2": 0.6984,
+      "fraccion_agua": 0.000846,
+      "n_pixeles_agua": 776,
+      "n_pixeles_validos": 916997,
+      "n_agua_abierta": 511,
+      "n_veg_inundada": 265,
+      "tiles": [
+        "T17MRU",
+        "T17MRV"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRU_20261110T232808Z_20261112T050022Z_S1D_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRV_20261110T232808Z_20261112T050022Z_S1D_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "0": 916221,
+        "1": 511,
+        "3": 265,
+        "250": 266605,
+        "251": 128325,
+        "255": 1718
+      },
+      "reason": null,
+      "errores": null
+    },
+    {
+      "date": "2026-11-12",
+      "area_agua_km2": 0.6975,
+      "fraccion_agua": 0.000806,
+      "n_pixeles_agua": 775,
+      "n_pixeles_validos": 961254,
+      "n_agua_abierta": 569,
+      "n_veg_inundada": 206,
+      "tiles": [
+        "T17MRV",
+        "T17MRU"
+      ],
+      "granulos": [
+        "OPERA_L3_DSWx-S1_T17MRV_20261112T105203Z_20261112T191030Z_S1D_30_v1.0",
+        "OPERA_L3_DSWx-S1_T17MRU_20261112T105203Z_20261112T191030Z_S1D_30_v1.0"
+      ],
+      "clases_en_poligono": {
+        "0": 960479,
+        "1": 569,
+        "3": 206,
+        "250": 273113,
+        "251": 69619,
+        "255": 9659
+      },
+      "reason": null,
+      "errores": null
+    }
+  ],
+  "watermask": {
+    "producto": "NISAR_WATERMASK",
+    "version_teselas": "v0.5.0",
+    "crs": "EPSG:4326",
+    "resolucion": "0.00025° (~30 m)",
+    "leyenda_oficial": {
+      "0": "no agua / fondo",
+      "1-100": "distancia a costa oceánica en bins de 1 km (1 = 0-1 km, …, 100 = 99-100 km)",
+      "101-200": "distancia a orilla de agua interior (lago/río) en bins de 1 km (101 = 0-1 km, …, 200 = 99-100 km)",
+      "201-254": "reservado",
+      "255": "NoData"
+    },
+    "fuente_leyenda": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/WATER_MASK/v0.5/EPSG4326/README.txt",
+    "valores_encontrados_en_poligono": {
+      "0": 1207878,
+      "101": 129
+    },
+    "n_pixeles_poligono": 1208007,
+    "n_fondo_0": 1207878,
+    "n_cerca_agua_interior_101": 129,
+    "n_nodata_255": 0,
+    "area_pixeles_101_km2": 0.09989642726766328,
+    "area_agua_km2": null,
+    "fraccion_agua": null,
+    "reason": "NISAR_WATERMASK v0.5 no es un mapa binario de superficie de agua: es una clasificación de distancia a la orilla (README v0.5). La clase 101 significa '0-1 km de la orilla de lago o río', no el pixel de agua propiamente dicho. Por eso el área de agua estática queda en null; se reporta el recuento de píxeles 101 como indicador de proximidad, no como superficie inundada.",
+    "pixel_m2": 774.3909090516534,
+    "teselas": [
+      "NISAR_water_mask_S1_N0_W78_W77_30m_v0.5.0.tif",
+      "NISAR_water_mask_S1_N0_W79_W78_30m_v0.5.0.tif",
+      "NISAR_water_mask_S2_S1_W78_W77_30m_v0.5.0.tif",
+      "NISAR_water_mask_S2_S1_W79_W78_30m_v0.5.0.tif"
+    ],
+    "mosaico": "fusión de las 4 teselas de 1° que cruzan el polígono, sin doble conteo en los bordes"
+  },
+  "sme2": {
+    "colecciones": {
+      "NISAR_L3_SME2_V1": {
+        "encontrada": false,
+        "n_caja_busqueda": 0,
+        "n_intersectan_poligono": 0,
+        "granulos": [],
+        "nota": "La colección no aparece en CMR (p. ej. NISAR_L3_SME2_V1 aún no publicada)."
+      },
+      "NISAR_L3_SME2_PROVISIONAL_V1": {
+        "encontrada": true,
+        "concept_id": "C2854344945-ASF",
+        "titulo": "NISAR Provisional Soil Moisture (Version 1)",
+        "doi": "10.5067/NIL3SME2-P1",
+        "doi_url": "https://doi.org/10.5067/NIL3SME2-P1",
+        "version": "1",
+        "n_caja_busqueda": 28,
+        "n_intersectan_poligono": 19,
+        "n_caja_sin_interseccion_de_huella": 9,
+        "granulos_que_intersectan": [
+          {
+            "granule_id": "NISAR_L3_PR_SME2_023_076_A_001_4005_DHDH_A_20260619T105331_20260619T105406_P05023_N_F_J_001",
+            "start_utc": "2026-06-19T10:53:31.000000Z",
+            "end_utc": "2026-06-19T10:54:06.000000Z",
+            "huella": "gpolygon",
+            "intersecta_poligono": true,
+            "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_PROVISIONAL_V1/NISAR_L3_PR_SME2_023_076_A_001_4005_DHDH_A_20260619T105331_20260619T105406_P05023_N_F_J_001/NISAR_L3_PR_SME2_023_076_A_001_4005_DHDH_A_20260619T105331_20260619T105406_P05023_N_F_J_001.h5"
+          },
+          {
+            "granule_id": "NISAR_L3_PR_SME2_024_011_D_089_4005_DHDH_A_20260626T233054_20260626T233128_P05023_N_F_J_001",
+            "start_utc": "2026-06-26T23:30:54.000000Z",
+            "end_utc": "2026-06-26T23:31:28.000000Z",
+            "huella": "gpolygon",
+            "intersecta_poligono": true,
+            "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_PROVISIONAL_V1/NISAR_L3_PR_SME2_024_011_D_089_4005_DHDH_A_20260626T233054_20260626T233128_P05023_N_F_J_001/NISAR_L3_PR_SME2_024_011_D_089_4005_DHDH_A_20260626T233054_20260626T233128_P05023_N_F_J_001.h5"
+          },
+          {
+            "granule_id": "NISAR_L3_PR_SME2_024_076_A_001_4005_DHDH_A_20260701T105331_20260701T105405_P05023_N_F_J_001",
+            "start_utc": "2026-07-01T10:53:31.000000Z",
+            "end_utc": "2026-07-01T10:54:05.000000Z",
+            "huella": "gpolygon",
+            "intersecta_poligono": true,
+            "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_PROVISIONAL_V1/NISAR_L3_PR_SME2_024_076_A_001_4005_DHDH_A_20260701T105331_20260701T105405_P05023_N_F_J_001/NISAR_L3_PR_SME2_024_076_A_001_4005_DHDH_A_20260701T105331_20260701T105405_P05023_N_F_J_001.h5"
+          },
+          {
+            "granule_id": "NISAR_L3_PR_SME2_025_011_D_089_4005_DHDH_A_20260708T233053_20260708T233127_P05023_N_F_J_001",
+            "start_utc": "2026-07-08T23:30:53.000000Z",
+            "end_utc": "2026-07-08T23:31:27.000000Z",
+            "huella": "gpolygon",
+            "intersecta_poligono": true,
+            "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_PROVISIONAL_V1/NISAR_L3_PR_SME2_025_011_D_089_4005_DHDH_A_20260708T233053_20260708T233127_P05023_N_F_J_001/NISAR_L3_PR_SME2_025_011_D_089_4005_DHDH_A_20260708T233053_20260708T233127_P05023_N_F_J_001.h5"
+          },
+          {
+            "granule_id": "NISAR_L3_PR_SME2_025_076_A_001_4005_DHDH_A_20260713T105330_20260713T105404_P05023_N_F_J_001",
+            "start_utc": "2026-07-13T10:53:30.000000Z",
+            "end_utc": "2026-07-13T10:54:04.000000Z",
+            "huella": "gpolygon",
+            "intersecta_poligono": true,
+            "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_PROVISIONAL_V1/NISAR_L3_PR_SME2_025_076_A_001_4005_DHDH_A_20260713T105330_20260713T105404_P05023_N_F_J_001/NISAR_L3_PR_SME2_025_076_A_001_4005_DHDH_A_20260713T105330_20260713T105404_P05023_N_F_J_001.h5"
+          },
+          {
+            "granule_id": "NISAR_L3_PR_SME2_026_011_D_089_4005_DHDH_A_20260720T233052_20260720T233127_P05023_N_F_J_001",
+            "start_utc": "2026-07-20T23:30:52.000000Z",
+            "end_utc": "2026-07-20T23:31:27.000000Z",
+            "huella": "gpolygon",
+            "intersecta_poligono": true,
+            "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_PROVISIONAL_V1/NISAR_L3_PR_SME2_026_011_D_089_4005_DHDH_A_20260720T233052_20260720T233127_P05023_N_F_J_001/NISAR_L3_PR_SME2_026_011_D_089_4005_DHDH_A_20260720T233052_20260720T233127_P05023_N_F_J_001.h5"
+          },
+          {
+            "granule_id": "NISAR_L3_PR_SME2_026_076_A_001_4005_DHDH_A_20260725T105329_20260725T105404_P05023_N_F_J_001",
+            "start_utc": "2026-07-25T10:53:29.000000Z",
+            "end_utc": "2026-07-25T10:54:04.000000Z",
+            "huella": "gpolygon",
+            "intersecta_poligono": true,
+            "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_PROVISIONAL_V1/NISAR_L3_PR_SME2_026_076_A_001_4005_DHDH_A_20260725T105329_20260725T105404_P05023_N_F_J_001/NISAR_L3_PR_SME2_026_076_A_001_4005_DHDH_A_20260725T105329_20260725T105404_P05023_N_F_J_001.h5"
+          },
+          {
+            "granule_id": "NISAR_L3_PR_SME2_028_011_D_089_4005_DHDH_A_20260813T233051_20260813T233125_P05023_N_F_J_001",
+            "start_utc": "2026-08-13T23:30:51.000000Z",
+            "end_utc": "2026-08-13T23:31:25.000000Z",
+            "huella": "gpolygon",
+            "intersecta_poligono": true,
+            "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_PROVISIONAL_V1/NISAR_L3_PR_SME2_028_011_D_089_4005_DHDH_A_20260813T233051_20260813T233125_P05023_N_F_J_001/NISAR_L3_PR_SME2_028_011_D_089_4005_DHDH_A_20260813T233051_20260813T233125_P05023_N_F_J_001.h5"
+          },
+          {
+            "granule_id": "NISAR_L3_PR_SME2_028_076_A_001_4005_DHDH_A_20260818T105328_20260818T105402_P05023_N_F_J_001",
+            "start_utc": "2026-08-18T10:53:28.000000Z",
+            "end_utc": "2026-08-18T10:54:02.000000Z",
+            "huella": "gpolygon",
+            "intersecta_poligono": true,
+            "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_PROVISIONAL_V1/NISAR_L3_PR_SME2_028_076_A_001_4005_DHDH_A_20260818T105328_20260818T105402_P05023_N_F_J_001/NISAR_L3_PR_SME2_028_076_A_001_4005_DHDH_A_20260818T105328_20260818T105402_P05023_N_F_J_001.h5"
+          },
+          {
+            "granule_id": "NISAR_L3_PR_SME2_029_011_D_089_4005_DHDH_A_20260825T233051_20260825T233125_P05023_N_F_J_001",
+            "start_utc": "2026-08-25T23:30:51.000000Z",
+            "end_utc": "2026-08-25T23:31:25.000000Z",
+            "huella": "gpolygon",
+            "intersecta_poligono": true,
+            "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_PROVISIONAL_V1/NISAR_L3_PR_SME2_029_011_D_089_4005_DHDH_A_20260825T233051_20260825T233125_P05023_N_F_J_001/NISAR_L3_PR_SME2_029_011_D_089_4005_DHDH_A_20260825T233051_20260825T233125_P05023_N_F_J_001.h5"
+          },
+          {
+            "granule_id": "NISAR_L3_PR_SME2_029_076_A_001_4005_DHDH_A_20260830T105328_20260830T105402_P05023_N_F_J_001",
+            "start_utc": "2026-08-30T10:53:28.000000Z",
+            "end_utc": "2026-08-30T10:54:02.000000Z",
+            "huella": "gpolygon",
+            "intersecta_poligono": true,
+            "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_PROVISIONAL_V1/NISAR_L3_PR_SME2_029_076_A_001_4005_DHDH_A_20260830T105328_20260830T105402_P05023_N_F_J_001/NISAR_L3_PR_SME2_029_076_A_001_4005_DHDH_A_20260830T105328_20260830T105402_P05023_N_F_J_001.h5"
+          },
+          {
+            "granule_id": "NISAR_L3_PR_SME2_030_011_D_089_4005_DHDH_A_20260906T233051_20260906T233125_P05023_N_F_J_001",
+            "start_utc": "2026-09-06T23:30:51.000000Z",
+            "end_utc": "2026-09-06T23:31:25.000000Z",
+            "huella": "gpolygon",
+            "intersecta_poligono": true,
+            "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_PROVISIONAL_V1/NISAR_L3_PR_SME2_030_011_D_089_4005_DHDH_A_20260906T233051_20260906T233125_P05023_N_F_J_001/NISAR_L3_PR_SME2_030_011_D_089_4005_DHDH_A_20260906T233051_20260906T233125_P05023_N_F_J_001.h5"
+          },
+          {
+            "granule_id": "NISAR_L3_PR_SME2_030_076_A_001_4005_DHDH_A_20260911T105328_20260911T105402_P05023_N_F_J_001",
+            "start_utc": "2026-09-11T10:53:28.000000Z",
+            "end_utc": "2026-09-11T10:54:02.000000Z",
+            "huella": "gpolygon",
+            "intersecta_poligono": true,
+            "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_PROVISIONAL_V1/NISAR_L3_PR_SME2_030_076_A_001_4005_DHDH_A_20260911T105328_20260911T105402_P05023_N_F_J_001/NISAR_L3_PR_SME2_030_076_A_001_4005_DHDH_A_20260911T105328_20260911T105402_P05023_N_F_J_001.h5"
+          },
+          {
+            "granule_id": "NISAR_L3_PR_SME2_031_011_D_089_4005_DHDH_A_20260918T233051_20260918T233125_P05023_F_F_J_001",
+            "start_utc": "2026-09-18T23:30:51.000000Z",
+            "end_utc": "2026-09-18T23:31:25.000000Z",
+            "huella": "gpolygon",
+            "intersecta_poligono": true,
+            "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_PROVISIONAL_V1/NISAR_L3_PR_SME2_031_011_D_089_4005_DHDH_A_20260918T233051_20260918T233125_P05023_F_F_J_001/NISAR_L3_PR_SME2_031_011_D_089_4005_DHDH_A_20260918T233051_20260918T233125_P05023_F_F_J_001.h5"
+          },
+          {
+            "granule_id": "NISAR_L3_PR_SME2_031_076_A_001_4005_DHDH_A_20260923T105328_20260923T105402_P05023_N_F_J_001",
+            "start_utc": "2026-09-23T10:53:28.000000Z",
+            "end_utc": "2026-09-23T10:54:02.000000Z",
+            "huella": "gpolygon",
+            "intersecta_poligono": true,
+            "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_PROVISIONAL_V1/NISAR_L3_PR_SME2_031_076_A_001_4005_DHDH_A_20260923T105328_20260923T105402_P05023_N_F_J_001/NISAR_L3_PR_SME2_031_076_A_001_4005_DHDH_A_20260923T105328_20260923T105402_P05023_N_F_J_001.h5"
+          },
+          {
+            "granule_id": "NISAR_L3_PR_SME2_032_011_D_089_4005_DHDH_A_20260930T233051_20260930T233125_P05023_N_F_J_001",
+            "start_utc": "2026-09-30T23:30:51.000000Z",
+            "end_utc": "2026-09-30T23:31:25.000000Z",
+            "huella": "gpolygon",
+            "intersecta_poligono": true,
+            "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_PROVISIONAL_V1/NISAR_L3_PR_SME2_032_011_D_089_4005_DHDH_A_20260930T233051_20260930T233125_P05023_N_F_J_001/NISAR_L3_PR_SME2_032_011_D_089_4005_DHDH_A_20260930T233051_20260930T233125_P05023_N_F_J_001.h5"
+          },
+          {
+            "granule_id": "NISAR_L3_PR_SME2_032_076_A_001_4005_DHDH_A_20261005T105328_20261005T105402_P05023_N_F_J_001",
+            "start_utc": "2026-10-05T10:53:28.000000Z",
+            "end_utc": "2026-10-05T10:54:02.000000Z",
+            "huella": "gpolygon",
+            "intersecta_poligono": true,
+            "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_PROVISIONAL_V1/NISAR_L3_PR_SME2_032_076_A_001_4005_DHDH_A_20261005T105328_20261005T105402_P05023_N_F_J_001/NISAR_L3_PR_SME2_032_076_A_001_4005_DHDH_A_20261005T105328_20261005T105402_P05023_N_F_J_001.h5"
+          },
+          {
+            "granule_id": "NISAR_L3_PR_SME2_033_011_D_089_4005_DHDH_A_20261012T233051_20261012T233125_P05023_N_F_J_001",
+            "start_utc": "2026-10-12T23:30:51.000000Z",
+            "end_utc": "2026-10-12T23:31:25.000000Z",
+            "huella": "gpolygon",
+            "intersecta_poligono": true,
+            "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_PROVISIONAL_V1/NISAR_L3_PR_SME2_033_011_D_089_4005_DHDH_A_20261012T233051_20261012T233125_P05023_N_F_J_001/NISAR_L3_PR_SME2_033_011_D_089_4005_DHDH_A_20261012T233051_20261012T233125_P05023_N_F_J_001.h5"
+          },
+          {
+            "granule_id": "NISAR_L3_PR_SME2_033_076_A_001_4005_DHDH_A_20261017T105328_20261017T105402_P05023_N_F_J_001",
+            "start_utc": "2026-10-17T10:53:28.000000Z",
+            "end_utc": "2026-10-17T10:54:02.000000Z",
+            "huella": "gpolygon",
+            "intersecta_poligono": true,
+            "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_PROVISIONAL_V1/NISAR_L3_PR_SME2_033_076_A_001_4005_DHDH_A_20261017T105328_20261017T105402_P05023_N_F_J_001/NISAR_L3_PR_SME2_033_076_A_001_4005_DHDH_A_20261017T105328_20261017T105402_P05023_N_F_J_001.h5"
+          }
+        ],
+        "granulos_solo_caja": [
+          {
+            "granule_id": "NISAR_L3_PR_SME2_023_112_D_089_4005_DHDH_A_20260621T233911_20260621T233948_P05023_N_F_J_001",
+            "start_utc": "2026-06-21T23:39:11.000000Z",
+            "end_utc": "2026-06-21T23:39:48.000000Z",
+            "huella": "gpolygon",
+            "intersecta_poligono": false,
+            "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_PROVISIONAL_V1/NISAR_L3_PR_SME2_023_112_D_089_4005_DHDH_A_20260621T233911_20260621T233948_P05023_N_F_J_001/NISAR_L3_PR_SME2_023_112_D_089_4005_DHDH_A_20260621T233911_20260621T233948_P05023_N_F_J_001.h5"
+          },
+          {
+            "granule_id": "NISAR_L3_PR_SME2_024_112_D_089_4005_DHDH_A_20260703T233910_20260703T233947_P05023_N_F_J_001",
+            "start_utc": "2026-07-03T23:39:10.000000Z",
+            "end_utc": "2026-07-03T23:39:47.000000Z",
+            "huella": "gpolygon",
+            "intersecta_poligono": false,
+            "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_PROVISIONAL_V1/NISAR_L3_PR_SME2_024_112_D_089_4005_DHDH_A_20260703T233910_20260703T233947_P05023_N_F_J_001/NISAR_L3_PR_SME2_024_112_D_089_4005_DHDH_A_20260703T233910_20260703T233947_P05023_N_F_J_001.h5"
+          },
+          {
+            "granule_id": "NISAR_L3_PR_SME2_025_112_D_089_4005_DHDH_A_20260715T233909_20260715T233947_P05023_N_F_J_001",
+            "start_utc": "2026-07-15T23:39:09.000000Z",
+            "end_utc": "2026-07-15T23:39:47.000000Z",
+            "huella": "gpolygon",
+            "intersecta_poligono": false,
+            "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_PROVISIONAL_V1/NISAR_L3_PR_SME2_025_112_D_089_4005_DHDH_A_20260715T233909_20260715T233947_P05023_N_F_J_001/NISAR_L3_PR_SME2_025_112_D_089_4005_DHDH_A_20260715T233909_20260715T233947_P05023_N_F_J_001.h5"
+          },
+          {
+            "granule_id": "NISAR_L3_PR_SME2_028_112_D_089_4005_DHDH_A_20260820T233908_20260820T233945_P05023_N_F_J_001",
+            "start_utc": "2026-08-20T23:39:08.000000Z",
+            "end_utc": "2026-08-20T23:39:45.000000Z",
+            "huella": "gpolygon",
+            "intersecta_poligono": false,
+            "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_PROVISIONAL_V1/NISAR_L3_PR_SME2_028_112_D_089_4005_DHDH_A_20260820T233908_20260820T233945_P05023_N_F_J_001/NISAR_L3_PR_SME2_028_112_D_089_4005_DHDH_A_20260820T233908_20260820T233945_P05023_N_F_J_001.h5"
+          },
+          {
+            "granule_id": "NISAR_L3_PR_SME2_029_112_D_089_4005_DHDH_A_20260901T233907_20260901T233945_P05023_N_F_J_001",
+            "start_utc": "2026-09-01T23:39:07.000000Z",
+            "end_utc": "2026-09-01T23:39:45.000000Z",
+            "huella": "gpolygon",
+            "intersecta_poligono": false,
+            "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_PROVISIONAL_V1/NISAR_L3_PR_SME2_029_112_D_089_4005_DHDH_A_20260901T233907_20260901T233945_P05023_N_F_J_001/NISAR_L3_PR_SME2_029_112_D_089_4005_DHDH_A_20260901T233907_20260901T233945_P05023_N_F_J_001.h5"
+          },
+          {
+            "granule_id": "NISAR_L3_PR_SME2_030_112_D_089_4005_DHDH_A_20260913T233907_20260913T233945_P05023_N_F_J_001",
+            "start_utc": "2026-09-13T23:39:07.000000Z",
+            "end_utc": "2026-09-13T23:39:45.000000Z",
+            "huella": "gpolygon",
+            "intersecta_poligono": false,
+            "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_PROVISIONAL_V1/NISAR_L3_PR_SME2_030_112_D_089_4005_DHDH_A_20260913T233907_20260913T233945_P05023_N_F_J_001/NISAR_L3_PR_SME2_030_112_D_089_4005_DHDH_A_20260913T233907_20260913T233945_P05023_N_F_J_001.h5"
+          },
+          {
+            "granule_id": "NISAR_L3_PR_SME2_031_112_D_089_4005_DHDH_A_20260925T233907_20260925T233945_P05023_N_F_J_001",
+            "start_utc": "2026-09-25T23:39:07.000000Z",
+            "end_utc": "2026-09-25T23:39:45.000000Z",
+            "huella": "gpolygon",
+            "intersecta_poligono": false,
+            "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_PROVISIONAL_V1/NISAR_L3_PR_SME2_031_112_D_089_4005_DHDH_A_20260925T233907_20260925T233945_P05023_N_F_J_001/NISAR_L3_PR_SME2_031_112_D_089_4005_DHDH_A_20260925T233907_20260925T233945_P05023_N_F_J_001.h5"
+          },
+          {
+            "granule_id": "NISAR_L3_PR_SME2_032_112_D_089_4005_DHDH_A_20261007T233908_20261007T233945_P05023_N_F_J_001",
+            "start_utc": "2026-10-07T23:39:08.000000Z",
+            "end_utc": "2026-10-07T23:39:45.000000Z",
+            "huella": "gpolygon",
+            "intersecta_poligono": false,
+            "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_PROVISIONAL_V1/NISAR_L3_PR_SME2_032_112_D_089_4005_DHDH_A_20261007T233908_20261007T233945_P05023_N_F_J_001/NISAR_L3_PR_SME2_032_112_D_089_4005_DHDH_A_20261007T233908_20261007T233945_P05023_N_F_J_001.h5"
+          },
+          {
+            "granule_id": "NISAR_L3_PR_SME2_033_112_D_089_4005_DHDH_A_20261019T233908_20261019T233945_P05023_N_F_J_001",
+            "start_utc": "2026-10-19T23:39:08.000000Z",
+            "end_utc": "2026-10-19T23:39:45.000000Z",
+            "huella": "gpolygon",
+            "intersecta_poligono": false,
+            "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_PROVISIONAL_V1/NISAR_L3_PR_SME2_033_112_D_089_4005_DHDH_A_20261019T233908_20261019T233945_P05023_N_F_J_001/NISAR_L3_PR_SME2_033_112_D_089_4005_DHDH_A_20261019T233908_20261019T233945_P05023_N_F_J_001.h5"
+          }
+        ]
+      },
+      "NISAR_L3_SME2_BETA_V1": {
+        "encontrada": true,
+        "concept_id": "C2850265000-ASF",
+        "titulo": "NISAR Beta Soil Moisture (Version 1)",
+        "doi": "10.5067/NIL3SME2-B1",
+        "doi_url": "https://doi.org/10.5067/NIL3SME2-B1",
+        "version": "1",
+        "n_caja_busqueda": 6,
+        "n_intersectan_poligono": 6,
+        "n_caja_sin_interseccion_de_huella": 0,
+        "granulos_que_intersectan": [
+          {
+            "granule_id": "NISAR_L3_PR_SME2_004_011_D_089_4005_DHDH_A_20251029T233052_20251029T233126_X05010_N_F_J_001",
+            "start_utc": "2025-10-29T23:30:52.000000Z",
+            "end_utc": "2025-10-29T23:31:26.000000Z",
+            "huella": "gpolygon",
+            "intersecta_poligono": true,
+            "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_BETA_V1/NISAR_L3_PR_SME2_004_011_D_089_4005_DHDH_A_20251029T233052_20251029T233126_X05010_N_F_J_001/NISAR_L3_PR_SME2_004_011_D_089_4005_DHDH_A_20251029T233052_20251029T233126_X05010_N_F_J_001.h5"
+          },
+          {
+            "granule_id": "NISAR_L3_PR_SME2_006_011_D_089_4005_DHDH_A_20251122T233053_20251122T233127_X05010_N_F_J_001",
+            "start_utc": "2025-11-22T23:30:53.000000Z",
+            "end_utc": "2025-11-22T23:31:27.000000Z",
+            "huella": "gpolygon",
+            "intersecta_poligono": true,
+            "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_BETA_V1/NISAR_L3_PR_SME2_006_011_D_089_4005_DHDH_A_20251122T233053_20251122T233127_X05010_N_F_J_001/NISAR_L3_PR_SME2_006_011_D_089_4005_DHDH_A_20251122T233053_20251122T233127_X05010_N_F_J_001.h5"
+          },
+          {
+            "granule_id": "NISAR_L3_PR_SME2_007_011_D_089_4005_DHDH_A_20251204T233053_20251204T233128_X05010_N_F_J_001",
+            "start_utc": "2025-12-04T23:30:53.000000Z",
+            "end_utc": "2025-12-04T23:31:28.000000Z",
+            "huella": "gpolygon",
+            "intersecta_poligono": true,
+            "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_BETA_V1/NISAR_L3_PR_SME2_007_011_D_089_4005_DHDH_A_20251204T233053_20251204T233128_X05010_N_F_J_001/NISAR_L3_PR_SME2_007_011_D_089_4005_DHDH_A_20251204T233053_20251204T233128_X05010_N_F_J_001.h5"
+          },
+          {
+            "granule_id": "NISAR_L3_PR_SME2_008_011_D_089_4005_DHDH_A_20251216T233054_20251216T233128_X05010_N_F_J_001",
+            "start_utc": "2025-12-16T23:30:54.000000Z",
+            "end_utc": "2025-12-16T23:31:28.000000Z",
+            "huella": "gpolygon",
+            "intersecta_poligono": true,
+            "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_BETA_V1/NISAR_L3_PR_SME2_008_011_D_089_4005_DHDH_A_20251216T233054_20251216T233128_X05010_N_F_J_001/NISAR_L3_PR_SME2_008_011_D_089_4005_DHDH_A_20251216T233054_20251216T233128_X05010_N_F_J_001.h5"
+          },
+          {
+            "granule_id": "NISAR_L3_PR_SME2_009_011_D_089_4005_DHDH_A_20251228T233054_20251228T233129_X05010_N_F_J_001",
+            "start_utc": "2025-12-28T23:30:54.000000Z",
+            "end_utc": "2025-12-28T23:31:29.000000Z",
+            "huella": "gpolygon",
+            "intersecta_poligono": true,
+            "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_BETA_V1/NISAR_L3_PR_SME2_009_011_D_089_4005_DHDH_A_20251228T233054_20251228T233129_X05010_N_F_J_001/NISAR_L3_PR_SME2_009_011_D_089_4005_DHDH_A_20251228T233054_20251228T233129_X05010_N_F_J_001.h5"
+          },
+          {
+            "granule_id": "NISAR_L3_PR_SME2_010_011_D_089_4005_DHDH_A_20260109T233055_20260109T233129_X05010_N_F_J_001",
+            "start_utc": "2026-01-09T23:30:55.000000Z",
+            "end_utc": "2026-01-09T23:31:29.000000Z",
+            "huella": "gpolygon",
+            "intersecta_poligono": true,
+            "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_BETA_V1/NISAR_L3_PR_SME2_010_011_D_089_4005_DHDH_A_20260109T233055_20260109T233129_X05010_N_F_J_001/NISAR_L3_PR_SME2_010_011_D_089_4005_DHDH_A_20260109T233055_20260109T233129_X05010_N_F_J_001.h5"
+          }
+        ],
+        "granulos_solo_caja": []
+      }
+    },
+    "intersectan_poligono": [
+      {
+        "granule_id": "NISAR_L3_PR_SME2_023_076_A_001_4005_DHDH_A_20260619T105331_20260619T105406_P05023_N_F_J_001",
+        "start_utc": "2026-06-19T10:53:31.000000Z",
+        "end_utc": "2026-06-19T10:54:06.000000Z",
+        "huella": "gpolygon",
+        "intersecta_poligono": true,
+        "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_PROVISIONAL_V1/NISAR_L3_PR_SME2_023_076_A_001_4005_DHDH_A_20260619T105331_20260619T105406_P05023_N_F_J_001/NISAR_L3_PR_SME2_023_076_A_001_4005_DHDH_A_20260619T105331_20260619T105406_P05023_N_F_J_001.h5",
+        "collection": "NISAR_L3_SME2_PROVISIONAL_V1"
+      },
+      {
+        "granule_id": "NISAR_L3_PR_SME2_024_011_D_089_4005_DHDH_A_20260626T233054_20260626T233128_P05023_N_F_J_001",
+        "start_utc": "2026-06-26T23:30:54.000000Z",
+        "end_utc": "2026-06-26T23:31:28.000000Z",
+        "huella": "gpolygon",
+        "intersecta_poligono": true,
+        "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_PROVISIONAL_V1/NISAR_L3_PR_SME2_024_011_D_089_4005_DHDH_A_20260626T233054_20260626T233128_P05023_N_F_J_001/NISAR_L3_PR_SME2_024_011_D_089_4005_DHDH_A_20260626T233054_20260626T233128_P05023_N_F_J_001.h5",
+        "collection": "NISAR_L3_SME2_PROVISIONAL_V1"
+      },
+      {
+        "granule_id": "NISAR_L3_PR_SME2_024_076_A_001_4005_DHDH_A_20260701T105331_20260701T105405_P05023_N_F_J_001",
+        "start_utc": "2026-07-01T10:53:31.000000Z",
+        "end_utc": "2026-07-01T10:54:05.000000Z",
+        "huella": "gpolygon",
+        "intersecta_poligono": true,
+        "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_PROVISIONAL_V1/NISAR_L3_PR_SME2_024_076_A_001_4005_DHDH_A_20260701T105331_20260701T105405_P05023_N_F_J_001/NISAR_L3_PR_SME2_024_076_A_001_4005_DHDH_A_20260701T105331_20260701T105405_P05023_N_F_J_001.h5",
+        "collection": "NISAR_L3_SME2_PROVISIONAL_V1"
+      },
+      {
+        "granule_id": "NISAR_L3_PR_SME2_025_011_D_089_4005_DHDH_A_20260708T233053_20260708T233127_P05023_N_F_J_001",
+        "start_utc": "2026-07-08T23:30:53.000000Z",
+        "end_utc": "2026-07-08T23:31:27.000000Z",
+        "huella": "gpolygon",
+        "intersecta_poligono": true,
+        "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_PROVISIONAL_V1/NISAR_L3_PR_SME2_025_011_D_089_4005_DHDH_A_20260708T233053_20260708T233127_P05023_N_F_J_001/NISAR_L3_PR_SME2_025_011_D_089_4005_DHDH_A_20260708T233053_20260708T233127_P05023_N_F_J_001.h5",
+        "collection": "NISAR_L3_SME2_PROVISIONAL_V1"
+      },
+      {
+        "granule_id": "NISAR_L3_PR_SME2_025_076_A_001_4005_DHDH_A_20260713T105330_20260713T105404_P05023_N_F_J_001",
+        "start_utc": "2026-07-13T10:53:30.000000Z",
+        "end_utc": "2026-07-13T10:54:04.000000Z",
+        "huella": "gpolygon",
+        "intersecta_poligono": true,
+        "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_PROVISIONAL_V1/NISAR_L3_PR_SME2_025_076_A_001_4005_DHDH_A_20260713T105330_20260713T105404_P05023_N_F_J_001/NISAR_L3_PR_SME2_025_076_A_001_4005_DHDH_A_20260713T105330_20260713T105404_P05023_N_F_J_001.h5",
+        "collection": "NISAR_L3_SME2_PROVISIONAL_V1"
+      },
+      {
+        "granule_id": "NISAR_L3_PR_SME2_026_011_D_089_4005_DHDH_A_20260720T233052_20260720T233127_P05023_N_F_J_001",
+        "start_utc": "2026-07-20T23:30:52.000000Z",
+        "end_utc": "2026-07-20T23:31:27.000000Z",
+        "huella": "gpolygon",
+        "intersecta_poligono": true,
+        "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_PROVISIONAL_V1/NISAR_L3_PR_SME2_026_011_D_089_4005_DHDH_A_20260720T233052_20260720T233127_P05023_N_F_J_001/NISAR_L3_PR_SME2_026_011_D_089_4005_DHDH_A_20260720T233052_20260720T233127_P05023_N_F_J_001.h5",
+        "collection": "NISAR_L3_SME2_PROVISIONAL_V1"
+      },
+      {
+        "granule_id": "NISAR_L3_PR_SME2_026_076_A_001_4005_DHDH_A_20260725T105329_20260725T105404_P05023_N_F_J_001",
+        "start_utc": "2026-07-25T10:53:29.000000Z",
+        "end_utc": "2026-07-25T10:54:04.000000Z",
+        "huella": "gpolygon",
+        "intersecta_poligono": true,
+        "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_PROVISIONAL_V1/NISAR_L3_PR_SME2_026_076_A_001_4005_DHDH_A_20260725T105329_20260725T105404_P05023_N_F_J_001/NISAR_L3_PR_SME2_026_076_A_001_4005_DHDH_A_20260725T105329_20260725T105404_P05023_N_F_J_001.h5",
+        "collection": "NISAR_L3_SME2_PROVISIONAL_V1"
+      },
+      {
+        "granule_id": "NISAR_L3_PR_SME2_028_011_D_089_4005_DHDH_A_20260813T233051_20260813T233125_P05023_N_F_J_001",
+        "start_utc": "2026-08-13T23:30:51.000000Z",
+        "end_utc": "2026-08-13T23:31:25.000000Z",
+        "huella": "gpolygon",
+        "intersecta_poligono": true,
+        "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_PROVISIONAL_V1/NISAR_L3_PR_SME2_028_011_D_089_4005_DHDH_A_20260813T233051_20260813T233125_P05023_N_F_J_001/NISAR_L3_PR_SME2_028_011_D_089_4005_DHDH_A_20260813T233051_20260813T233125_P05023_N_F_J_001.h5",
+        "collection": "NISAR_L3_SME2_PROVISIONAL_V1"
+      },
+      {
+        "granule_id": "NISAR_L3_PR_SME2_028_076_A_001_4005_DHDH_A_20260818T105328_20260818T105402_P05023_N_F_J_001",
+        "start_utc": "2026-08-18T10:53:28.000000Z",
+        "end_utc": "2026-08-18T10:54:02.000000Z",
+        "huella": "gpolygon",
+        "intersecta_poligono": true,
+        "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_PROVISIONAL_V1/NISAR_L3_PR_SME2_028_076_A_001_4005_DHDH_A_20260818T105328_20260818T105402_P05023_N_F_J_001/NISAR_L3_PR_SME2_028_076_A_001_4005_DHDH_A_20260818T105328_20260818T105402_P05023_N_F_J_001.h5",
+        "collection": "NISAR_L3_SME2_PROVISIONAL_V1"
+      },
+      {
+        "granule_id": "NISAR_L3_PR_SME2_029_011_D_089_4005_DHDH_A_20260825T233051_20260825T233125_P05023_N_F_J_001",
+        "start_utc": "2026-08-25T23:30:51.000000Z",
+        "end_utc": "2026-08-25T23:31:25.000000Z",
+        "huella": "gpolygon",
+        "intersecta_poligono": true,
+        "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_PROVISIONAL_V1/NISAR_L3_PR_SME2_029_011_D_089_4005_DHDH_A_20260825T233051_20260825T233125_P05023_N_F_J_001/NISAR_L3_PR_SME2_029_011_D_089_4005_DHDH_A_20260825T233051_20260825T233125_P05023_N_F_J_001.h5",
+        "collection": "NISAR_L3_SME2_PROVISIONAL_V1"
+      },
+      {
+        "granule_id": "NISAR_L3_PR_SME2_029_076_A_001_4005_DHDH_A_20260830T105328_20260830T105402_P05023_N_F_J_001",
+        "start_utc": "2026-08-30T10:53:28.000000Z",
+        "end_utc": "2026-08-30T10:54:02.000000Z",
+        "huella": "gpolygon",
+        "intersecta_poligono": true,
+        "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_PROVISIONAL_V1/NISAR_L3_PR_SME2_029_076_A_001_4005_DHDH_A_20260830T105328_20260830T105402_P05023_N_F_J_001/NISAR_L3_PR_SME2_029_076_A_001_4005_DHDH_A_20260830T105328_20260830T105402_P05023_N_F_J_001.h5",
+        "collection": "NISAR_L3_SME2_PROVISIONAL_V1"
+      },
+      {
+        "granule_id": "NISAR_L3_PR_SME2_030_011_D_089_4005_DHDH_A_20260906T233051_20260906T233125_P05023_N_F_J_001",
+        "start_utc": "2026-09-06T23:30:51.000000Z",
+        "end_utc": "2026-09-06T23:31:25.000000Z",
+        "huella": "gpolygon",
+        "intersecta_poligono": true,
+        "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_PROVISIONAL_V1/NISAR_L3_PR_SME2_030_011_D_089_4005_DHDH_A_20260906T233051_20260906T233125_P05023_N_F_J_001/NISAR_L3_PR_SME2_030_011_D_089_4005_DHDH_A_20260906T233051_20260906T233125_P05023_N_F_J_001.h5",
+        "collection": "NISAR_L3_SME2_PROVISIONAL_V1"
+      },
+      {
+        "granule_id": "NISAR_L3_PR_SME2_030_076_A_001_4005_DHDH_A_20260911T105328_20260911T105402_P05023_N_F_J_001",
+        "start_utc": "2026-09-11T10:53:28.000000Z",
+        "end_utc": "2026-09-11T10:54:02.000000Z",
+        "huella": "gpolygon",
+        "intersecta_poligono": true,
+        "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_PROVISIONAL_V1/NISAR_L3_PR_SME2_030_076_A_001_4005_DHDH_A_20260911T105328_20260911T105402_P05023_N_F_J_001/NISAR_L3_PR_SME2_030_076_A_001_4005_DHDH_A_20260911T105328_20260911T105402_P05023_N_F_J_001.h5",
+        "collection": "NISAR_L3_SME2_PROVISIONAL_V1"
+      },
+      {
+        "granule_id": "NISAR_L3_PR_SME2_031_011_D_089_4005_DHDH_A_20260918T233051_20260918T233125_P05023_F_F_J_001",
+        "start_utc": "2026-09-18T23:30:51.000000Z",
+        "end_utc": "2026-09-18T23:31:25.000000Z",
+        "huella": "gpolygon",
+        "intersecta_poligono": true,
+        "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_PROVISIONAL_V1/NISAR_L3_PR_SME2_031_011_D_089_4005_DHDH_A_20260918T233051_20260918T233125_P05023_F_F_J_001/NISAR_L3_PR_SME2_031_011_D_089_4005_DHDH_A_20260918T233051_20260918T233125_P05023_F_F_J_001.h5",
+        "collection": "NISAR_L3_SME2_PROVISIONAL_V1"
+      },
+      {
+        "granule_id": "NISAR_L3_PR_SME2_031_076_A_001_4005_DHDH_A_20260923T105328_20260923T105402_P05023_N_F_J_001",
+        "start_utc": "2026-09-23T10:53:28.000000Z",
+        "end_utc": "2026-09-23T10:54:02.000000Z",
+        "huella": "gpolygon",
+        "intersecta_poligono": true,
+        "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_PROVISIONAL_V1/NISAR_L3_PR_SME2_031_076_A_001_4005_DHDH_A_20260923T105328_20260923T105402_P05023_N_F_J_001/NISAR_L3_PR_SME2_031_076_A_001_4005_DHDH_A_20260923T105328_20260923T105402_P05023_N_F_J_001.h5",
+        "collection": "NISAR_L3_SME2_PROVISIONAL_V1"
+      },
+      {
+        "granule_id": "NISAR_L3_PR_SME2_032_011_D_089_4005_DHDH_A_20260930T233051_20260930T233125_P05023_N_F_J_001",
+        "start_utc": "2026-09-30T23:30:51.000000Z",
+        "end_utc": "2026-09-30T23:31:25.000000Z",
+        "huella": "gpolygon",
+        "intersecta_poligono": true,
+        "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_PROVISIONAL_V1/NISAR_L3_PR_SME2_032_011_D_089_4005_DHDH_A_20260930T233051_20260930T233125_P05023_N_F_J_001/NISAR_L3_PR_SME2_032_011_D_089_4005_DHDH_A_20260930T233051_20260930T233125_P05023_N_F_J_001.h5",
+        "collection": "NISAR_L3_SME2_PROVISIONAL_V1"
+      },
+      {
+        "granule_id": "NISAR_L3_PR_SME2_032_076_A_001_4005_DHDH_A_20261005T105328_20261005T105402_P05023_N_F_J_001",
+        "start_utc": "2026-10-05T10:53:28.000000Z",
+        "end_utc": "2026-10-05T10:54:02.000000Z",
+        "huella": "gpolygon",
+        "intersecta_poligono": true,
+        "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_PROVISIONAL_V1/NISAR_L3_PR_SME2_032_076_A_001_4005_DHDH_A_20261005T105328_20261005T105402_P05023_N_F_J_001/NISAR_L3_PR_SME2_032_076_A_001_4005_DHDH_A_20261005T105328_20261005T105402_P05023_N_F_J_001.h5",
+        "collection": "NISAR_L3_SME2_PROVISIONAL_V1"
+      },
+      {
+        "granule_id": "NISAR_L3_PR_SME2_033_011_D_089_4005_DHDH_A_20261012T233051_20261012T233125_P05023_N_F_J_001",
+        "start_utc": "2026-10-12T23:30:51.000000Z",
+        "end_utc": "2026-10-12T23:31:25.000000Z",
+        "huella": "gpolygon",
+        "intersecta_poligono": true,
+        "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_PROVISIONAL_V1/NISAR_L3_PR_SME2_033_011_D_089_4005_DHDH_A_20261012T233051_20261012T233125_P05023_N_F_J_001/NISAR_L3_PR_SME2_033_011_D_089_4005_DHDH_A_20261012T233051_20261012T233125_P05023_N_F_J_001.h5",
+        "collection": "NISAR_L3_SME2_PROVISIONAL_V1"
+      },
+      {
+        "granule_id": "NISAR_L3_PR_SME2_033_076_A_001_4005_DHDH_A_20261017T105328_20261017T105402_P05023_N_F_J_001",
+        "start_utc": "2026-10-17T10:53:28.000000Z",
+        "end_utc": "2026-10-17T10:54:02.000000Z",
+        "huella": "gpolygon",
+        "intersecta_poligono": true,
+        "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_PROVISIONAL_V1/NISAR_L3_PR_SME2_033_076_A_001_4005_DHDH_A_20261017T105328_20261017T105402_P05023_N_F_J_001/NISAR_L3_PR_SME2_033_076_A_001_4005_DHDH_A_20261017T105328_20261017T105402_P05023_N_F_J_001.h5",
+        "collection": "NISAR_L3_SME2_PROVISIONAL_V1"
+      },
+      {
+        "granule_id": "NISAR_L3_PR_SME2_004_011_D_089_4005_DHDH_A_20251029T233052_20251029T233126_X05010_N_F_J_001",
+        "start_utc": "2025-10-29T23:30:52.000000Z",
+        "end_utc": "2025-10-29T23:31:26.000000Z",
+        "huella": "gpolygon",
+        "intersecta_poligono": true,
+        "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_BETA_V1/NISAR_L3_PR_SME2_004_011_D_089_4005_DHDH_A_20251029T233052_20251029T233126_X05010_N_F_J_001/NISAR_L3_PR_SME2_004_011_D_089_4005_DHDH_A_20251029T233052_20251029T233126_X05010_N_F_J_001.h5",
+        "collection": "NISAR_L3_SME2_BETA_V1"
+      },
+      {
+        "granule_id": "NISAR_L3_PR_SME2_006_011_D_089_4005_DHDH_A_20251122T233053_20251122T233127_X05010_N_F_J_001",
+        "start_utc": "2025-11-22T23:30:53.000000Z",
+        "end_utc": "2025-11-22T23:31:27.000000Z",
+        "huella": "gpolygon",
+        "intersecta_poligono": true,
+        "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_BETA_V1/NISAR_L3_PR_SME2_006_011_D_089_4005_DHDH_A_20251122T233053_20251122T233127_X05010_N_F_J_001/NISAR_L3_PR_SME2_006_011_D_089_4005_DHDH_A_20251122T233053_20251122T233127_X05010_N_F_J_001.h5",
+        "collection": "NISAR_L3_SME2_BETA_V1"
+      },
+      {
+        "granule_id": "NISAR_L3_PR_SME2_007_011_D_089_4005_DHDH_A_20251204T233053_20251204T233128_X05010_N_F_J_001",
+        "start_utc": "2025-12-04T23:30:53.000000Z",
+        "end_utc": "2025-12-04T23:31:28.000000Z",
+        "huella": "gpolygon",
+        "intersecta_poligono": true,
+        "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_BETA_V1/NISAR_L3_PR_SME2_007_011_D_089_4005_DHDH_A_20251204T233053_20251204T233128_X05010_N_F_J_001/NISAR_L3_PR_SME2_007_011_D_089_4005_DHDH_A_20251204T233053_20251204T233128_X05010_N_F_J_001.h5",
+        "collection": "NISAR_L3_SME2_BETA_V1"
+      },
+      {
+        "granule_id": "NISAR_L3_PR_SME2_008_011_D_089_4005_DHDH_A_20251216T233054_20251216T233128_X05010_N_F_J_001",
+        "start_utc": "2025-12-16T23:30:54.000000Z",
+        "end_utc": "2025-12-16T23:31:28.000000Z",
+        "huella": "gpolygon",
+        "intersecta_poligono": true,
+        "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_BETA_V1/NISAR_L3_PR_SME2_008_011_D_089_4005_DHDH_A_20251216T233054_20251216T233128_X05010_N_F_J_001/NISAR_L3_PR_SME2_008_011_D_089_4005_DHDH_A_20251216T233054_20251216T233128_X05010_N_F_J_001.h5",
+        "collection": "NISAR_L3_SME2_BETA_V1"
+      },
+      {
+        "granule_id": "NISAR_L3_PR_SME2_009_011_D_089_4005_DHDH_A_20251228T233054_20251228T233129_X05010_N_F_J_001",
+        "start_utc": "2025-12-28T23:30:54.000000Z",
+        "end_utc": "2025-12-28T23:31:29.000000Z",
+        "huella": "gpolygon",
+        "intersecta_poligono": true,
+        "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_BETA_V1/NISAR_L3_PR_SME2_009_011_D_089_4005_DHDH_A_20251228T233054_20251228T233129_X05010_N_F_J_001/NISAR_L3_PR_SME2_009_011_D_089_4005_DHDH_A_20251228T233054_20251228T233129_X05010_N_F_J_001.h5",
+        "collection": "NISAR_L3_SME2_BETA_V1"
+      },
+      {
+        "granule_id": "NISAR_L3_PR_SME2_010_011_D_089_4005_DHDH_A_20260109T233055_20260109T233129_X05010_N_F_J_001",
+        "start_utc": "2026-01-09T23:30:55.000000Z",
+        "end_utc": "2026-01-09T23:31:29.000000Z",
+        "huella": "gpolygon",
+        "intersecta_poligono": true,
+        "url_h5": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L3_SME2_BETA_V1/NISAR_L3_PR_SME2_010_011_D_089_4005_DHDH_A_20260109T233055_20260109T233129_X05010_N_F_J_001/NISAR_L3_PR_SME2_010_011_D_089_4005_DHDH_A_20260109T233055_20260109T233129_X05010_N_F_J_001.h5",
+        "collection": "NISAR_L3_SME2_BETA_V1"
+      }
+    ]
+  }
+}

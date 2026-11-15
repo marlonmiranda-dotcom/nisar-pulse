@@ -1,2 +1,10 @@
 node_modules
 dist
+.venv
+venv
+tmp/
+__pycache__/
+*.pyc
+.netrc
+.env
+.env.*
