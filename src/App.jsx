@@ -36,6 +36,7 @@ import RIOS_OSM_RAW from "./data/rios_osm_colonso.geojson?raw"; // ríos y quebr
 import BOSQUE_RAW from "./data/bosque_perdida.geojson?raw"; // un punto por píxel Hansen de bosque perdido
 import AGUA_RAW from "./data/agua_ocurrencia.geojson?raw"; // un punto por píxel JRC con agua alguna vez
 import PanelCapas from "./PanelCapas.jsx";
+import RadarPanel from "./components/RadarPanel.jsx";
 import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
@@ -1937,8 +1938,8 @@ export default function App() {
               ))}
               <p className="text-[11px] leading-relaxed text-slate-400">
                 {NISAR.length} adquisiciones GCOV con vista previa sobre la reserva ({fmtDate(NISAR[0].date)} → {fmtDate(NISAR[NISAR.length - 1].date)}), dos geometrías
-                (ascendente track 76 y descendente track 11, revisita 12 días). Desplazamiento InSAR (GUNW) y humedad NISAR (L3 SME2): aún sin productos sobre la reserva en
-                CMR al {D_DESCARGA}, por eso no se muestran.
+                (ascendente track 76 y descendente track 11, revisita 12 días). Desplazamiento InSAR (GUNW): aún sin productos sobre la reserva en CMR al {D_DESCARGA}.
+                La humedad NISAR L3 SME2 está en la sección «Radar NISAR y superficie».
               </p>
               <div className="mt-3 grid grid-cols-3 gap-2">
                 <button
@@ -2101,6 +2102,8 @@ export default function App() {
           </div>
           <SourceNote>NASA CMR · colecciones NISAR_L2_GCOV (PROVISIONAL_V1 y V1) · ASF DAAC · descargado {D_DESCARGA}</SourceNote>
         </section>
+
+        <RadarPanel />
 
         {/* ================= FUENTES ================= */}
         <section className="panel p-4 text-[11px] leading-relaxed text-slate-400 lg:col-span-12">

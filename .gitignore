@@ -3,6 +3,10 @@ dist
 .env
 .env.local
 .env.*.local
+.netrc
+.venv
+venv
+tmp/
 scripts/capas/cache/
 scripts/capas/__pycache__/
 __pycache__/
