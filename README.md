@@ -29,6 +29,9 @@ gestores y científicos, centrada en la **Reserva Biológica Colonso Chalupas** 
   Los escenarios futuros (El Niño recurrente / Neutral / La Niña) usan nodos de ONI escritos por el equipo, con línea
   punteada y banda de incertidumbre. No son la tabla oficial de NOAA.
 - **Pérdida de bosque anual 2001–2025** (Hansen GFC v1.13) y **calendario de adquisiciones NISAR**.
+- **Dos capas nuevas** (se prenden y apagan en el mapa): bosque perdido (Hansen, 30 m) y fuentes de agua
+  (ocurrencia JRC, 30 m, más ríos de OpenStreetMap). Debajo hay gráficos por año y una **predicción del equipo**:
+  una recta con banda del 95 %. La contaminación del agua dice **dato no disponible**: estos satélites no miden químicos.
 - **Selector de perfil**:
   - *Ciudadano / Educativo*: semáforos, lenguaje sencillo y escenarios explicados como posibilidades, no certezas.
   - *Científico / Gestor*: productos, resolución, r, p, lag, RMSE, metadatos de gránulos NISAR (enlaces a HDF5,
@@ -110,6 +113,25 @@ Todos los valores son medias sobre el polígono WDPA 555593903, tomando los píx
 Archivos: `src/data/satellite_real.json` (IMERG, MODIS, SMAP, Hansen, catálogo NISAR), `src/data/enso_real.json`
 (ONI, Niño 1+2, CHIRPS), `src/data/colonso_wdpa.geojson`, `public/nisar/*.webp`. Para regenerarlos se usan
 `scripts/earthdata/` (earthaccess + Earthdata Login).
+
+### Capas de degradación y de agua (2026-11-14)
+
+El detalle de cada descarga, la licencia y los pasos exactos están en [`scripts/capas/README.md`](scripts/capas/README.md).
+Resumen de lo que la app muestra hoy:
+
+| Capa | Fuente que sí se usó | Resolución | Qué se ve |
+| --- | --- | --- | --- |
+| Bosque perdido | Hansen GFC v1.13 (Landsat), tesela `00N_080W` | 30 m | Píxeles con cobertura ≥ 30 % en 2000 que luego se perdieron (2001–2025). La recta proyecta 5 años. |
+| Verdor | MODIS MOD13C2 ya guardado en `satellite_real.json` | 0,05° | NDVI medio de cada año. 2026 está incompleto y no entra en la recta. |
+| Agua superficial | JRC Global Surface Water v1.4: Occurrence, change y clasificación anual | 30 m | Mancha azul = % de veces que el píxel fue agua (1984–2021). El cambio entre 1984–1999 y 2000–2021 se escribe aparte. No hay recta: casi cada año el píxel queda sin observación por las nubes. |
+| Ríos y quebradas | OpenStreetMap (ODbL), recortado al polígono | Líneas | 16 ríos, 43 quebradas y 6 cuerpos de agua dentro de la reserva. |
+| Contaminación del agua, MapBiomas, NO2, NDWI, HydroRIVERS | No se inventaron números | — | La pantalla dice **dato no disponible** y el README del script dice qué hay que correr. |
+
+Una quebrada o un estanque más chicos que unos 30 m pueden no salir en la mancha azul del JRC.
+HydroRIVERS (15 segundos de arco) no se pudo bajar: el sitio respondió HTTP 403.
+
+La predicción es una recta de mínimos cuadrados con intervalo de predicción del 95 % (`src/prediccion.js`).
+Es una proyección del equipo a partir de la serie citada. Puede cambiar con años nuevos. No dice la causa del cambio.
 
 ### Hallazgos con los datos reales (2016–2026)
 

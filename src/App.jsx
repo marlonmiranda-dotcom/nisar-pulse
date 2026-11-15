@@ -16,19 +16,26 @@
  *    · Lluvia → GPM IMERG (NASA) · Verdor → MODIS MOD13C2 · Calor → MODIS MOD11C3
  *    · Humedad del suelo → SMAP SPL3SMP_E · Bosque → Hansen GFC v1.13 (Landsat)
  *    · El Niño → NOAA CPC ONI / Niño 1+2 · Límite → WDPA 555593903
- *  Series en src/data/satellite_real.json y src/data/enso_real.json
- *  (regenerables con scripts/earthdata/*.py usando earthaccess + Earthdata Login).
+ *    · Capas nuevas → pérdida de bosque (Hansen 30 m), agua superficial (JRC 30 m)
+ *      y ríos (OpenStreetMap). La recta de predicción está en src/prediccion.js.
+ *  Series en src/data/satellite_real.json, src/data/enso_real.json y src/data/capas_reserva.json
+ *  (regenerables con scripts/earthdata/*.py y scripts/capas/build_capas.py).
  *
  *  >>> Para conectar más capas edita el bloque CONFIG (abajo) y las
  *      funciones fetchNASAGibsLayer() y loadGeoTIFF(). <<<
  * ============================================================================
  */
 import React, { useEffect, useMemo, useRef, useState, useCallback, lazy, Suspense } from "react";
-import { MapContainer, TileLayer, WMSTileLayer, Pane, Polygon, ImageOverlay, Rectangle, useMap } from "react-leaflet";
+import { MapContainer, TileLayer, WMSTileLayer, Pane, Polygon, ImageOverlay, Rectangle, GeoJSON, useMap } from "react-leaflet";
 import L from "leaflet";
 import ENSO_REAL from "./data/enso_real.json"; // NOAA CPC ONI + Niño 1+2 (+ CHIRPS solo como comparación)
 import SAT from "./data/satellite_real.json"; // IMERG · MODIS · SMAP · Hansen GFC · catálogo NISAR GCOV (reales)
 import COLONSO_WDPA_RAW from "./data/colonso_wdpa.geojson?raw"; // límite oficial WDPA 555593903 (simplificado)
+import CAPAS from "./data/capas_reserva.json"; // bosque, NDVI anual, agua JRC, avisos de dato no disponible
+import RIOS_OSM_RAW from "./data/rios_osm_colonso.geojson?raw"; // ríos y quebradas OpenStreetMap recortados a la reserva
+import BOSQUE_RAW from "./data/bosque_perdida.geojson?raw"; // un punto por píxel Hansen de bosque perdido
+import AGUA_RAW from "./data/agua_ocurrencia.geojson?raw"; // un punto por píxel JRC con agua alguna vez
+import PanelCapas from "./PanelCapas.jsx";
 import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
@@ -252,6 +259,10 @@ async function fetchNOAA_ONI() {
 
 /** Polígono oficial de la Reserva Biológica Colonso Chalupas (WDPA, uso no comercial con atribución). */
 const COLONSO_WDPA = JSON.parse(COLONSO_WDPA_RAW);
+/** Ríos, quebradas y cuerpos de agua de OpenStreetMap dentro de la reserva. */
+const RIOS_OSM = JSON.parse(RIOS_OSM_RAW);
+const BOSQUE_PUNTOS = JSON.parse(BOSQUE_RAW);
+const AGUA_PUNTOS = JSON.parse(AGUA_RAW);
 
 const ZONE = {
   id: "colonso",
@@ -606,6 +617,33 @@ const NISAR_MONTHLY = (() => {
     .map((k) => m[k]);
 })();
 const assetUrl = (p) => `${import.meta.env.BASE_URL}${p}`;
+
+/** Estilo de los ríos (líneas) y de los cuerpos dibujados en OpenStreetMap. */
+function estiloRio(feature) {
+  const tipo = feature?.properties?.tipo;
+  if (tipo === "cuerpo de agua") return { color: "#7dd3fc", weight: 1, fillColor: "#38bdf8", fillOpacity: 0.25 };
+  if (tipo === "río") return { color: "#e0f2fe", weight: 2.6, opacity: 0.95 };
+  return { color: "#7dd3fc", weight: 1.4, opacity: 0.9 };
+}
+function puntaRio(feature, layer) {
+  const p = feature.properties || {};
+  layer.bindTooltip(`${p.nombre} · ${p.tipo}`, { sticky: true, className: "nisar-tip" });
+}
+function puntoBosque(feature, latlng) {
+  const color = feature.properties.grupo === "2019-2025" ? "#ef4444" : feature.properties.grupo === "2011-2018" ? "#f97316" : "#facc15";
+  return L.circleMarker(latlng, { radius: 4, color, fillColor: color, fillOpacity: 0.9, weight: 0 });
+}
+function puntaBosque(feature, layer) {
+  layer.bindTooltip(`Bosque perdido en ${feature.properties.anio} · píxel de 30 m`, { sticky: true, className: "nisar-tip" });
+}
+function puntoAgua(feature, latlng) {
+  const alta = feature.properties.ocurrencia >= 50;
+  const color = alta ? "#0369a1" : "#7dd3fc";
+  return L.circleMarker(latlng, { radius: alta ? 5 : 3.5, color, fillColor: color, fillOpacity: 0.85, weight: 0 });
+}
+function puntaAgua(feature, layer) {
+  layer.bindTooltip(`Agua en el ${feature.properties.ocurrencia} % de las observaciones · píxel de 30 m`, { sticky: true, className: "nisar-tip" });
+}
 
 /* ============================================================================
  *  INDICADORES (semáforo) A PARTIR DE ANOMALÍAS REALES
@@ -1386,6 +1424,11 @@ export default function App() {
   const [keyA, setKeyA] = useState(NISAR_BY_KEY[params.get("a")] ? params.get("a") : DEFAULT_A);
   const [keyB, setKeyB] = useState(NISAR_BY_KEY[params.get("b")] ? params.get("b") : DEFAULT_B);
   const [gibsKey, setGibsKey] = useState(GIBS_LAYERS[params.get("gibs")] ? params.get("gibs") : "none");
+  // ?capas=bosque,agua enciende esas capas. Sin el parámetro, arrancan encendidas.
+  const capasParam = params.get("capas");
+  const listaCapas = capasParam ? capasParam.split(",") : ["bosque", "agua"];
+  const [verBosque, setVerBosque] = useState(listaCapas.includes("bosque"));
+  const [verAgua, setVerAgua] = useState(listaCapas.includes("agua"));
   const [phase, setPhase] = useState(PHASES.some((p) => p.id === params.get("fase")) ? params.get("fase") : "actual");
   const [climVar, setClimVar] = useState(CLIMATE_VARS[params.get("variable")] ? params.get("variable") : CLIMATE_VAR_KEYS[0]);
   const [climate, setClimate] = useState(CLIMATE_REAL);
@@ -1656,6 +1699,27 @@ export default function App() {
             )}
           </div>
 
+          <div className="flex flex-wrap items-center gap-2 border-b border-white/10 px-3 py-2 text-xs">
+            <span className="flex items-center gap-1 text-slate-400">
+              <Layers className="h-3.5 w-3.5" /> Capas de la reserva:
+            </span>
+            <button
+              onClick={() => setVerBosque((v) => !v)}
+              className={`rounded-md border px-2 py-1 ${verBosque ? "border-orange-400/60 bg-orange-400/15 text-orange-100" : "border-white/10 text-slate-300"}`}
+            >
+              Bosque perdido
+            </button>
+            <button
+              onClick={() => setVerAgua((v) => !v)}
+              className={`rounded-md border px-2 py-1 ${verAgua ? "border-sky-400/60 bg-sky-400/15 text-sky-100" : "border-white/10 text-slate-300"}`}
+            >
+              Ríos y agua
+            </button>
+            <span className="rounded-md bg-amber-500/15 px-2 py-1 text-[11px] text-amber-100 ring-1 ring-amber-400/40">
+              Contaminación del agua (minería o petróleo): dato no disponible
+            </span>
+          </div>
+
           <div ref={mapWrapRef} className="relative min-h-[460px] w-full flex-1 sm:min-h-[540px] lg:min-h-[600px]">
             <MapContainer center={ZONE.center} zoom={ZONE.zoom} className="absolute inset-0" zoomControl scrollWheelZoom>
               <TileLayer url={CONFIG.BASEMAP_URL} maxZoom={18} attribution="Imágenes &copy; Esri, Maxar, Earthstar Geographics" />
@@ -1685,6 +1749,16 @@ export default function App() {
               </Pane>
               {/* Capa GIBS que sigue a la línea de tiempo */}
               <Pane name="gibsPane" style={{ zIndex: 440 }}>{gibs && <TileLayer key={gibs.url} url={gibs.url} {...gibs.options} />}</Pane>
+              {/* Bosque perdido (Hansen) y agua (JRC + ríos OSM). Casi transparentes: el radar se sigue viendo. */}
+              <Pane name="capasPane" style={{ zIndex: 448 }}>
+                {verAgua && (
+                  <GeoJSON key="agua" data={AGUA_PUNTOS} pointToLayer={puntoAgua} onEachFeature={puntaAgua} />
+                )}
+                {verBosque && (
+                  <GeoJSON key="bosque" data={BOSQUE_PUNTOS} pointToLayer={puntoBosque} onEachFeature={puntaBosque} />
+                )}
+                {verAgua && <GeoJSON key="rios" data={RIOS_OSM} style={estiloRio} onEachFeature={puntaRio} />}
+              </Pane>
               <Pane name="labelsPane" style={{ zIndex: 450, pointerEvents: "none" }}>
                 <TileLayer url={CONFIG.LABELS_URL} maxZoom={18} />
                 <Polygon positions={ZONE.polygon} pathOptions={{ color: "#facc15", weight: 2.5, dashArray: "6 4", fill: false }} interactive={false} />
@@ -1760,6 +1834,20 @@ export default function App() {
               <p className="mt-1 text-[10px] text-slate-400">
                 <span className="inline-block h-0.5 w-4 bg-yellow-400 align-middle" /> Límite oficial WDPA 555593903
               </p>
+              {verBosque && (
+                <p className="mt-1 text-[10px] leading-snug text-slate-300">
+                  <span className="mr-1 inline-block h-2 w-2 rounded-sm bg-yellow-300" />
+                  <span className="mr-1 inline-block h-2 w-2 rounded-sm bg-orange-500" />
+                  <span className="mr-1 inline-block h-2 w-2 rounded-sm bg-red-500" />
+                  Bosque perdido 2001–2010, 2011–2018 y 2019–2025. Cada punto es un píxel Hansen de 30 m (el círculo se dibuja más grande para verlo). ha/año. Descargado {CAPAS.bosque.descargado}.
+                </p>
+              )}
+              {verAgua && (
+                <p className="mt-1 text-[10px] leading-snug text-slate-300">
+                  <span className="mr-1 inline-block h-2 w-2 rounded-sm bg-sky-400" />
+                  Puntos azules: agua Landsat 30 m (1984–2021, ocurrencia). Líneas: ríos de OpenStreetMap. Una quebrada o un estanque de menos de ~30 m puede no salir como punto.
+                </p>
+              )}
               <SourceNote>
                 NASA/JPL-ISRO NISAR vía ASF DAAC (CMR) · {gA.collection.replace("NISAR_L2_", "")} / {gB.collection.replace("NISAR_L2_", "")} · descargado {D_DESCARGA}
                 {gibs ? ` · Capa: NASA GIBS ${gibsCfg.layer} (${gibsCfg.date(MONTHS[month])})` : ""}
@@ -1881,7 +1969,7 @@ export default function App() {
               <p>
                 El mapa muestra imágenes reales del radar <b className="text-white">NISAR</b> (NASA e ISRO), que ve el suelo aunque haya nubes, algo clave en esta zona donde
                 casi siempre está nublado. Mueve la cortina para comparar dos fechas. Los semáforos usan mediciones de satélites de la NASA comparadas con lo normal
-                de cada mes desde 2016.
+                de cada mes desde 2016. Arriba del mapa puedes prender «Bosque perdido» y «Ríos y agua». El aviso de contaminación del agua dice «dato no disponible»: el satélite no mide químicos.
               </p>
             </div>
           )}
@@ -1929,6 +2017,9 @@ export default function App() {
           </div>
           <p className="mt-1 text-[10px] text-slate-500">La línea de tiempo actualiza los semáforos, la capa NASA GIBS del mapa y el marcador del gráfico «Actual».</p>
         </section>
+
+        {/* ================= BOSQUE, AGUA Y PREDICCIÓN ================= */}
+        <PanelCapas isSci={isSci} />
 
         {/* ================= PANEL CLIMÁTICO ================= */}
         <ClimatePanel
@@ -2031,7 +2122,16 @@ export default function App() {
               <b className="text-slate-200">Humedad del suelo:</b> {SRC.sm.producto} — {SRC.sm.via}, {SRC.sm.res}.
             </li>
             <li>
-              <b className="text-slate-200">Bosque:</b> {HANSEN.fuente}.
+              <b className="text-slate-200">Bosque:</b> {HANSEN.fuente}. La capa del mapa usa la misma versión, recortada otra vez el {CAPAS.generado}.
+            </li>
+            <li>
+              <b className="text-slate-200">Agua superficial:</b> {CAPAS.agua_superficial.producto}. {CAPAS.agua_superficial.resolucion}. {CAPAS.agua_superficial.periodo}.
+            </li>
+            <li>
+              <b className="text-slate-200">Ríos:</b> {CAPAS.rios.producto}. {CAPAS.rios.licencia}. HydroRIVERS: dato no disponible.
+            </li>
+            <li>
+              <b className="text-slate-200">Sin número:</b> contaminación del agua, MapBiomas Ecuador, NO2 de Sentinel-5P y NDWI de Sentinel-2. Dato no disponible.
             </li>
             <li>
               <b className="text-slate-200">El Niño (observado):</b> NOAA CPC ONI (ERSSTv5), anomalía en °C, media móvil de 3 meses, enero 2016 –

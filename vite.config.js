@@ -6,7 +6,7 @@ import cesium from "vite-plugin-cesium";
 export default defineConfig({
   base: process.env.GITHUB_PAGES ? "/nisar-pulse/" : "/",
   plugins: [react(), cesium()],
-  build: { chunkSizeWarningLimit: 1500 },
+  build: { chunkSizeWarningLimit: 2500 },
   server: { host: true, port: 5173 },
   preview: { host: true, port: 4173 },
 });

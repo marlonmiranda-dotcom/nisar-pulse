@@ -3,3 +3,7 @@ dist
 .env
 .env.local
 .env.*.local
+scripts/capas/cache/
+scripts/capas/__pycache__/
+__pycache__/
+*.pyc
