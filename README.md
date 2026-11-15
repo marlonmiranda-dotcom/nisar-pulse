@@ -6,9 +6,14 @@ Aplicación web Open Source (hackathon) que traduce datos satelitales de la NASA
 MODIS, SMAP, Landsat/Hansen) y el índice ENSO de NOAA en una herramienta comprensible para ciudadanía, docentes,
 gestores y científicos, centrada en la **Reserva Biológica Colonso Chalupas** (Napo, Ecuador, WDPA 555593903).
 
-> **100 % datos reales, sin simulación.** Todas las series y capas provienen de satélites (NASA Earthdata,
+> **Datos observados reales, sin simulación.** Las series y capas observadas provienen de satélites (NASA Earthdata,
 > Landsat) más el índice ONI de NOAA CPC, descargados el **2026-11-14**. Cualquier variable sin dato satelital
-> suficiente se oculta automáticamente; nunca se rellena con valores simulados.
+> suficiente se oculta; nunca se rellena con valores simulados.
+>
+> La fase **Predicción (5 años)** es otra cosa: el ONI de octubre 2026 a diciembre 2031 lo escribió el equipo
+> en el código. **NOAA CPC no publicó esos números.** En esa fase la app esconde la insignia
+> «100 % datos satelitales reales» y muestra esta etiqueta:
+> «Predicción basada en datos previos de la NOAA; puede cambiar según avance el tiempo».
 
 ## ✨ Funcionalidades
 
@@ -18,11 +23,11 @@ gestores y científicos, centrada en la **Reserva Biológica Colonso Chalupas** 
   descendente track 11, revisita de 12 días). Son las vistas previas oficiales del ASF DAAC recortadas a la reserva.
 - **Capa NASA GIBS que sigue la línea de tiempo**: NDVI mensual MODIS, LST mensual MODIS o color verdadero MODIS.
 - **Línea de tiempo de 12 meses** (Oct 2025 → Sep 2026) con Play/Pausa: actualiza semáforos, capa GIBS y gráficos.
-- **Panel El Niño** con fases *Histórico 2016–2026*, *Actual* y *Predicción (5 años, Oct 2026 → Dic 2031)*:
+- **Panel El Niño** con fases *Histórico 2016–2026*, *Actual* y *Predicción (5 años, oct 2026 → dic 2031)*:
   ONI vs lluvia (IMERG), verdor (NDVI), calor de la superficie (LST) y humedad del suelo (SMAP); correlación de Pearson con
-  desfase óptimo (0–6 meses), valor p, regresión `anomalía(t) = a + b·ONI(t − lag)` y escenarios ENSO
-  (meses 1–5 = perspectiva NOAA CPC con El Niño fuerte hasta EFM 2027; después El Niño recurrente / Neutral / La Niña)
-  con banda de incertidumbre del 95 % que se ensancha con el tiempo.
+  desfase óptimo (0–6 meses), valor p y regresión `anomalía(t) = a + b·ONI(t − lag)` calculada con el ONI **observado**.
+  Los escenarios futuros (El Niño recurrente / Neutral / La Niña) usan nodos de ONI escritos por el equipo, con línea
+  punteada y banda de incertidumbre. No son la tabla oficial de NOAA.
 - **Pérdida de bosque anual 2001–2025** (Hansen GFC v1.13) y **calendario de adquisiciones NISAR**.
 - **Selector de perfil**:
   - *Ciudadano / Educativo*: semáforos, lenguaje sencillo y escenarios explicados como posibilidades, no certezas.
@@ -128,7 +133,9 @@ Archivos: `src/data/satellite_real.json` (IMERG, MODIS, SMAP, Hansen, catálogo 
   descargar el HDF5 GCOV y usar `loadGeoTIFF()`. Los productos GUNW (InSAR) y L3 SME2 (humedad NISAR) aún no tienen
   gránulos sobre la reserva en CMR (2026-11-14), por eso no se muestran desplazamiento ni humedad NISAR. Comparar
   fechas de un mismo track da cambios reales; comparar tracks distintos muestra diferencias de geometría.
-- Escenarios a 5 años: son trayectorias plausibles del ONI combinadas con la regresión observada, **no pronósticos**.
+- Escenarios a 5 años: los °C de ONI futuro están escritos a mano en `src/App.jsx` (`ENSO_COMMON` y `ENSO_SCENARIOS`).
+  En el repo no hay un cálculo que los obtenga de la serie histórica de NOAA; el equipo tiene que confirmar el método.
+  La regresión de lluvia, verdor, calor y humedad sí usa el ONI observado. No son pronósticos oficiales.
   Como la relación ONI–lluvia es débil, sus bandas son anchas.
 
 ## 🔌 Cómo conectar más URLs de NISAR / Sentinel-1
