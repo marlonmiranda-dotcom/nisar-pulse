@@ -6,9 +6,14 @@ Aplicación web Open Source (hackathon) que traduce datos satelitales de la NASA
 MODIS, SMAP, Landsat/Hansen) y el índice ENSO de NOAA en una herramienta comprensible para ciudadanía, docentes,
 gestores y científicos, centrada en la **Reserva Biológica Colonso Chalupas** (Napo, Ecuador, WDPA 555593903).
 
-> **100 % datos reales, sin simulación.** Todas las series y capas provienen de satélites (NASA Earthdata,
+> **Datos observados reales, sin simulación.** Las series y capas observadas provienen de satélites (NASA Earthdata,
 > Landsat) más el índice ONI de NOAA CPC, descargados el **2026-11-14**. Cualquier variable sin dato satelital
-> suficiente se oculta automáticamente; nunca se rellena con valores simulados.
+> suficiente se oculta; nunca se rellena con valores simulados.
+>
+> La fase **Predicción (5 años)** es otra cosa: el ONI de octubre 2026 a diciembre 2031 lo escribió el equipo
+> en el código. **NOAA CPC no publicó esos números.** En esa fase la app esconde la insignia
+> «100 % datos satelitales reales» y muestra esta etiqueta:
+> «Escenario del equipo a partir de la relación histórica con el ONI de NOAA; no es un pronóstico publicado por NOAA».
 
 ## ✨ Funcionalidades
 
@@ -18,12 +23,15 @@ gestores y científicos, centrada en la **Reserva Biológica Colonso Chalupas** 
   descendente track 11, revisita de 12 días). Son las vistas previas oficiales del ASF DAAC recortadas a la reserva.
 - **Capa NASA GIBS que sigue la línea de tiempo**: NDVI mensual MODIS, LST mensual MODIS o color verdadero MODIS.
 - **Línea de tiempo de 12 meses** (Oct 2025 → Sep 2026) con Play/Pausa: actualiza semáforos, capa GIBS y gráficos.
-- **Panel El Niño** con fases *Histórico 2016–2026*, *Actual* y *Predicción (5 años, Oct 2026 → Dic 2031)*:
+- **Panel El Niño** con fases *Histórico 2016–2026*, *Actual* y *Predicción (5 años, oct 2026 → dic 2031)*:
   ONI vs lluvia (IMERG), verdor (NDVI), calor de la superficie (LST) y humedad del suelo (SMAP); correlación de Pearson con
-  desfase óptimo (0–6 meses), valor p, regresión `anomalía(t) = a + b·ONI(t − lag)` y escenarios ENSO
-  (meses 1–5 = perspectiva NOAA CPC con El Niño fuerte hasta EFM 2027; después El Niño recurrente / Neutral / La Niña)
-  con banda de incertidumbre del 95 % que se ensancha con el tiempo.
+  desfase óptimo (0–6 meses), valor p y regresión `anomalía(t) = a + b·ONI(t − lag)` calculada con el ONI **observado**.
+  Los escenarios futuros (El Niño recurrente / Neutral / La Niña) usan nodos de ONI escritos por el equipo, con línea
+  punteada y banda de incertidumbre. No son la tabla oficial de NOAA.
 - **Pérdida de bosque anual 2001–2025** (Hansen GFC v1.13) y **calendario de adquisiciones NISAR**.
+- **Dos capas nuevas** (se prenden y apagan en el mapa): bosque perdido (Hansen, 30 m) y fuentes de agua
+  (ocurrencia JRC, 30 m, más ríos de OpenStreetMap). Debajo hay gráficos por año y una **predicción del equipo**:
+  una recta con banda del 95 %. La contaminación del agua dice **dato no disponible**: estos satélites no miden químicos.
 - **Selector de perfil**:
   - *Ciudadano / Educativo*: semáforos, lenguaje sencillo y escenarios explicados como posibilidades, no certezas.
   - *Científico / Gestor*: productos, resolución, r, p, lag, RMSE, metadatos de gránulos NISAR (enlaces a HDF5,
@@ -33,8 +41,63 @@ gestores y científicos, centrada en la **Reserva Biológica Colonso Chalupas** 
 
 ## 🧰 Stack
 
-Vite 5 · React 18 · Tailwind CSS 3 · lucide-react · Leaflet 1.9 + react-leaflet 4 · Recharts 2.
-Toda la lógica vive en `src/App.jsx`; los datos reales están en `src/data/` y `public/nisar/`.
+Vite 5 · React 18 · TypeScript (solo el globo; el resto sigue en JavaScript) · Tailwind CSS 3 · lucide-react · CesiumJS 1.147 · Leaflet 1.9 + react-leaflet 4 · Recharts 2.
+La vista 2D sigue en `src/App.jsx`. El globo 3D está en `src/globe/`. Los datos reales están en `src/data/` y `public/nisar/`.
+
+## Globo 3D
+
+El botón **Globo 3D / Mapa 2D (detalle)** cambia entre Cesium y el mapa Leaflet.
+`?vista=2d` abre directo el mapa.
+
+```bash
+cp .env.example .env          # opcional: pega ahí VITE_CESIUM_ION_TOKEN
+npm run dev                   # http://localhost:5173
+```
+
+- **Con token** de [Cesium ion](https://cesium.com/ion/tokens) se activa Cesium World Terrain,
+  marcado como **Capa de visualización (fuente externa)**. La exageración vertical solo estira ese modelo.
+- **Sin token** el globo intenta **Esri World Elevation (Terrain 3D)**, un modelo abierto que no pide clave.
+  Si ese servicio tampoco responde, el relieve dice **dato no disponible** y el globo se queda en el elipsoide.
+  No se inventan alturas. Las teselas Terrarium de AWS no se usan: el bucket no deja que el navegador lea las alturas (no envía CORS).
+- El límite es el GeoJSON WDPA 555593903 en `public/data/`. Si no carga, dice **dato no disponible**
+  y no dibuja otra forma. Cómo obtenerlo: `public/data/README.md`.
+- La línea de tiempo del globo (2016-01-01 a 2026-11-12) cambia:
+  - la pérdida de bosque Hansen del año (ha y píxeles de 30 m);
+  - el agua reciente OPERA DSWx-S1 de la fecha (km²; si ese día no hay escena, no se inventa);
+  - el agua histórica JRC/Landsat (1984–2021), con otro nombre para no confundirla con OPERA;
+  - la vista previa NISAR ya descargada y las imágenes NASA GIBS.
+- INAMHI, inundaciones y susceptibilidad dicen **dato no disponible**: no hay esos archivos.
+- Para sumar una capa: `src/globe/COMO-AGREGAR-CAPAS.md`.
+
+### Ver esta prueba en tu computadora
+
+Esta rama no publica el sitio y no cambia GitHub Pages. En `main` sigue el sitio actual.
+
+```bash
+npm install
+npm run dev
+```
+
+Abre http://localhost:5173 . El botón **Mapa 2D (detalle)** deja el comparador, los gráficos y las fuentes como estaban. `?vista=2d` abre directo el mapa. `?fecha=2019-07-01` abre el globo en ese día.
+
+### Token de relieve como secreto de GitHub Actions
+
+No pegues el token en el código, en un issue ni en `.env` subido a Git.
+
+1. En el repositorio: **Settings → Secrets and variables → Actions → New repository secret**.
+2. Name: `VITE_CESIUM_ION_TOKEN`
+3. Value: el token creado en https://cesium.com/ion/tokens
+
+El archivo `.github/workflows/deploy.yml` pasa ese secreto al `npm run build`.
+Si el secreto no existe, Vite recibe un texto vacío y el globo usa el relieve abierto de Esri.
+El workflow solo corre al publicar `main`. Esta rama de prueba no despliega sola.
+
+### Por qué TypeScript no reemplazó `App.jsx`
+
+`App.jsx` concentra el mapa Leaflet, los gráficos y las series ya probadas.
+Pasarlo entero a TypeScript de un golpe podía romper esa vista. `tsconfig.json`
+tiene `allowJs` y `checkJs: false`: el JavaScript sigue compilando, y el globo
+nuevo está en `.ts` / `.tsx`. `npm run typecheck` revisa solo esa parte.
 
 ## 🚀 Instalación
 
@@ -78,6 +141,25 @@ Archivos: `src/data/satellite_real.json` (IMERG, MODIS, SMAP, Hansen, catálogo 
 (ONI, Niño 1+2, CHIRPS), `src/data/colonso_wdpa.geojson`, `public/nisar/*.webp`. Para regenerarlos se usan
 `scripts/earthdata/` (earthaccess + Earthdata Login).
 
+### Capas de degradación y de agua (2026-11-14)
+
+El detalle de cada descarga, la licencia y los pasos exactos están en [`scripts/capas/README.md`](scripts/capas/README.md).
+Resumen de lo que la app muestra hoy:
+
+| Capa | Fuente que sí se usó | Resolución | Qué se ve |
+| --- | --- | --- | --- |
+| Bosque perdido | Hansen GFC v1.13 (Landsat), tesela `00N_080W` | 30 m | Píxeles con cobertura ≥ 30 % en 2000 que luego se perdieron (2001–2025). La recta proyecta 5 años. |
+| Verdor | MODIS MOD13C2 ya guardado en `satellite_real.json` | 0,05° | NDVI medio de cada año. 2026 está incompleto y no entra en la recta. |
+| Agua superficial | JRC Global Surface Water v1.4: Occurrence, change y clasificación anual | 30 m | Mancha azul = % de veces que el píxel fue agua (1984–2021). El cambio entre 1984–1999 y 2000–2021 se escribe aparte. No hay recta: casi cada año el píxel queda sin observación por las nubes. |
+| Ríos y quebradas | OpenStreetMap (ODbL), recortado al polígono | Líneas | 16 ríos, 43 quebradas y 6 cuerpos de agua dentro de la reserva. |
+| Contaminación del agua, MapBiomas, NO2, NDWI, HydroRIVERS | No se inventaron números | — | La pantalla dice **dato no disponible** y el README del script dice qué hay que correr. |
+
+Una quebrada o un estanque más chicos que unos 30 m pueden no salir en la mancha azul del JRC.
+HydroRIVERS (15 segundos de arco) no se pudo bajar: el sitio respondió HTTP 403.
+
+La predicción es una recta de mínimos cuadrados con intervalo de predicción del 95 % (`src/prediccion.js`).
+Es una proyección del equipo a partir de la serie citada. Puede cambiar con años nuevos. No dice la causa del cambio.
+
 ### Hallazgos con los datos reales (2016–2026)
 
 - **Calor de la superficie (MODIS LST)**: es la única señal ENSO significativa, r = +0,25 con 5 meses de desfase (p ≈ 0,004).
@@ -100,7 +182,9 @@ Archivos: `src/data/satellite_real.json` (IMERG, MODIS, SMAP, Hansen, catálogo 
   descargar el HDF5 GCOV y usar `loadGeoTIFF()`. Los productos GUNW (InSAR) y L3 SME2 (humedad NISAR) aún no tienen
   gránulos sobre la reserva en CMR (2026-11-14), por eso no se muestran desplazamiento ni humedad NISAR. Comparar
   fechas de un mismo track da cambios reales; comparar tracks distintos muestra diferencias de geometría.
-- Escenarios a 5 años: son trayectorias plausibles del ONI combinadas con la regresión observada, **no pronósticos**.
+- Escenarios a 5 años: los °C de ONI futuro están escritos a mano en `src/App.jsx` (`ENSO_COMMON` y `ENSO_SCENARIOS`).
+  En el repo no hay un cálculo que los obtenga de la serie histórica de NOAA; el equipo tiene que confirmar el método.
+  La regresión de lluvia, verdor, calor y humedad sí usa el ONI observado. No son pronósticos oficiales.
   Como la relación ONI–lluvia es débil, sus bandas son anchas.
 
 ## 🔌 Cómo conectar más URLs de NISAR / Sentinel-1

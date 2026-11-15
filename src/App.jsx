@@ -7,25 +7,36 @@
  *  Stack: React 18 + Tailwind CSS 3 + lucide-react + Leaflet / react-leaflet 4
  *         + Recharts. Toda la lógica de la aplicación vive en este archivo.
  *
- *  100 % DATOS REALES (sin simulación). Descarga: 2026-11-14.
+ *  DATOS OBSERVADOS REALES (sin simulación). Descarga: 2026-11-14.
+ *  EXCEPCIÓN: la fase «Predicción (5 años)» usa una trayectoria de ONI escrita
+ *  por el equipo (ENSO_COMMON / ENSO_SCENARIOS). Esos °C no los publicó NOAA CPC.
+ *  En esa fase no se muestra la insignia «100 % datos satelitales reales».
  *    · Radar  → NISAR L2 GCOV (ASF DAAC, CMR): 21 adquisiciones reales Jun–Oct 2026
  *               (vistas previas oficiales recortadas a la reserva, public/nisar/).
  *    · Lluvia → GPM IMERG (NASA) · Verdor → MODIS MOD13C2 · Calor → MODIS MOD11C3
  *    · Humedad del suelo → SMAP SPL3SMP_E · Bosque → Hansen GFC v1.13 (Landsat)
  *    · El Niño → NOAA CPC ONI / Niño 1+2 · Límite → WDPA 555593903
- *  Series en src/data/satellite_real.json y src/data/enso_real.json
- *  (regenerables con scripts/earthdata/*.py usando earthaccess + Earthdata Login).
+ *    · Capas nuevas → pérdida de bosque (Hansen 30 m), agua superficial (JRC 30 m)
+ *      y ríos (OpenStreetMap). La recta de predicción está en src/prediccion.js.
+ *  Series en src/data/satellite_real.json, src/data/enso_real.json y src/data/capas_reserva.json
+ *  (regenerables con scripts/earthdata/*.py y scripts/capas/build_capas.py).
  *
  *  >>> Para conectar más capas edita el bloque CONFIG (abajo) y las
  *      funciones fetchNASAGibsLayer() y loadGeoTIFF(). <<<
  * ============================================================================
  */
-import React, { useEffect, useMemo, useRef, useState, useCallback } from "react";
-import { MapContainer, TileLayer, WMSTileLayer, Pane, Polygon, ImageOverlay, Rectangle, useMap } from "react-leaflet";
+import React, { useEffect, useMemo, useRef, useState, useCallback, lazy, Suspense } from "react";
+import { MapContainer, TileLayer, WMSTileLayer, Pane, Polygon, ImageOverlay, Rectangle, GeoJSON, useMap } from "react-leaflet";
 import L from "leaflet";
 import ENSO_REAL from "./data/enso_real.json"; // NOAA CPC ONI + Niño 1+2 (+ CHIRPS solo como comparación)
 import SAT from "./data/satellite_real.json"; // IMERG · MODIS · SMAP · Hansen GFC · catálogo NISAR GCOV (reales)
 import COLONSO_WDPA_RAW from "./data/colonso_wdpa.geojson?raw"; // límite oficial WDPA 555593903 (simplificado)
+import CAPAS from "./data/capas_reserva.json"; // bosque, NDVI anual, agua JRC, avisos de dato no disponible
+import RIOS_OSM_RAW from "./data/rios_osm_colonso.geojson?raw"; // ríos y quebradas OpenStreetMap recortados a la reserva
+import BOSQUE_RAW from "./data/bosque_perdida.geojson?raw"; // un punto por píxel Hansen de bosque perdido
+import AGUA_RAW from "./data/agua_ocurrencia.geojson?raw"; // un punto por píxel JRC con agua alguna vez
+import PanelCapas from "./PanelCapas.jsx";
+import RadarPanel from "./components/RadarPanel.jsx";
 import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
@@ -80,6 +91,10 @@ import {
   History,
   Clock,
 } from "lucide-react";
+
+// Globo 3D en TypeScript (src/globe). Se carga aparte para no mezclar Cesium
+// con este mapa Leaflet, que sigue siendo la vista de detalle.
+const GloboColonso = lazy(() => import("./globe/GloboColonso"));
 
 /* ============================================================================
  *  CONFIG — PUNTO ÚNICO PARA INSERTAR TUS URLS DE NISAR / SENTINEL-1 / GIBS
@@ -245,6 +260,10 @@ async function fetchNOAA_ONI() {
 
 /** Polígono oficial de la Reserva Biológica Colonso Chalupas (WDPA, uso no comercial con atribución). */
 const COLONSO_WDPA = JSON.parse(COLONSO_WDPA_RAW);
+/** Ríos, quebradas y cuerpos de agua de OpenStreetMap dentro de la reserva. */
+const RIOS_OSM = JSON.parse(RIOS_OSM_RAW);
+const BOSQUE_PUNTOS = JSON.parse(BOSQUE_RAW);
+const AGUA_PUNTOS = JSON.parse(AGUA_RAW);
 
 const ZONE = {
   id: "colonso",
@@ -402,12 +421,28 @@ function pValue(r, n) {
   return Math.max(0, 1 - erf);
 }
 
-/* ---- Escenarios ENSO a 5 años (Oct 2026 → Dic 2031) ----
- * Meses 1–5 (SON 2026 → EFM 2027): perspectiva oficial NOAA CPC (12-nov-2026): El Niño fuerte/muy fuerte hasta EFM 2027.
- * Después: debilitamiento común y 3 trayectorias plausibles según la estadística histórica ENSO
- * (ciclo de ~3–7 años; tras El Niño fuertes suele seguir La Niña, p. ej. 1998-2001, 2010-12, 2024-25).
- * Nodos [AAAA-MM, ONI] interpolados suavemente. Son escenarios, NO pronósticos deterministas.
+/* ---- ONI proyectado (oct 2026 → dic 2031): predicción del equipo, NO de NOAA ----
+ * Estos números NO son valores publicados por NOAA CPC. El equipo los escribió a mano
+ * en ENSO_COMMON y en ENSO_SCENARIOS. No hay una función que los calcule a partir de
+ * la serie observada de src/data/enso_real.json.
+ *
+ * Qué se puede ver en el repo sobre cómo se armaron:
+ *   · La nota original del código decía que los primeros meses seguían el texto de la
+ *     discusión ENSO de NOAA CPC (12 nov 2026: El Niño fuerte probable hasta EFM 2027)
+ *     y que después había tres caminos “según la estadística histórica” (ciclos de
+ *     unos 3–7 años; ejemplos citados: 1998-2001, 2010-12, 2024-25). Esa idea no está
+ *     programada: los °C son nodos fijos. NOAA publica probabilidades, no esta lista.
+ *   · interpNodes() solo une esos nodos con una curva suave (interpolación coseno).
+ *   · oniSdAt() es una fórmula de incertidumbre también escrita a mano.
+ *   · Lo que SÍ usa el ONI histórico de NOAA es la regresión de lluvia, verdor, calor
+ *     y humedad (buildClimate): anomalía ≈ a + b·ONI. Esa recta se evalúa sobre
+ *     esta trayectoria del equipo. La recta no crea los valores de ONI futuro.
+ *
+ * En pantalla, toda esta parte lleva la etiqueta PREDICCION_ONI_LABEL.
+ * El equipo debe confirmar el método antes de presentarlo como basado en NOAA.
  */
+const PREDICCION_ONI_LABEL =
+  "Escenario del equipo a partir de la relación histórica con el ONI de NOAA; no es un pronóstico publicado por NOAA";
 const ENSO_COMMON = [
   ["2026-09", 2.46],
   ["2026-10", 2.7],
@@ -584,6 +619,33 @@ const NISAR_MONTHLY = (() => {
 })();
 const assetUrl = (p) => `${import.meta.env.BASE_URL}${p}`;
 
+/** Estilo de los ríos (líneas) y de los cuerpos dibujados en OpenStreetMap. */
+function estiloRio(feature) {
+  const tipo = feature?.properties?.tipo;
+  if (tipo === "cuerpo de agua") return { color: "#7dd3fc", weight: 1, fillColor: "#38bdf8", fillOpacity: 0.25 };
+  if (tipo === "río") return { color: "#e0f2fe", weight: 2.6, opacity: 0.95 };
+  return { color: "#7dd3fc", weight: 1.4, opacity: 0.9 };
+}
+function puntaRio(feature, layer) {
+  const p = feature.properties || {};
+  layer.bindTooltip(`${p.nombre} · ${p.tipo}`, { sticky: true, className: "nisar-tip" });
+}
+function puntoBosque(feature, latlng) {
+  const color = feature.properties.grupo === "2019-2025" ? "#ef4444" : feature.properties.grupo === "2011-2018" ? "#f97316" : "#facc15";
+  return L.circleMarker(latlng, { radius: 4, color, fillColor: color, fillOpacity: 0.9, weight: 0 });
+}
+function puntaBosque(feature, layer) {
+  layer.bindTooltip(`Bosque perdido en ${feature.properties.anio} · píxel de 30 m`, { sticky: true, className: "nisar-tip" });
+}
+function puntoAgua(feature, latlng) {
+  const alta = feature.properties.ocurrencia >= 50;
+  const color = alta ? "#0369a1" : "#7dd3fc";
+  return L.circleMarker(latlng, { radius: alta ? 5 : 3.5, color, fillColor: color, fillOpacity: 0.85, weight: 0 });
+}
+function puntaAgua(feature, layer) {
+  layer.bindTooltip(`Agua en el ${feature.properties.ocurrencia} % de las observaciones · píxel de 30 m`, { sticky: true, className: "nisar-tip" });
+}
+
 /* ============================================================================
  *  INDICADORES (semáforo) A PARTIR DE ANOMALÍAS REALES
  * ========================================================================== */
@@ -611,7 +673,8 @@ function monthIndicators(climate, k) {
         : oni <= -0.5
           ? "La Niña: el Pacífico está más frío de lo normal."
           : "Pacífico en condiciones normales (neutral).",
-    source: `NOAA CPC · descargado ${ENSO_REAL.metadata.descargado}`,
+    source: `NOAA CPC (ERSSTv5) · anomalía °C · media móvil de 3 meses · ene 2016 – sep 2026 · descargado ${ENSO_REAL.metadata.descargado}`,
+    sourceUrl: ENSO_REAL.metadata.oni.url,
   });
   const anom = (v) => (r[v] == null || climate.clim[v][r.mi] == null ? null : r[v] - climate.clim[v][r.mi]);
   if (CLIMATE_VARS.precip) {
@@ -713,6 +776,21 @@ function rowsToCsv(rows) {
  *  COMPONENTES DEL MAPA
  * ========================================================================== */
 /** Comparador tipo cortina: recorta los panes "beforePane" (izq.) y "afterPane" (der.). */
+/** El mapa 2D se monta al salir del globo. Sin este ajuste Leaflet mide el cuadro en cero y se abre en el mundo. */
+function PrepararMapa() {
+  const map = useMap();
+  useEffect(() => {
+    const fijar = () => {
+      map.invalidateSize();
+      map.setView(ZONE.center, ZONE.zoom, { animate: false });
+    };
+    fijar();
+    const id = window.setTimeout(fijar, 200);
+    return () => window.clearTimeout(id);
+  }, [map]);
+  return null;
+}
+
 function SwipeController({ enabled, position }) {
   const map = useMap();
   useEffect(() => {
@@ -865,15 +943,25 @@ const PHASES = [
 const oniColor = (v) => (v >= 0.5 ? "#ef4444" : v <= -0.5 ? "#3b82f6" : "#64748b");
 
 function exportClimateCsv(climate) {
+  const fuenteObs = `ONI observado NOAA CPC (anomalía °C, media móvil de 3 meses, ene 2016 – sep 2026, ${ENSO_REAL.metadata.oni.url}); ${CLIMATE_VAR_KEYS.map((v) => SRC[v].producto).join("; ")} (descarga ${D_DESCARGA})`;
   const hist = climate.rows.map((r) => {
-    const o = { fecha: r.date, tipo: "observado", escenario: "", oni_noaa: r.oni, oni_lo: "", oni_hi: "", nino12_noaa: r.nino12 ?? "" };
+    const o = {
+      fecha: r.date,
+      tipo: "observado",
+      escenario: "",
+      oni_c: r.oni,
+      origen_oni: "observado NOAA CPC",
+      oni_lo: "",
+      oni_hi: "",
+      nino12_noaa: r.nino12 ?? "",
+    };
     CLIMATE_VAR_KEYS.forEach((v) => {
       o[v] = r[v] ?? "";
       o[`${v}_lo`] = "";
       o[`${v}_hi`] = "";
     });
     o.precip_chirps_comparacion = r.precip_chirps ?? "";
-    o.fuente = `ONI NOAA CPC; ${CLIMATE_VAR_KEYS.map((v) => SRC[v].producto).join("; ")} (descarga ${D_DESCARGA})`;
+    o.fuente = fuenteObs;
     return o;
   });
   const fc = [];
@@ -881,9 +969,10 @@ function exportClimateCsv(climate) {
     SCENARIO_KEYS.forEach((s) => {
       const o = {
         fecha: f.date,
-        tipo: f.noaa ? "pronostico_NOAA" : "escenario",
+        tipo: "prediccion_equipo",
         escenario: ENSO_SCENARIOS[s].label,
-        oni_noaa: f[`oni_${s}`],
+        oni_c: f[`oni_${s}`],
+        origen_oni: PREDICCION_ONI_LABEL,
         oni_lo: f[`oniBand_${s}`][0],
         oni_hi: f[`oniBand_${s}`][1],
         nino12_noaa: "",
@@ -894,7 +983,7 @@ function exportClimateCsv(climate) {
         o[`${v}_hi`] = f[`${v}Band_${s}`][1];
       });
       o.precip_chirps_comparacion = "";
-      o.fuente = f.noaa ? "NOAA CPC outlook 12-nov-2026 + regresión sobre datos satelitales reales" : "escenario ENSO + regresión (no determinista)";
+      o.fuente = PREDICCION_ONI_LABEL;
       fc.push(o);
     }),
   );
@@ -913,13 +1002,14 @@ function ClimatePanel({ climate, source, phase, setPhase, climVar, setClimVar, s
   if (phase === "historico") data = climate.rows;
   else if (phase === "actual") data = climate.rows.slice(-12);
   else {
-    const obs = climate.rows.slice(-24).map((r) => ({ ...r, obs: r[climVar] }));
+    const obs = climate.rows.slice(-24).map((r) => ({ ...r, obs: r[climVar], oniObs: r.oni, oniFc: null }));
     const lastObs = obs[obs.length - 1];
     if (lastObs.obs != null) {
-      lastObs.fc = lastObs.obs; // une observado y proyección
+      lastObs.fc = lastObs.obs; // une la variable observada con su proyección
       lastObs.band = [lastObs.obs, lastObs.obs];
       others.forEach((s) => (lastObs[`alt_${s}`] = lastObs.obs));
     }
+    if (lastObs) lastObs.oniFc = lastObs.oni; // la línea punteada sale del último ONI observado
     data = [
       ...obs,
       ...climate.forecast.map((f) => {
@@ -928,7 +1018,8 @@ function ClimatePanel({ climate, source, phase, setPhase, climVar, setClimVar, s
           mi: f.mi,
           fc: f[`${climVar}_${scenario}`],
           band: f[`${climVar}Band_${scenario}`],
-          oni: f[`oni_${scenario}`],
+          oniObs: null,
+          oniFc: f[`oni_${scenario}`],
           isFc: true,
         };
         others.forEach((s) => (row[`alt_${s}`] = f[`${climVar}_${s}`]));
@@ -950,7 +1041,8 @@ function ClimatePanel({ climate, source, phase, setPhase, climVar, setClimVar, s
   const lastV = lastValid(climVar);
   const firstFc = climate.forecast[0];
   const lastFc = climate.forecast[climate.forecast.length - 1];
-  const noaaEnd = climate.forecast[NOAA_OUTLOOK_MONTHS - 1];
+  const oniBarKey = phase === "prediccion" ? "oniObs" : "oni";
+  const oniBarName = isSci ? "ONI observado (NOAA CPC)" : "ONI observado";
 
   return (
     <section className="panel p-4 lg:col-span-12">
@@ -986,7 +1078,9 @@ function ClimatePanel({ climate, source, phase, setPhase, climVar, setClimVar, s
               className={`flex items-center gap-1 rounded-md border px-2 py-1 ${climVar === k ? "border-cyan-400/60 bg-cyan-400/15 text-cyan-100" : "border-white/10 text-slate-300"}`}
             >
               <Icon className="h-3.5 w-3.5" style={{ color: CLIMATE_VARS[k].color }} /> {isSci ? CLIMATE_VARS[k].tech : CLIMATE_VARS[k].citizen}
-              <span className="rounded bg-emerald-500/30 px-1 text-[9px] font-bold uppercase text-emerald-200">satélite</span>
+              {phase !== "prediccion" && (
+                <span className="rounded bg-emerald-500/30 px-1 text-[9px] font-bold uppercase text-emerald-200">satélite</span>
+              )}
             </button>
           );
         })}
@@ -1007,16 +1101,24 @@ function ClimatePanel({ climate, source, phase, setPhase, climVar, setClimVar, s
             ))}
           </div>
         )}
-        <Badge className="ml-auto">
-          <Database className="h-3 w-3" /> {source}
-        </Badge>
+        {phase === "prediccion" ? (
+          <p className="w-full rounded-lg border border-amber-400/40 bg-amber-500/10 px-3 py-2 text-[11px] leading-relaxed text-amber-100">
+            <span className="font-semibold text-amber-50">{PREDICCION_ONI_LABEL}.</span> La línea punteada ámbar es el ONI de
+            octubre 2026 a diciembre 2031. Esos números los armó el equipo; NOAA CPC no los publicó. Las barras de color son el ONI
+            observado.
+          </p>
+        ) : (
+          <Badge className="ml-auto">
+            <Database className="h-3 w-3" /> {source}
+          </Badge>
+        )}
       </div>
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-12">
         <div className="lg:col-span-8">
-        <div className="h-72">
+        <div className={phase === "prediccion" ? "h-[30rem]" : "h-72"}>
           <ResponsiveContainer width="100%" height="100%">
-            <ComposedChart data={data} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+            <ComposedChart data={data} margin={{ top: 10, right: 10, left: 0, bottom: phase === "prediccion" ? 8 : 0 }}>
               <CartesianGrid stroke="rgba(255,255,255,0.06)" />
               <XAxis
                 dataKey="label"
@@ -1035,10 +1137,35 @@ function ClimatePanel({ climate, source, phase, setPhase, climVar, setClimVar, s
               />
               <Tooltip
                 {...chartTooltip}
-                formatter={(v, name) => {
-                  if (Array.isArray(v)) return [`${fmt(v[0])} – ${fmt(v[1])} ${vm.unit}`, name];
-                  if (String(name).startsWith("ONI")) return [`${Number(v).toFixed(2)} °C (${ensoPhase(v)})`, name];
-                  return [`${fmt(v)} ${vm.unit}`, name];
+                content={({ active, payload, label }) => {
+                  if (!active || !payload?.length) return null;
+                  const filas = payload.filter((p) => p.value != null && !(Array.isArray(p.value) && p.value[0] == null));
+                  if (!filas.length) return null;
+                  const proyectado = filas.some((p) => p.name === PREDICCION_ONI_LABEL || String(p.name).includes("(predicción)"));
+                  return (
+                    <div style={{ background: "#0a0f1f", border: "1px solid rgba(34,211,238,0.35)", borderRadius: 10, padding: "8px 10px", maxWidth: 320, fontSize: 12 }}>
+                      <p style={{ color: "#22d3ee", fontWeight: 600, margin: "0 0 4px" }}>{label}</p>
+                      {filas.map((p) => {
+                        const titulo = p.name === PREDICCION_ONI_LABEL ? "ONI proyectado" : p.name;
+                        let texto;
+                        if (p.name === PREDICCION_ONI_LABEL || String(p.name).startsWith("ONI")) {
+                          texto = `${Number(p.value).toFixed(2)} °C`;
+                        } else if (Array.isArray(p.value)) {
+                          texto = `${fmt(p.value[0])} – ${fmt(p.value[1])} ${vm.unit}`;
+                        } else {
+                          texto = `${fmt(p.value)} ${vm.unit}`;
+                        }
+                        const unidadObs = String(p.name).startsWith("ONI") && p.name !== PREDICCION_ONI_LABEL ? " · anomalía, media móvil 3 meses" : "";
+                        return (
+                          <p key={p.dataKey || p.name} style={{ color: "#e2e8f0", margin: "2px 0" }}>
+                            {titulo}: {texto}
+                            {unidadObs}
+                          </p>
+                        );
+                      })}
+                      {proyectado && <p style={{ color: "#fde68a", margin: "6px 0 0", lineHeight: 1.35 }}>{PREDICCION_ONI_LABEL}</p>}
+                    </div>
+                  );
                 }}
               />
               <Legend wrapperStyle={{ fontSize: 11, color: "#cbd5e1" }} />
@@ -1054,35 +1181,30 @@ function ClimatePanel({ climate, source, phase, setPhase, climVar, setClimVar, s
                     label={{ value: e.label, fill: e.color, fontSize: 10, position: "insideTop" }}
                   />
                 ))}
-              {phase === "prediccion" && (
-                <ReferenceArea
-                  yAxisId="oni"
-                  x1={firstFc.label}
-                  x2={noaaEnd.label}
-                  fill="#fbbf24"
-                  fillOpacity={0.08}
-                  label={{ value: "Perspectiva NOAA", fill: "#fbbf24", fontSize: 10, position: "insideTop" }}
-                />
-              )}
               <ReferenceLine yAxisId="oni" y={0.5} stroke="rgba(239,68,68,0.35)" strokeDasharray="3 3" />
               <ReferenceLine yAxisId="oni" y={-0.5} stroke="rgba(59,130,246,0.35)" strokeDasharray="3 3" />
-              <Bar
-                yAxisId="oni"
-                dataKey="oni"
-                name={isSci ? "ONI (NOAA CPC)" : "ONI · temperatura del Pacífico"}
-                barSize={phase === "actual" ? 10 : 3}
-                isAnimationActive={false}
-              >
+              <Bar yAxisId="oni" dataKey={oniBarKey} name={oniBarName} barSize={phase === "actual" ? 10 : 3} isAnimationActive={false}>
                 {data.map((d) => (
-                  <Cell key={d.label} fill={oniColor(d.oni)} fillOpacity={d.isFc ? 0.35 : 0.7} />
+                  <Cell key={d.label} fill={oniColor(d.oniObs ?? d.oni)} fillOpacity={0.8} />
                 ))}
               </Bar>
               {phase === "prediccion" ? (
                 <>
+                  <Line
+                    yAxisId="oni"
+                    dataKey="oniFc"
+                    name={PREDICCION_ONI_LABEL}
+                    stroke="#fbbf24"
+                    strokeWidth={2.5}
+                    strokeDasharray="6 4"
+                    dot={false}
+                    connectNulls={false}
+                    isAnimationActive={false}
+                  />
                   <Area
                     yAxisId="v"
                     dataKey="band"
-                    name="IC 95 % (escenario)"
+                    name="Rango de incertidumbre (predicción)"
                     stroke="none"
                     fill={sc.color}
                     fillOpacity={0.18}
@@ -1093,10 +1215,11 @@ function ClimatePanel({ climate, source, phase, setPhase, climVar, setClimVar, s
                       key={s}
                       yAxisId="v"
                       dataKey={`alt_${s}`}
-                      name={ENSO_SCENARIOS[s].label}
+                      name={`${ENSO_SCENARIOS[s].label} (predicción)`}
                       stroke={ENSO_SCENARIOS[s].color}
-                      strokeOpacity={0.5}
-                      strokeWidth={1}
+                      strokeOpacity={0.55}
+                      strokeWidth={1.5}
+                      strokeDasharray="4 3"
                       dot={false}
                       isAnimationActive={false}
                     />
@@ -1113,7 +1236,7 @@ function ClimatePanel({ climate, source, phase, setPhase, climVar, setClimVar, s
                   <Line
                     yAxisId="v"
                     dataKey="fc"
-                    name={`${sc.label}`}
+                    name={`${sc.label} (predicción)`}
                     stroke="#f8fafc"
                     strokeWidth={2}
                     strokeDasharray="6 4"
@@ -1151,10 +1274,25 @@ function ClimatePanel({ climate, source, phase, setPhase, climVar, setClimVar, s
             </ComposedChart>
           </ResponsiveContainer>
         </div>
-          <p className="mt-1 flex flex-wrap items-center gap-1 text-[10px] text-slate-500">
-            <Database className="h-3 w-3" /> Fuente: {vm.src.producto} ({vm.src.via}) · ONI: NOAA CPC · descargado {D_DESCARGA}
-            {climVar === "precip" && isSci && phase !== "prediccion" ? " · línea violeta: CHIRPS v2.0 (comparación)" : ""}
-          </p>
+          <div className="mt-2 space-y-1 text-[11px] leading-relaxed text-slate-400">
+            {phase === "prediccion" && (
+              <p className="text-amber-100">
+                <span className="mr-2 inline-block w-6 border-t-2 border-dashed border-amber-300 align-middle" />
+                <span className="font-semibold">{PREDICCION_ONI_LABEL}.</span> También van con línea punteada la variable elegida y los
+                otros escenarios. Las barras son datos ya medidos.
+              </p>
+            )}
+            <p className="flex flex-wrap items-center gap-1 text-[10px] text-slate-500">
+              <Database className="h-3 w-3 shrink-0" />
+              ONI observado: anomalía en °C, media móvil de 3 meses. Periodo: enero 2016 – septiembre 2026 (último{" "}
+              {ENSO_REAL.metadata.oni.ultimo}). Fuente: NOAA CPC, ERSSTv5.{" "}
+              <a className="text-cyan-300 hover:underline" href={ENSO_REAL.metadata.oni.url} target="_blank" rel="noreferrer">
+                Tabla oficial oni.ascii.txt
+              </a>
+              . Descarga de la app: {ENSO_REAL.metadata.descargado}. Variable: {vm.src.producto} ({vm.src.via}).
+              {climVar === "precip" && isSci && phase !== "prediccion" ? " Línea violeta: CHIRPS v2.0 (comparación)." : ""}
+            </p>
+          </div>
         </div>
 
         <div className="space-y-3 text-xs lg:col-span-4">
@@ -1201,11 +1339,22 @@ function ClimatePanel({ climate, source, phase, setPhase, climVar, setClimVar, s
                 </tbody>
               </table>
               <p className="text-[11px] leading-relaxed text-slate-400">
-                ONI y Niño 1+2: NOAA CPC (descarga {ENSO_REAL.metadata.descargado}; último ONI {ENSO_REAL.metadata.oni.ultimo}). {vm.tech}:{" "}
-                {vm.src.via}, resolución {vm.src.res}, media sobre el polígono WDPA 555593903 (descarga {D_DESCARGA}; último mes {lastV.label}).
-                {vm.src.nota ? ` ${vm.src.nota}` : ""} Anomalías respecto a la climatología 2016–2026 del propio sensor. Proyección {firstFc.label} → {lastFc.label}: meses 1–{NOAA_OUTLOOK_MONTHS} según la
-                perspectiva NOAA CPC (El Niño fuerte hasta EFM 2027), luego escenarios ENSO (El Niño recurrente / Neutral / La Niña) con σONI
-                creciente; banda ±1,96·√(RMSE²(1+h/60) + (b·σONI)²).
+                ONI observado y Niño 1+2: NOAA CPC, anomalía en °C, media móvil de 3 meses (ERSSTv5). Periodo enero 2016 – septiembre 2026
+                (descarga {ENSO_REAL.metadata.descargado}; último ONI {ENSO_REAL.metadata.oni.ultimo}).{" "}
+                <a className="text-cyan-300 hover:underline" href={ENSO_REAL.metadata.oni.url} target="_blank" rel="noreferrer">
+                  Tabla oficial NOAA CPC
+                </a>
+                . {vm.tech}: {vm.src.via}, resolución {vm.src.res}, media sobre el polígono WDPA 555593903 (descarga {D_DESCARGA}; último mes{" "}
+                {lastV.label}).
+                {vm.src.nota ? ` ${vm.src.nota}` : ""} Anomalías respecto a la climatología 2016–2026 del propio sensor.
+                {phase === "prediccion" && (
+                  <>
+                    {" "}
+                    De {firstFc.label} a {lastFc.label}: {PREDICCION_ONI_LABEL}. Esos °C de ONI los escribió el equipo; no son una tabla de NOAA.
+                    La curva de esta variable en la parte punteada sale de la regresión de arriba aplicada a esa predicción. La banda es
+                    ±1,96·√(RMSE²(1+h/60) + (b·σONI)²) y se ensancha con el tiempo.
+                  </>
+                )}
               </p>
               <button
                 onClick={() => exportClimateCsv(climate)}
@@ -1222,18 +1371,26 @@ function ClimatePanel({ climate, source, phase, setPhase, climVar, setClimVar, s
                 </p>
                 <p className="mt-1 text-sm font-semibold text-white">
                   {phase === "prediccion"
-                    ? `Próximos meses (NOAA): El Niño fuerte, ${vm.citizen.toLowerCase()} ${pctTxt(near)}. Hasta 2031, si ocurre el escenario «${sc.label}»: ${pctTxt(longT)} en promedio.`
-                    : `El Pacífico está en fase ${ensoPhase(curRow.oni)} (${curRow.oni > 0 ? "+" : ""}${curRow.oni.toFixed(1)} °C). ${vm.citizen}: ${curRow[climVar] == null ? `dato satelital aún no disponible (último: ${lastV.label})` : `${fmt(curRow[climVar])} ${vm.unit} (normal: ${fmt(climate.clim[climVar][curRow.mi])} ${vm.unit})`}.`}
+                    ? `${PREDICCION_ONI_LABEL}. Escenario «${sc.label}»: en los próximos meses, ${vm.citizen.toLowerCase()} ${pctTxt(near)}. Hasta diciembre de 2031, el promedio de este escenario queda ${pctTxt(longT)}.`
+                    : `El Pacífico está en fase ${ensoPhase(curRow.oni)} (ONI ${curRow.oni > 0 ? "+" : ""}${curRow.oni.toFixed(2)} °C, anomalía, media móvil de 3 meses). ${vm.citizen}: ${curRow[climVar] == null ? `dato satelital aún no disponible (último: ${lastV.label})` : `${fmt(curRow[climVar])} ${vm.unit} (normal del mes: ${fmt(climate.clim[climVar][curRow.mi])} ${vm.unit})`}.`}
                 </p>
+                {phase !== "prediccion" && (
+                  <p className="mt-2 text-[11px] font-normal leading-relaxed text-slate-400">
+                    Fuente del ONI observado: NOAA CPC, enero 2016 – septiembre 2026.{" "}
+                    <a className="text-cyan-300 hover:underline" href={ENSO_REAL.metadata.oni.url} target="_blank" rel="noreferrer">
+                      Ver la tabla oficial
+                    </a>
+                    .
+                  </p>
+                )}
               </div>
               {phase === "prediccion" && (
                 <div className="flex gap-2 rounded-xl bg-amber-500/10 p-3 text-slate-300 ring-1 ring-amber-400/30">
                   <TriangleAlert className="mt-0.5 h-4 w-4 shrink-0 text-amber-300" />
                   <p className="leading-relaxed">
-                    <b className="text-white">Son escenarios, no certezas.</b> Nadie puede saber hoy cómo estará el Pacífico en 2030. Solo los
-                    primeros meses se basan en el pronóstico oficial de NOAA; después mostramos tres caminos posibles. La franja de color se ensancha
-                    porque la incertidumbre crece con el tiempo. Úsalo para prepararte (guardar agua, cuidar el bosque), no como una predicción
-                    exacta.
+                    <b className="text-white">Son escenarios del equipo, no certezas.</b> {PREDICCION_ONI_LABEL}. Nadie puede saber hoy cómo estará
+                    el Pacífico en 2030. La línea punteada es la predicción; las barras son mediciones ya hechas. La franja de color se ensancha
+                    porque la incertidumbre crece con el tiempo. Sirve para prepararse (guardar agua, cuidar el bosque), no como un número exacto.
                   </p>
                 </div>
               )}
@@ -1283,6 +1440,11 @@ export default function App() {
   const [keyA, setKeyA] = useState(NISAR_BY_KEY[params.get("a")] ? params.get("a") : DEFAULT_A);
   const [keyB, setKeyB] = useState(NISAR_BY_KEY[params.get("b")] ? params.get("b") : DEFAULT_B);
   const [gibsKey, setGibsKey] = useState(GIBS_LAYERS[params.get("gibs")] ? params.get("gibs") : "none");
+  // ?capas=bosque,agua enciende esas capas. Sin el parámetro, arrancan encendidas.
+  const capasParam = params.get("capas");
+  const listaCapas = capasParam ? capasParam.split(",") : ["bosque", "agua"];
+  const [verBosque, setVerBosque] = useState(listaCapas.includes("bosque"));
+  const [verAgua, setVerAgua] = useState(listaCapas.includes("agua"));
   const [phase, setPhase] = useState(PHASES.some((p) => p.id === params.get("fase")) ? params.get("fase") : "actual");
   const [climVar, setClimVar] = useState(CLIMATE_VARS[params.get("variable")] ? params.get("variable") : CLIMATE_VAR_KEYS[0]);
   const [climate, setClimate] = useState(CLIMATE_REAL);
@@ -1291,6 +1453,8 @@ export default function App() {
   const mapWrapRef = useRef(null);
   const draggingRef = useRef(false);
   const isSci = mode === "cientifico";
+  // "3d" abre el globo Cesium. "2d" deja el mapa Leaflet (comparador NISAR).
+  const [vista, setVista] = useState(params.get("vista") === "2d" ? "2d" : "3d");
 
   const gA = NISAR_BY_KEY[keyA];
   const gB = NISAR_BY_KEY[keyB];
@@ -1441,9 +1605,11 @@ export default function App() {
               <p className="text-[11px] text-slate-400 sm:text-xs">El Niño en la Reserva Colonso Chalupas · Visualizador Accesible de Ritmos de la Tierra</p>
             </div>
           </div>
-          <div className="order-3 hidden items-center gap-2 rounded-xl border border-emerald-400/40 bg-emerald-400/10 px-3 py-1.5 text-sm font-medium text-emerald-100 md:order-none md:ml-6 md:flex">
-            <Satellite className="h-4 w-4" /> 100 % datos satelitales reales · NASA Earthdata
-          </div>
+          {phase !== "prediccion" && (
+            <div className="order-3 hidden items-center gap-2 rounded-xl border border-emerald-400/40 bg-emerald-400/10 px-3 py-1.5 text-sm font-medium text-emerald-100 md:order-none md:ml-6 md:flex">
+              <Satellite className="h-4 w-4" /> 100 % datos satelitales reales · NASA Earthdata
+            </div>
+          )}
           <div className="ml-auto flex items-center rounded-full border border-white/10 bg-space-800 p-1" role="radiogroup" aria-label="Perfil de usuario">
             <button
               role="radio"
@@ -1469,16 +1635,36 @@ export default function App() {
         </div>
       </header>
 
-      <main className="relative z-10 mx-auto grid max-w-[1600px] grid-cols-1 gap-4 p-4 lg:grid-cols-12">
+      <main id="contenido" tabIndex={-1} className="relative z-10 mx-auto grid max-w-[1600px] grid-cols-1 gap-4 p-4 lg:grid-cols-12">
         {/* ================= MAPA + COMPARADOR NISAR ================= */}
         <section className="panel flex flex-col overflow-hidden lg:col-span-8">
           <div className="flex flex-wrap items-center gap-2 border-b border-white/10 p-3">
-            <div className="mr-auto min-w-0">
-              <h2 className="flex items-center gap-2 truncate text-base font-bold text-white">
+            <div className="mr-auto w-full min-w-0 sm:w-auto">
+              <h2 className="flex items-center gap-2 text-base font-bold text-white sm:truncate">
                 <Globe className="h-4 w-4 text-cyan-400" /> {ZONE.name}
               </h2>
               <p className="text-xs text-slate-400">{isSci ? ZONE.techTitle : ZONE.citizenTitle}</p>
             </div>
+            <div className="flex rounded-lg border border-white/10 bg-space-800 p-0.5 text-xs" role="group" aria-label="Vista geográfica">
+              <button
+                type="button"
+                aria-pressed={vista === "3d"}
+                onClick={() => setVista("3d")}
+                className={`rounded-md px-2.5 py-1.5 font-semibold ${vista === "3d" ? "bg-cyan-500/25 text-cyan-100" : "text-slate-400"}`}
+              >
+                Globo 3D
+              </button>
+              <button
+                type="button"
+                aria-pressed={vista === "2d"}
+                onClick={() => setVista("2d")}
+                className={`rounded-md px-2.5 py-1.5 font-semibold ${vista === "2d" ? "bg-cyan-500/25 text-cyan-100" : "text-slate-400"}`}
+              >
+                Mapa 2D (detalle)
+              </button>
+            </div>
+            {vista === "2d" && (
+            <>
             <div className="flex rounded-lg border border-white/10 bg-space-800 p-0.5 text-xs">
               <button
                 onClick={() => setCompareMode("swipe")}
@@ -1499,8 +1685,22 @@ export default function App() {
             <label className="flex items-center gap-1 text-xs text-slate-300">
               <Calendar className="h-3.5 w-3.5 text-cyan-300" /> B {nisarSelect(keyB, setKeyB, "Radar NISAR fecha B (después)")}
             </label>
+            </>
+            )}
           </div>
 
+          <div className="flex flex-col gap-1 border-b border-amber-400/30 bg-amber-500/10 px-3 py-2 text-[11px] leading-snug text-amber-50" role="status">
+            <p><b>Estaciones INAMHI:</b> dato no disponible. No hay un archivo de estaciones en este repositorio.</p>
+            <p><b>Inundaciones:</b> dato no disponible. No hay un mapa de eventos de inundación. OPERA mide agua superficial; no es un aviso de inundación.</p>
+            <p><b>Susceptibilidad:</b> dato no disponible. El relieve no calcula pendiente ni un mapa de riesgo.</p>
+          </div>
+
+          {vista === "3d" ? (
+            <Suspense fallback={<p role="status" className="p-6 text-sm text-slate-200">Cargando globo 3D…</p>}>
+              <GloboColonso />
+            </Suspense>
+          ) : (
+          <>
           <div className="flex flex-wrap items-center gap-2 border-b border-white/10 bg-space-800/50 px-3 py-2 text-xs">
             <span className="flex items-center gap-1 text-slate-400">
               <Layers className="h-3.5 w-3.5" /> Capa NASA GIBS del mes ({MONTHS[month].label}):
@@ -1521,8 +1721,30 @@ export default function App() {
             )}
           </div>
 
+          <div className="flex flex-wrap items-center gap-2 border-b border-white/10 px-3 py-2 text-xs">
+            <span className="flex items-center gap-1 text-slate-400">
+              <Layers className="h-3.5 w-3.5" /> Capas de la reserva:
+            </span>
+            <button
+              onClick={() => setVerBosque((v) => !v)}
+              className={`rounded-md border px-2 py-1 ${verBosque ? "border-orange-400/60 bg-orange-400/15 text-orange-100" : "border-white/10 text-slate-300"}`}
+            >
+              Bosque perdido
+            </button>
+            <button
+              onClick={() => setVerAgua((v) => !v)}
+              className={`rounded-md border px-2 py-1 ${verAgua ? "border-sky-400/60 bg-sky-400/15 text-sky-100" : "border-white/10 text-slate-300"}`}
+            >
+              Agua histórica JRC (1984–2021) y ríos
+            </button>
+            <span className="rounded-md bg-amber-500/15 px-2 py-1 text-[11px] text-amber-100 ring-1 ring-amber-400/40">
+              Contaminación del agua (minería o petróleo): dato no disponible
+            </span>
+          </div>
+
           <div ref={mapWrapRef} className="relative min-h-[460px] w-full flex-1 sm:min-h-[540px] lg:min-h-[600px]">
             <MapContainer center={ZONE.center} zoom={ZONE.zoom} className="absolute inset-0" zoomControl scrollWheelZoom>
+              <PrepararMapa />
               <TileLayer url={CONFIG.BASEMAP_URL} maxZoom={18} attribution="Imágenes &copy; Esri, Maxar, Earthstar Geographics" />
 
               {/* Capa WMS de Sentinel-1 / NISAR (se activa al llenar CONFIG.SENTINEL1_WMS_URL) */}
@@ -1550,6 +1772,16 @@ export default function App() {
               </Pane>
               {/* Capa GIBS que sigue a la línea de tiempo */}
               <Pane name="gibsPane" style={{ zIndex: 440 }}>{gibs && <TileLayer key={gibs.url} url={gibs.url} {...gibs.options} />}</Pane>
+              {/* Bosque perdido (Hansen) y agua (JRC + ríos OSM). Casi transparentes: el radar se sigue viendo. */}
+              <Pane name="capasPane" style={{ zIndex: 448 }}>
+                {verAgua && (
+                  <GeoJSON key="agua" data={AGUA_PUNTOS} pointToLayer={puntoAgua} onEachFeature={puntaAgua} />
+                )}
+                {verBosque && (
+                  <GeoJSON key="bosque" data={BOSQUE_PUNTOS} pointToLayer={puntoBosque} onEachFeature={puntaBosque} />
+                )}
+                {verAgua && <GeoJSON key="rios" data={RIOS_OSM} style={estiloRio} onEachFeature={puntaRio} />}
+              </Pane>
               <Pane name="labelsPane" style={{ zIndex: 450, pointerEvents: "none" }}>
                 <TileLayer url={CONFIG.LABELS_URL} maxZoom={18} />
                 <Polygon positions={ZONE.polygon} pathOptions={{ color: "#facc15", weight: 2.5, dashArray: "6 4", fill: false }} interactive={false} />
@@ -1625,12 +1857,28 @@ export default function App() {
               <p className="mt-1 text-[10px] text-slate-400">
                 <span className="inline-block h-0.5 w-4 bg-yellow-400 align-middle" /> Límite oficial WDPA 555593903
               </p>
+              {verBosque && (
+                <p className="mt-1 text-[10px] leading-snug text-slate-300">
+                  <span className="mr-1 inline-block h-2 w-2 rounded-sm bg-yellow-300" />
+                  <span className="mr-1 inline-block h-2 w-2 rounded-sm bg-orange-500" />
+                  <span className="mr-1 inline-block h-2 w-2 rounded-sm bg-red-500" />
+                  Bosque perdido 2001–2010, 2011–2018 y 2019–2025. Cada punto es un píxel Hansen de 30 m (el círculo se dibuja más grande para verlo). ha/año. Descargado {CAPAS.bosque.descargado}.
+                </p>
+              )}
+              {verAgua && (
+                <p className="mt-1 text-[10px] leading-snug text-slate-300">
+                  <span className="mr-1 inline-block h-2 w-2 rounded-sm bg-sky-400" />
+                  Puntos azules: agua histórica JRC/Landsat, 30 m, ocurrencia 1984–2021. Líneas: ríos de OpenStreetMap. No es OPERA. La serie reciente es OPERA DSWx-S1 (2026), en el globo y en «Radar NISAR y superficie». Una quebrada de menos de ~30 m puede no salir como punto.
+                </p>
+              )}
               <SourceNote>
                 NASA/JPL-ISRO NISAR vía ASF DAAC (CMR) · {gA.collection.replace("NISAR_L2_", "")} / {gB.collection.replace("NISAR_L2_", "")} · descargado {D_DESCARGA}
                 {gibs ? ` · Capa: NASA GIBS ${gibsCfg.layer} (${gibsCfg.date(MONTHS[month])})` : ""}
               </SourceNote>
             </div>
           </div>
+          </>
+          )}
         </section>
 
         {/* ================= PANEL LATERAL ================= */}
@@ -1664,7 +1912,18 @@ export default function App() {
                       </p>
                       <p className="font-mono text-sm text-cyan-100">{ind.value}</p>
                       {!isSci && <p className="text-[11px] leading-snug text-slate-400">{ind.text}</p>}
-                      <p className="text-[10px] text-slate-500">Fuente: {ind.source}</p>
+                      <p className="text-[10px] text-slate-500">
+                        Fuente: {ind.source}
+                        {ind.sourceUrl && (
+                          <>
+                            {" "}
+                            ·{" "}
+                            <a className="text-cyan-300 hover:underline" href={ind.sourceUrl} target="_blank" rel="noreferrer">
+                              NOAA CPC
+                            </a>
+                          </>
+                        )}
+                      </p>
                     </div>
                   </li>
                 );
@@ -1701,8 +1960,8 @@ export default function App() {
               ))}
               <p className="text-[11px] leading-relaxed text-slate-400">
                 {NISAR.length} adquisiciones GCOV con vista previa sobre la reserva ({fmtDate(NISAR[0].date)} → {fmtDate(NISAR[NISAR.length - 1].date)}), dos geometrías
-                (ascendente track 76 y descendente track 11, revisita 12 días). Desplazamiento InSAR (GUNW) y humedad NISAR (L3 SME2): aún sin productos sobre la reserva en
-                CMR al {D_DESCARGA}, por eso no se muestran.
+                (ascendente track 76 y descendente track 11, revisita 12 días). Desplazamiento InSAR (GUNW): aún sin productos sobre la reserva en CMR al {D_DESCARGA}.
+                La humedad NISAR L3 SME2 está en la sección «Radar NISAR y superficie».
               </p>
               <div className="mt-3 grid grid-cols-3 gap-2">
                 <button
@@ -1733,7 +1992,7 @@ export default function App() {
               <p>
                 El mapa muestra imágenes reales del radar <b className="text-white">NISAR</b> (NASA e ISRO), que ve el suelo aunque haya nubes, algo clave en esta zona donde
                 casi siempre está nublado. Mueve la cortina para comparar dos fechas. Los semáforos usan mediciones de satélites de la NASA comparadas con lo normal
-                de cada mes desde 2016.
+                de cada mes desde 2016. En el mapa 2D puedes prender «Bosque perdido» y «Agua histórica JRC (1984–2021) y ríos». OPERA (2026) es la otra agua, la reciente. El aviso de contaminación del agua dice «dato no disponible»: el satélite no mide químicos.
               </p>
             </div>
           )}
@@ -1781,6 +2040,9 @@ export default function App() {
           </div>
           <p className="mt-1 text-[10px] text-slate-500">La línea de tiempo actualiza los semáforos, la capa NASA GIBS del mapa y el marcador del gráfico «Actual».</p>
         </section>
+
+        {/* ================= BOSQUE, AGUA Y PREDICCIÓN ================= */}
+        <PanelCapas isSci={isSci} />
 
         {/* ================= PANEL CLIMÁTICO ================= */}
         <ClimatePanel
@@ -1863,9 +2125,11 @@ export default function App() {
           <SourceNote>NASA CMR · colecciones NISAR_L2_GCOV (PROVISIONAL_V1 y V1) · ASF DAAC · descargado {D_DESCARGA}</SourceNote>
         </section>
 
+        <RadarPanel />
+
         {/* ================= FUENTES ================= */}
         <section className="panel p-4 text-[11px] leading-relaxed text-slate-400 lg:col-span-12">
-          <SectionTitle icon={Database}>Fuentes de datos (todas reales, descargadas {D_DESCARGA})</SectionTitle>
+          <SectionTitle icon={Database}>Fuentes de los datos observados (descarga {D_DESCARGA})</SectionTitle>
           <ul className="grid gap-1 md:grid-cols-2">
             <li>
               <b className="text-slate-200">Radar:</b> NISAR L2 GCOV (NASA/JPL-ISRO), ASF DAAC — {NISAR.length} vistas previas oficiales.
@@ -1883,10 +2147,24 @@ export default function App() {
               <b className="text-slate-200">Humedad del suelo:</b> {SRC.sm.producto} — {SRC.sm.via}, {SRC.sm.res}.
             </li>
             <li>
-              <b className="text-slate-200">Bosque:</b> {HANSEN.fuente}.
+              <b className="text-slate-200">Bosque:</b> {HANSEN.fuente}. La capa del mapa usa la misma versión, recortada otra vez el {CAPAS.generado}.
             </li>
             <li>
-              <b className="text-slate-200">El Niño:</b> NOAA CPC ONI (ERSSTv5) y Niño 1+2 (OISST).
+              <b className="text-slate-200">Agua superficial:</b> {CAPAS.agua_superficial.producto}. {CAPAS.agua_superficial.resolucion}. {CAPAS.agua_superficial.periodo}.
+            </li>
+            <li>
+              <b className="text-slate-200">Ríos:</b> {CAPAS.rios.producto}. {CAPAS.rios.licencia}. HydroRIVERS: dato no disponible.
+            </li>
+            <li>
+              <b className="text-slate-200">Sin número:</b> contaminación del agua, MapBiomas Ecuador, NO2 de Sentinel-5P y NDWI de Sentinel-2. Dato no disponible.
+            </li>
+            <li>
+              <b className="text-slate-200">El Niño (observado):</b> NOAA CPC ONI (ERSSTv5), anomalía en °C, media móvil de 3 meses, enero 2016 –
+              septiembre 2026 (último {ENSO_REAL.metadata.oni.ultimo}).{" "}
+              <a className="text-cyan-300 hover:underline" href={ENSO_REAL.metadata.oni.url} target="_blank" rel="noreferrer">
+                Tabla oficial
+              </a>
+              . Niño 1+2: OISST. La predicción de octubre 2026 a diciembre 2031 no es de NOAA: {PREDICCION_ONI_LABEL}.
             </li>
             <li>
               <b className="text-slate-200">Límite:</b> WDPA 555593903 (UNEP-WCMC & IUCN, Protected Planet), uso no comercial con atribución.
@@ -1896,8 +2174,8 @@ export default function App() {
       </main>
 
       <footer className="relative z-10 mx-auto max-w-[1600px] px-4 pb-6 text-center text-[11px] text-slate-500">
-        NISAR Pulse · MVP Open Source (MIT) · Datos satelitales reales de NASA Earthdata (GES DISC, LP DAAC, NSIDC, ASF), UMD GLAD y NOAA CPC · NISAR es una misión conjunta
-        NASA-ISRO.
+        NISAR Pulse · MVP Open Source (MIT) · Datos observados: NASA Earthdata (GES DISC, LP DAAC, NSIDC, ASF), UMD GLAD y NOAA CPC.
+        La predicción oct 2026 – dic 2031 es del equipo, no un producto de NOAA. NISAR es una misión conjunta NASA-ISRO.
       </footer>
     </div>
   );

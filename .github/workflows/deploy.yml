@@ -23,6 +23,9 @@ jobs:
       - run: npm run build
         env:
           GITHUB_PAGES: "true"
+          # Secreto opcional. Si no existe, queda vacío y el globo usa el relieve abierto.
+          # Settings → Secrets and variables → Actions → VITE_CESIUM_ION_TOKEN
+          VITE_CESIUM_ION_TOKEN: ${{ secrets.VITE_CESIUM_ION_TOKEN }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
