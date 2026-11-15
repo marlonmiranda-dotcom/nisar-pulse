@@ -24,7 +24,11 @@ from cmr_buscar import (
 )
 from procesar_gcov import procesar_granulo
 from procesar_agua import procesar_dswx, procesar_watermask
-from procesar_sme2 import comprobar as comprobar_sme2
+from procesar_sme2 import (
+    comprobar as comprobar_sme2,
+    procesar_catalogo as procesar_sme2_serie,
+    metadatos_serie as metadatos_sme2,
+)
 
 # scripts/radar/ → raíz del repositorio
 ROOT = Path(__file__).resolve().parents[2]
@@ -238,6 +242,27 @@ def main():
     # --- SME2 ---
     _log("SME2 intersección de huellas")
     sme2 = comprobar_sme2(geom=geom, log=_log)
+    _log("SME2 serie de humedad del suelo")
+    sme2_recs = procesar_sme2_serie(
+        sme2.get("intersectan_poligono") or [], geom=geom, log=_log
+    )
+    n_prov_sme2 = sum(
+        1 for r in sme2_recs
+        if r.get("collection") and "PROVISIONAL" in r["collection"] and not r.get("error")
+    )
+    n_beta_sme2 = sum(
+        1 for r in sme2_recs
+        if r.get("collection") and "BETA" in r["collection"] and not r.get("error")
+    )
+    n_err_sme2 = sum(1 for r in sme2_recs if r.get("error"))
+    sme2_serie = {
+        **metadatos_sme2(),
+        "n_gránulos": len(sme2_recs),
+        "n_provisional_ok": n_prov_sme2,
+        "n_beta_ok": n_beta_sme2,
+        "n_errores": n_err_sme2,
+        "serie": sme2_recs,
+    }
 
     # --- JSON final ---
     doc = {
@@ -309,9 +334,15 @@ def main():
                     "producto": "NISAR L3 Soil Moisture (SME2)",
                     "nota": (
                         "No hay colección NISAR_L3_SME2_V1 en CMR a 2026-11-14. "
-                        "Se listan las huellas de PROVISIONAL_V1 y BETA_V1 que sí intersectan el polígono. "
-                        "No se calcula una serie de humedad (fuera del alcance de esta entrega)."
+                        "Serie de humedad del suelo (grids/soilMoisture, unidades m³/m³) "
+                        "sobre el polígono para los gránulos PROVISIONAL_V1 y BETA_V1 cuyas "
+                        "huellas intersectan el polígono (clave de nivel superior sme2_serie). "
+                        "BETA está precalibrado. PROVISIONAL no está completamente calibrado; "
+                        "no hay colección VALIDATED de SME2."
                     ),
+                    "especificacion": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR-SAMPLE-DATA/DOCS/NISAR_D-107677_RevC_NASA_SDS_Product_Specification_L3_SME2_Nov8_2024_w-sigs.pdf",
+                    "guia": "https://nisar-docs.asf.alaska.edu/sme2/",
+                    "clave_serie": "sme2_serie",
                     "colecciones": {k: {
                         "encontrada": v.get("encontrada"),
                         "doi": v.get("doi"),
@@ -344,6 +375,7 @@ def main():
         ],
         "watermask": watermask,
         "sme2": sme2,
+        "sme2_serie": sme2_serie,
     }
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(doc, indent=2, ensure_ascii=False, default=str))

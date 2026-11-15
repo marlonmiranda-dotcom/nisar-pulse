@@ -1,10 +1,10 @@
 # Radar cuantitativo — Colonso Chalupas (WDPA 555593903)
 
 Estos scripts miden, dentro del polígono de la reserva, el retroceso del radar NISAR
-(sigma0) y el agua superficial de OPERA. El archivo ya calculado está en
-`src/data/radar_real.json` (descargado el 2026-11-14). No hace falta volver a
-ejecutarlos para leer esos números. Si los vuelves a correr, `run_radar.py`
-sobrescribe ese JSON.
+(sigma0), el agua superficial de OPERA y la humedad del suelo SME2. El archivo
+ya calculado está en `src/data/radar_real.json` (descargado el 2026-11-14).
+No hace falta volver a ejecutarlos para leer esos números. Si los vuelves a
+correr, `run_radar.py` sobrescribe ese JSON.
 
 Los números salen de los productos de la NASA. Lo que no se puede calcular queda
 en `null`; no se inventan valores.
@@ -56,8 +56,18 @@ cd scripts/radar
 
 Escribe `../../src/data/radar_real.json`. Los avances parciales van a `tmp/`
 en la raíz del repositorio (checkpoints y teselas descargadas). Esa carpeta
-tampoco se versiona. Cada escena GCOV se lee por ventanas (S3 o HTTP Range);
+tampoco se versiona. Cada escena GCOV o SME2 se lee por ventanas (S3 o HTTP Range);
 no se descarga el HDF5 completo, pero el proceso igual tarda.
+
+Si el JSON ya tiene el inventario `sme2.intersectan_poligono`, la serie de
+humedad se puede recalcular sola:
+
+```bash
+.venv/bin/python procesar_sme2.py
+```
+
+Eso actualiza la clave de nivel superior `sme2_serie` en
+`../../src/data/radar_real.json`.
 
 ## Qué hace cada archivo
 
@@ -68,7 +78,13 @@ no se descarga el HDF5 completo, pero el proceso igual tarda.
   pasa a dB.
 - `procesar_agua.py` — OPERA DSWx-S1 (capa WTR: agua = clases 1 y 3) y
   NISAR_WATERMASK (distancia a la orilla; el área de agua queda en null).
-- `procesar_sme2.py` — comprueba si la huella SME2 cruza el polígono. No
-  calcula la serie de humedad.
+- `procesar_sme2.py` — intersección de huellas SME2 con el polígono (no con la
+  caja) y serie de humedad del suelo (`grids/soilMoisture`, m³/m³, EASE-Grid 2.0
+  / EPSG:6933), con estadísticas de píxeles válidos y de calidad recomendada.
 - `cmr_buscar.py`, `h5_remoto.py`, `earthdata_auth.py`, `poligono.py` —
   búsqueda, lectura remota y polígono.
+
+La serie SME2 queda en la clave de nivel superior `sme2_serie`. BETA se marca
+como precalibrado. No hay colección VALIDATED ni `NISAR_L3_SME2_V1` en CMR
+a 2026-11-14. La capa oficial no se fusiona con SMAP. Sirve como tendencia
+relativa, no como humedad absoluta validada, y no se atribuye a El Niño.
