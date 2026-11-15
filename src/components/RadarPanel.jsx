@@ -410,8 +410,9 @@ export default function RadarPanel() {
       </article>
 
       <article className="mt-6 border-t border-white/10 pt-4">
-        <h3 className="mb-2 text-sm font-semibold text-cyan-200">Agua superficial OPERA DSWx-S1 (km² dentro de la reserva)</h3>
+        <h3 className="mb-2 text-sm font-semibold text-cyan-200">Agua superficial reciente — OPERA DSWx-S1 (2026, km² dentro de la reserva)</h3>
         <p className="mb-2 max-w-4xl text-[13px] leading-relaxed text-slate-300">
+          Esta es la serie reciente principal. No es la capa histórica JRC/Landsat (1984–2021) del mapa 2D: otra fuente, otro periodo y otras unidades (aquí km², allá ha).
           Kilómetros cuadrados clasificados como agua dentro del polígono: clases {clases || "1 y 3"} (agua abierta y vegetación inundada).
           Resolución {DSWX_META.resolucion || "30 m"}. Teselas {teselas || "T17MRU y T17MRV"}.
           Las cruces son fechas sin dato (el polígono entero es relleno). No son cero: ese día no sabemos el área.

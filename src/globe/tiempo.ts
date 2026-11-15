@@ -9,10 +9,13 @@ import type { CapaImagen } from "./tipos";
 export const FECHA_MIN = "2016-01-01";
 
 /**
- * Última fecha del control. Ese día respondieron bien las teselas diarias
- * (IMERG, nubes, SMAP) y el mes 2026-10 existe en NDVI y LST.
+ * Última fecha del control.
+ * Las teselas diarias de GIBS (IMERG, nubes, SMAP) se comprobaron hasta el
+ * 2026-10-15. El control llega al 2026-11-12 porque esa es la última escena
+ * OPERA DSWx-S1 guardada en src/data/radar_real.json. Si un día posterior
+ * no tiene tesela GIBS, no se rellena.
  */
-export const FECHA_MAX = "2026-10-15";
+export const FECHA_MAX = "2026-11-12";
 
 export const TOTAL_DIAS = diasEntre(FECHA_MIN, FECHA_MAX);
 

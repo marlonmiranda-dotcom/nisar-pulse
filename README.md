@@ -13,7 +13,7 @@ gestores y científicos, centrada en la **Reserva Biológica Colonso Chalupas** 
 > La fase **Predicción (5 años)** es otra cosa: el ONI de octubre 2026 a diciembre 2031 lo escribió el equipo
 > en el código. **NOAA CPC no publicó esos números.** En esa fase la app esconde la insignia
 > «100 % datos satelitales reales» y muestra esta etiqueta:
-> «Predicción basada en datos previos de la NOAA; puede cambiar según avance el tiempo».
+> «Escenario del equipo a partir de la relación histórica con el ONI de NOAA; no es un pronóstico publicado por NOAA».
 
 ## ✨ Funcionalidades
 
@@ -54,16 +54,43 @@ cp .env.example .env          # opcional: pega ahí VITE_CESIUM_ION_TOKEN
 npm run dev                   # http://localhost:5173
 ```
 
-- **Sin token** el globo usa imágenes Esri (las mismas del mapa 2D) y NASA GIBS.
-  El relieve dice **dato no disponible** y se queda en el elipsoide. No se inventan alturas.
 - **Con token** de [Cesium ion](https://cesium.com/ion/tokens) se activa Cesium World Terrain,
   marcado como **Capa de visualización (fuente externa)**. La exageración vertical solo estira ese modelo.
+- **Sin token** el globo intenta **Esri World Elevation (Terrain 3D)**, un modelo abierto que no pide clave.
+  Si ese servicio tampoco responde, el relieve dice **dato no disponible** y el globo se queda en el elipsoide.
+  No se inventan alturas. Las teselas Terrarium de AWS no se usan: el bucket no deja que el navegador lea las alturas (no envía CORS).
 - El límite es el GeoJSON WDPA 555593903 en `public/data/`. Si no carga, dice **dato no disponible**
   y no dibuja otra forma. Cómo obtenerlo: `public/data/README.md`.
-- Las capas (IMERG, LST, NDVI, nubes, SMAP) son teselas públicas de NASA GIBS comprobadas
-  el 2026-11-14 contra el GetCapabilities. No son un análisis del equipo.
-  Estaciones y NISAR en el globo quedan en **dato no disponible** hasta que haya un archivo o un WMTS real.
+- La línea de tiempo del globo (2016-01-01 a 2026-11-12) cambia:
+  - la pérdida de bosque Hansen del año (ha y píxeles de 30 m);
+  - el agua reciente OPERA DSWx-S1 de la fecha (km²; si ese día no hay escena, no se inventa);
+  - el agua histórica JRC/Landsat (1984–2021), con otro nombre para no confundirla con OPERA;
+  - la vista previa NISAR ya descargada y las imágenes NASA GIBS.
+- INAMHI, inundaciones y susceptibilidad dicen **dato no disponible**: no hay esos archivos.
 - Para sumar una capa: `src/globe/COMO-AGREGAR-CAPAS.md`.
+
+### Ver esta prueba en tu computadora
+
+Esta rama no publica el sitio y no cambia GitHub Pages. En `main` sigue el sitio actual.
+
+```bash
+npm install
+npm run dev
+```
+
+Abre http://localhost:5173 . El botón **Mapa 2D (detalle)** deja el comparador, los gráficos y las fuentes como estaban. `?vista=2d` abre directo el mapa. `?fecha=2019-07-01` abre el globo en ese día.
+
+### Token de relieve como secreto de GitHub Actions
+
+No pegues el token en el código, en un issue ni en `.env` subido a Git.
+
+1. En el repositorio: **Settings → Secrets and variables → Actions → New repository secret**.
+2. Name: `VITE_CESIUM_ION_TOKEN`
+3. Value: el token creado en https://cesium.com/ion/tokens
+
+El archivo `.github/workflows/deploy.yml` pasa ese secreto al `npm run build`.
+Si el secreto no existe, Vite recibe un texto vacío y el globo usa el relieve abierto de Esri.
+El workflow solo corre al publicar `main`. Esta rama de prueba no despliega sola.
 
 ### Por qué TypeScript no reemplazó `App.jsx`
 

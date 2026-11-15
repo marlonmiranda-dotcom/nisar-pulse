@@ -71,7 +71,19 @@ export interface CapaNoDisponible extends FichaCapa {
   motivo: string;
 }
 
-export type Capa = CapaImagen | CapaPuntos | CapaNoDisponible;
+/**
+ * Serie ya descargada en el repositorio (no es un WMTS).
+ * El globo filtra por la fecha del control. No rellena huecos.
+ */
+export interface CapaSerieLocal extends FichaCapa {
+  tipo: "serie";
+  serie: "hansen-anio" | "opera-fecha" | "jrc-historica" | "nisar-imagen";
+  opacidadInicial: number;
+  activaAlInicio: boolean;
+  leyenda: ParadaLeyenda[];
+}
+
+export type Capa = CapaImagen | CapaPuntos | CapaNoDisponible | CapaSerieLocal;
 
 export interface EstadoCapaUi {
   activa: boolean;

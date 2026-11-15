@@ -5,11 +5,13 @@
  */
 
 import { CAPAS } from "./capas.config";
-import { FICHA_RELIEVE, type EstadoRelieve } from "./terreno";
+import { FICHA_SIN_RELIEVE, type EstadoRelieve } from "./terreno";
 import type { EstadoLimite } from "./limite";
+import { imagenNisar, lecturaHansen, lecturaJrc, lecturaOpera, type Lectura } from "./seriesLocales";
 import {
   CLASIFICACION_NO_DISPONIBLE,
   type CapaImagen,
+  type CapaSerieLocal,
   type EstadoCapaUi,
 } from "./tipos";
 import {
@@ -49,6 +51,7 @@ export default function PanelCapas({
 }: Props) {
   const indice = indiceDesdeFecha(fecha);
   const relieveListo = relieve?.disponible === true;
+  const fichaRelieve = relieve?.ficha ?? FICHA_SIN_RELIEVE;
 
   return (
     <div id="panel-capas" className={`${abierto ? "block" : "hidden"} max-h-[55vh] overflow-y-auto border-t border-white/10 bg-space-950/95 p-3 text-slate-100 lg:block lg:max-h-[640px] lg:w-80 lg:shrink-0 lg:border-l lg:border-t-0`}>
@@ -80,21 +83,21 @@ export default function PanelCapas({
       </section>
 
       <section className="mt-3 rounded-xl border border-white/10 bg-white/[0.03] p-3" aria-labelledby="ficha-relieve">
-        <h4 id="ficha-relieve" className="text-xs font-semibold text-white">{FICHA_RELIEVE.nombre}</h4>
+        <h4 id="ficha-relieve" className="text-xs font-semibold text-white">{fichaRelieve.nombre}</h4>
         <p className={`mt-1 text-[11px] font-bold ${relieveListo ? "text-cyan-200" : "text-amber-200"}`} role="status">
           {relieve?.clasificacion ?? CLASIFICACION_NO_DISPONIBLE}
         </p>
         <p className="mt-1 text-[11px] leading-snug text-slate-300">{relieve?.detalle ?? "Cargando relieve…"}</p>
         <dl className="mt-2 space-y-1 text-[11px]">
-          <Fila titulo="Variable" valor={FICHA_RELIEVE.variable} />
-          <Fila titulo="Fuente" valor={FICHA_RELIEVE.fuente} />
-          <Fila titulo="Fecha" valor={FICHA_RELIEVE.fecha} />
-          <Fila titulo="Unidades" valor={FICHA_RELIEVE.unidades} />
-          <Fila titulo="Resolución espacial" valor={FICHA_RELIEVE.resolucionEspacial} />
-          <Fila titulo="Resolución temporal" valor={FICHA_RELIEVE.resolucionTemporal} />
-          <Fila titulo="Licencia" valor={FICHA_RELIEVE.licencia} />
+          <Fila titulo="Variable" valor={fichaRelieve.variable} />
+          <Fila titulo="Fuente" valor={fichaRelieve.fuente} />
+          <Fila titulo="Fecha" valor={fichaRelieve.fecha} />
+          <Fila titulo="Unidades" valor={fichaRelieve.unidades} />
+          <Fila titulo="Resolución espacial" valor={fichaRelieve.resolucionEspacial} />
+          <Fila titulo="Resolución temporal" valor={fichaRelieve.resolucionTemporal} />
+          <Fila titulo="Licencia" valor={fichaRelieve.licencia} />
         </dl>
-        <a className="mt-2 inline-block text-[11px] text-cyan-300 underline" href={FICHA_RELIEVE.fuenteUrl} target="_blank" rel="noreferrer">
+        <a className="mt-2 inline-block text-[11px] text-cyan-300 underline" href={fichaRelieve.fuenteUrl} target="_blank" rel="noreferrer">
           Documentación del producto
         </a>
         <label className="mt-3 block text-[11px] text-slate-200">
@@ -115,7 +118,7 @@ export default function PanelCapas({
           />
         </label>
         <p className="mt-1 text-[10px] text-slate-400">
-          Estira el modelo que entrega Cesium. No calcula pendiente ni susceptibilidad.
+          Estira el modelo de elevación que está cargado. No calcula pendiente ni susceptibilidad.
           {!relieveListo && " Sin relieve, el control no cambia la altura."}
         </p>
       </section>
@@ -123,7 +126,9 @@ export default function PanelCapas({
       <fieldset className="mt-3 rounded-xl border border-white/10 p-3">
         <legend className="px-1 text-xs font-semibold text-white">Fecha de las capas con serie</legend>
         <p id="ayuda-fecha" className="text-[11px] leading-snug text-slate-400">
-          Pide otra imagen a la NASA. No calcula tendencias. Si ese día no existe en el archivo, la tesela puede no salir: no se rellena con un valor estimado.
+          Cambia el año del bosque Hansen, la fecha del agua OPERA, la vista previa NISAR y la imagen de la NASA.
+          No calcula tendencias ni dice que la causa es El Niño. Si ese día no existe, no se rellena con un valor estimado.
+          Desde el 16 de octubre de 2026 las teselas diarias de GIBS no se comprobaron: si no salen, tampoco se inventan.
         </p>
         <label className="mt-2 block text-[11px]">
           Fecha
@@ -154,13 +159,21 @@ export default function PanelCapas({
           />
         </label>
         <p className="mt-1 text-xs font-semibold text-cyan-100" aria-live="polite">{textoFecha(fecha)}</p>
+        <ul className="mt-2 space-y-1 text-[11px] leading-snug" aria-label="Valores de esta fecha">
+          <li>{lecturaHansen(fecha).corto}</li>
+          <li>{lecturaOpera(fecha).corto}</li>
+          <li>{lecturaJrc(fecha).corto}</li>
+          <li>{imagenNisar(fecha).lectura.corto}</li>
+        </ul>
       </fieldset>
 
       <ul className="mt-3 space-y-3">
         {CAPAS.map((capa) => {
           const ui = capasUi[capa.id];
           const esImagen = capa.tipo === "imagen";
+          const esSerie = capa.tipo === "serie";
           const fechaPedida = esImagen ? fechaParaCapa(capa as CapaImagen, fecha) : null;
+          const lectura = esSerie ? lecturaDeSerie(capa as CapaSerieLocal, fecha) : null;
           return (
             <li key={capa.id} className="rounded-xl border border-white/10 bg-white/[0.03] p-3">
               <h4 id={`titulo-${capa.id}`} className="text-xs font-semibold text-white">{capa.nombre}</h4>
@@ -171,6 +184,12 @@ export default function PanelCapas({
                 <p className="mt-1 text-[11px] leading-snug text-amber-100" role="status">{capa.motivo}</p>
               ) : (
                 <>
+                  {esSerie && (capa as CapaSerieLocal).serie === "opera-fecha" ? (
+                    <p className="mt-2 text-[11px] leading-snug text-slate-300">
+                      El valor de la fecha se ve en la tarjeta del globo. No hay una mancha que prender: el archivo trae kilómetros cuadrados del polígono, no los píxeles de ese día.
+                    </p>
+                  ) : (
+                  <>
                   <label className="mt-2 flex items-center gap-2 text-xs">
                     <input
                       type="checkbox"
@@ -194,6 +213,13 @@ export default function PanelCapas({
                       onChange={(e) => onCapa(capa.id, { opacidad: Number(e.target.value) })}
                     />
                   </label>
+                  </>
+                  )}
+                  {lectura && (
+                    <p className={`mt-2 text-[11px] font-semibold leading-snug ${lectura.disponible ? "text-cyan-100" : "text-amber-100"}`} role="status">
+                      {lectura.corto}. {lectura.nota}
+                    </p>
+                  )}
                   {erroresPuntos[capa.id] && (
                     <p className="mt-1 text-[11px] font-semibold text-amber-200" role="status">{erroresPuntos[capa.id]}</p>
                   )}
@@ -230,6 +256,13 @@ export default function PanelCapas({
       </p>
     </div>
   );
+}
+
+function lecturaDeSerie(capa: CapaSerieLocal, fecha: string): Lectura {
+  if (capa.serie === "hansen-anio") return lecturaHansen(fecha);
+  if (capa.serie === "opera-fecha") return lecturaOpera(fecha);
+  if (capa.serie === "jrc-historica") return lecturaJrc(fecha);
+  return imagenNisar(fecha).lectura;
 }
 
 function Fila({ titulo, valor }: { titulo: string; valor: string }) {

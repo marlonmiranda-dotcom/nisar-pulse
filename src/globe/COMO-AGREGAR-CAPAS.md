@@ -78,15 +78,28 @@ como `estaciones` y `nisar-globo` en el mismo archivo. El panel muestra ese avis
 
 El relieve no es una entrada de `CAPAS`. Vive en `src/globe/terreno.ts`.
 
-- Con `VITE_CESIUM_ION_TOKEN` en `.env`, el globo pide **Cesium World Terrain**.
+- Con `VITE_CESIUM_ION_TOKEN` en `.env` (o como secreto `VITE_CESIUM_ION_TOKEN`
+  de GitHub Actions; ver el README), el globo pide **Cesium World Terrain**.
   En el panel se marca como **Capa de visualización (fuente externa)**.
-- Sin token, o si ion falla, dice **dato no disponible** y el globo queda
-  en el elipsoide. No se fabrica un modelo de elevación.
+  Nunca escriban el token en el código.
+- Sin token, o si ion falla, el globo intenta **Esri World Elevation (Terrain 3D)**.
+  Es un servicio público, sin clave, y el navegador puede leerlo.
+  Si tampoco responde, dice **dato no disponible** y se queda en el elipsoide.
+  No se fabrica un modelo de elevación.
 - El control de exageración vertical solo estira ese modelo externo.
-  No calcula pendiente ni susceptibilidad.
+  No calcula pendiente ni susceptibilidad. Esas dos cosas, y las estaciones
+  del INAMHI, quedan en **dato no disponible** hasta que haya un archivo real.
 - Si el equipo de relieve trae después un `CesiumTerrainProvider` propio,
   el lugar para conectarlo es la función `activarRelieve`, en el comentario
   `EQUIPO DE RELIEVE`. No hace falta calcular alturas en este visor.
+
+## 3b. Series que ya están conectadas a la fecha
+
+Hansen (por año), OPERA DSWx-S1 (por fecha), JRC/Landsat (1984–2021) y las
+vistas previas NISAR no son un WMTS nuevo. Salen de los JSON del repositorio
+y las arma `src/globe/seriesLocales.ts`. En `capas.config.ts` llevan
+`tipo: "serie"`. OPERA es la serie de agua reciente. JRC es la histórica.
+No las junten en una sola capa ni digan que el cambio lo causó El Niño.
 
 ## 4. Qué no hacer
 

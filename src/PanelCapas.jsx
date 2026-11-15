@@ -180,7 +180,7 @@ export default function PanelCapas({ isSci }) {
         ) : null}
         {agua.estado === "ok" ? (
           <Grafico
-            titulo={isSci ? "Agua superficial (ha/año)" : "¿Cuánta agua se ve desde el satélite?"}
+            titulo={isSci ? "Agua histórica JRC/Landsat (1984–2021), ha/año" : "Agua histórica (Landsat, 1984–2021)"}
             icon={Droplets}
             color="#38bdf8"
             unidad="ha"
@@ -216,6 +216,11 @@ export default function PanelCapas({ isSci }) {
             Es la diferencia que midió el JRC. No es una predicción y no dice la causa.
           </p>
         )}
+        <p className="mt-2">
+          Hay dos aguas y no son la misma. Esta gráfica es la histórica: JRC / Landsat, 1984–2021, en hectáreas.
+          La serie reciente principal es OPERA DSWx-S1 (Sentinel-1, 2026), en kilómetros cuadrados, en la sección de radar y en el globo.
+          No se suman. Un año más alto no prueba El Niño.
+        </p>
         <p className="mt-2 text-[11px] text-slate-400">
           Ríos en el mapa: {rios.producto}. {rios.dentro_de_la_reserva ? `Dentro de la reserva hay ${Object.entries(rios.dentro_de_la_reserva).map(([k, v]) => `${v} ${k}`).join(", ")}.` : ""}{" "}
           {agua.nota_30m} HydroRIVERS: dato no disponible. {rios.hydrorivers.motivo}

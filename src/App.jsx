@@ -442,7 +442,7 @@ function pValue(r, n) {
  * El equipo debe confirmar el método antes de presentarlo como basado en NOAA.
  */
 const PREDICCION_ONI_LABEL =
-  "Predicción basada en datos previos de la NOAA; puede cambiar según avance el tiempo";
+  "Escenario del equipo a partir de la relación histórica con el ONI de NOAA; no es un pronóstico publicado por NOAA";
 const ENSO_COMMON = [
   ["2026-09", 2.46],
   ["2026-10", 2.7],
@@ -776,6 +776,21 @@ function rowsToCsv(rows) {
  *  COMPONENTES DEL MAPA
  * ========================================================================== */
 /** Comparador tipo cortina: recorta los panes "beforePane" (izq.) y "afterPane" (der.). */
+/** El mapa 2D se monta al salir del globo. Sin este ajuste Leaflet mide el cuadro en cero y se abre en el mundo. */
+function PrepararMapa() {
+  const map = useMap();
+  useEffect(() => {
+    const fijar = () => {
+      map.invalidateSize();
+      map.setView(ZONE.center, ZONE.zoom, { animate: false });
+    };
+    fijar();
+    const id = window.setTimeout(fijar, 200);
+    return () => window.clearTimeout(id);
+  }, [map]);
+  return null;
+}
+
 function SwipeController({ enabled, position }) {
   const map = useMap();
   useEffect(() => {
@@ -1674,6 +1689,12 @@ export default function App() {
             )}
           </div>
 
+          <div className="flex flex-col gap-1 border-b border-amber-400/30 bg-amber-500/10 px-3 py-2 text-[11px] leading-snug text-amber-50" role="status">
+            <p><b>Estaciones INAMHI:</b> dato no disponible. No hay un archivo de estaciones en este repositorio.</p>
+            <p><b>Inundaciones:</b> dato no disponible. No hay un mapa de eventos de inundación. OPERA mide agua superficial; no es un aviso de inundación.</p>
+            <p><b>Susceptibilidad:</b> dato no disponible. El relieve no calcula pendiente ni un mapa de riesgo.</p>
+          </div>
+
           {vista === "3d" ? (
             <Suspense fallback={<p role="status" className="p-6 text-sm text-slate-200">Cargando globo 3D…</p>}>
               <GloboColonso />
@@ -1714,7 +1735,7 @@ export default function App() {
               onClick={() => setVerAgua((v) => !v)}
               className={`rounded-md border px-2 py-1 ${verAgua ? "border-sky-400/60 bg-sky-400/15 text-sky-100" : "border-white/10 text-slate-300"}`}
             >
-              Ríos y agua
+              Agua histórica JRC (1984–2021) y ríos
             </button>
             <span className="rounded-md bg-amber-500/15 px-2 py-1 text-[11px] text-amber-100 ring-1 ring-amber-400/40">
               Contaminación del agua (minería o petróleo): dato no disponible
@@ -1723,6 +1744,7 @@ export default function App() {
 
           <div ref={mapWrapRef} className="relative min-h-[460px] w-full flex-1 sm:min-h-[540px] lg:min-h-[600px]">
             <MapContainer center={ZONE.center} zoom={ZONE.zoom} className="absolute inset-0" zoomControl scrollWheelZoom>
+              <PrepararMapa />
               <TileLayer url={CONFIG.BASEMAP_URL} maxZoom={18} attribution="Imágenes &copy; Esri, Maxar, Earthstar Geographics" />
 
               {/* Capa WMS de Sentinel-1 / NISAR (se activa al llenar CONFIG.SENTINEL1_WMS_URL) */}
@@ -1846,7 +1868,7 @@ export default function App() {
               {verAgua && (
                 <p className="mt-1 text-[10px] leading-snug text-slate-300">
                   <span className="mr-1 inline-block h-2 w-2 rounded-sm bg-sky-400" />
-                  Puntos azules: agua Landsat 30 m (1984–2021, ocurrencia). Líneas: ríos de OpenStreetMap. Una quebrada o un estanque de menos de ~30 m puede no salir como punto.
+                  Puntos azules: agua histórica JRC/Landsat, 30 m, ocurrencia 1984–2021. Líneas: ríos de OpenStreetMap. No es OPERA. La serie reciente es OPERA DSWx-S1 (2026), en el globo y en «Radar NISAR y superficie». Una quebrada de menos de ~30 m puede no salir como punto.
                 </p>
               )}
               <SourceNote>
@@ -1970,7 +1992,7 @@ export default function App() {
               <p>
                 El mapa muestra imágenes reales del radar <b className="text-white">NISAR</b> (NASA e ISRO), que ve el suelo aunque haya nubes, algo clave en esta zona donde
                 casi siempre está nublado. Mueve la cortina para comparar dos fechas. Los semáforos usan mediciones de satélites de la NASA comparadas con lo normal
-                de cada mes desde 2016. Arriba del mapa puedes prender «Bosque perdido» y «Ríos y agua». El aviso de contaminación del agua dice «dato no disponible»: el satélite no mide químicos.
+                de cada mes desde 2016. En el mapa 2D puedes prender «Bosque perdido» y «Agua histórica JRC (1984–2021) y ríos». OPERA (2026) es la otra agua, la reciente. El aviso de contaminación del agua dice «dato no disponible»: el satélite no mide químicos.
               </p>
             </div>
           )}

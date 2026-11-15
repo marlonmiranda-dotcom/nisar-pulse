@@ -15,8 +15,17 @@ import { CAPAS } from "./capas.config";
 import PanelCapas from "./PanelCapas";
 import { activarRelieve, type EstadoRelieve } from "./terreno";
 import { cargarLimite, prefiereMenosMovimiento, type EstadoLimite } from "./limite";
-import { acotarFecha, FECHA_MAX, fechaParaCapa, urlDeCapa } from "./tiempo";
-import type { CapaImagen, CapaPuntos, EstadoCapaUi } from "./tipos";
+import { acotarFecha, FECHA_MAX, fechaParaCapa, textoFecha, urlDeCapa } from "./tiempo";
+import {
+  imagenNisar,
+  lecturaHansen,
+  lecturaJrc,
+  lecturaOpera,
+  puntosHansen,
+  puntosJrc,
+  anioDe,
+} from "./seriesLocales";
+import type { CapaImagen, CapaPuntos, CapaSerieLocal, EstadoCapaUi } from "./tipos";
 
 const BASE_ESRI =
   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}";
@@ -24,6 +33,11 @@ const BASE_ESRI =
 interface CapaDibujada {
   layer: Cesium.ImageryLayer;
   firma: string;
+}
+
+function fechaInicial(): string {
+  const pedida = new URLSearchParams(window.location.search).get("fecha") ?? "";
+  return /^\d{4}-\d{2}-\d{2}$/.test(pedida) ? acotarFecha(pedida) : FECHA_MAX;
 }
 
 function estadoInicial(): Record<string, EstadoCapaUi> {
@@ -40,10 +54,11 @@ export default function GloboColonso() {
   const viewerRef = useRef<Cesium.Viewer | null>(null);
   const imagenesRef = useRef<Map<string, CapaDibujada>>(new Map());
   const puntosRef = useRef<Map<string, Cesium.Entity[]>>(new Map());
+  const seriesRef = useRef<SeriesDibujadas>(seriesVacias());
 
   const [listo, setListo] = useState(false);
   const [abierto, setAbierto] = useState(false);
-  const [fecha, setFecha] = useState(FECHA_MAX);
+  const [fecha, setFecha] = useState(fechaInicial);
   const [fechaAplicada, setFechaAplicada] = useState(FECHA_MAX);
   const [exageracion, setExageracion] = useState(1.5);
   const [relieve, setRelieve] = useState<EstadoRelieve | null>(null);
@@ -116,6 +131,7 @@ export default function GloboColonso() {
       vivo = false;
       imagenesRef.current.clear();
       puntosRef.current.clear();
+      seriesRef.current = seriesVacias();
       if (!viewer.isDestroyed()) viewer.destroy();
       if (viewerRef.current === viewer) viewerRef.current = null;
       setListo(false);
@@ -134,6 +150,28 @@ export default function GloboColonso() {
     const viewer = viewerRef.current;
     if (!listo || !viewer || viewer.isDestroyed()) return;
     sincronizarImagenes(viewer, fechaAplicada, capasUi, imagenesRef.current);
+  }, [listo, fechaAplicada, capasUi]);
+
+  useEffect(() => {
+    const viewer = viewerRef.current;
+    if (!listo || !viewer || viewer.isDestroyed()) return undefined;
+    let cancelado = false;
+    void sincronizarSeries(viewer, fechaAplicada, capasUi, seriesRef.current, () => cancelado, (id, mensaje) => {
+      if (cancelado) return;
+      setErroresPuntos((prev) => {
+        if (!mensaje) {
+          if (!prev[id]) return prev;
+          const next = { ...prev };
+          delete next[id];
+          return next;
+        }
+        return { ...prev, [id]: mensaje };
+      });
+    });
+    return () => {
+      cancelado = true;
+      seriesRef.current.nisarFirma = "";
+    };
   }, [listo, fechaAplicada, capasUi]);
 
   useEffect(() => {
@@ -164,24 +202,33 @@ export default function GloboColonso() {
       <div className="relative h-[52vh] min-h-[300px] w-full lg:h-auto lg:min-h-[640px] lg:flex-1">
         <div ref={contenedorRef} className="globo-cesium absolute inset-0" />
         <div className="pointer-events-none absolute left-3 right-16 top-3 z-10 flex flex-col gap-2">
-          <p className="pointer-events-auto max-w-md rounded-lg bg-black/80 px-3 py-2 text-xs leading-snug text-slate-100">
-            Globo 3D. La vista de detalle 2D conserva el comparador NISAR.
+          <p className="pointer-events-auto max-w-xs rounded-lg bg-black/80 px-2 py-1 text-[11px] leading-snug text-slate-100 sm:max-w-md sm:px-3 sm:py-2 sm:text-xs">
+            Globo 3D. El mapa 2D conserva el comparador NISAR.
           </p>
           {limite && !limite.disponible && (
-            <p className="pointer-events-auto max-w-md rounded-lg bg-amber-300 px-3 py-2 text-xs font-bold text-black" role="status">
+            <p className="pointer-events-auto max-w-xs rounded-lg bg-amber-300 px-2 py-1 text-[11px] font-bold text-black sm:max-w-md" role="status">
               {limite.detalle}
             </p>
           )}
           {relieve && !relieve.disponible && (
-            <p className="pointer-events-auto max-w-md rounded-lg bg-amber-300 px-3 py-2 text-xs font-bold text-black" role="status">
+            <p className="pointer-events-auto max-w-xs rounded-lg bg-amber-300 px-2 py-1 text-[11px] font-bold text-black sm:max-w-md" role="status">
               {relieve.detalle}
             </p>
           )}
           {relieve?.disponible && (
-            <p className="pointer-events-auto max-w-md rounded-lg bg-black/75 px-3 py-2 text-[11px] text-cyan-100" role="status">
-              {relieve.clasificacion}. {relieve.detalle}
+            <p className="pointer-events-auto max-w-xs rounded-lg bg-black/75 px-2 py-1 text-[11px] text-cyan-100 sm:max-w-md" role="status">
+              {relieve.ficha.nombre}. Alturas del servicio, no calculadas aquí.
             </p>
           )}
+          <div className="pointer-events-auto max-w-xs rounded-lg bg-black/80 px-2 py-1.5 text-[11px] leading-snug text-slate-100 sm:max-w-md sm:px-3" aria-live="polite">
+            <p className="font-semibold text-white">{textoFecha(fecha)}</p>
+            <ul className="mt-0.5 space-y-0.5">
+              <li>{lecturaHansen(fecha).corto}</li>
+              <li>{lecturaOpera(fecha).corto}</li>
+              <li>{lecturaJrc(fecha).corto}</li>
+              <li>{imagenNisar(fecha).lectura.corto}</li>
+            </ul>
+          </div>
         </div>
         <div className="absolute bottom-8 left-3 z-10 flex flex-wrap gap-2">
           <button
@@ -389,6 +436,131 @@ function borrarPuntos(viewer: Cesium.Viewer, registro: Map<string, Cesium.Entity
   if (!previas || viewer.isDestroyed()) return;
   for (const entidad of previas) viewer.entities.remove(entidad);
   registro.delete(id);
+}
+
+interface SeriesDibujadas {
+  hansenFirma: string;
+  hansen: Cesium.Entity[];
+  jrcFirma: string;
+  jrc: Cesium.Entity[];
+  nisarFirma: string;
+  nisar: Cesium.ImageryLayer | null;
+}
+
+function seriesVacias(): SeriesDibujadas {
+  return { hansenFirma: "", hansen: [], jrcFirma: "", jrc: [], nisarFirma: "", nisar: null };
+}
+
+async function sincronizarSeries(
+  viewer: Cesium.Viewer,
+  fecha: string,
+  capasUi: Record<string, EstadoCapaUi>,
+  registro: SeriesDibujadas,
+  cancelado: () => boolean,
+  alFallar: (id: string, mensaje: string) => void,
+): Promise<void> {
+  const hansen = capaSerie("hansen-anio");
+  const jrc = capaSerie("jrc-historica");
+  const nisar = capaSerie("nisar-imagen");
+  const uiHansen = hansen ? capasUi[hansen.id] : undefined;
+  const uiJrc = jrc ? capasUi[jrc.id] : undefined;
+  const uiNisar = nisar ? capasUi[nisar.id] : undefined;
+
+  const anio = anioDe(fecha);
+  const firmaHansen = uiHansen?.activa ? `${anio}|${uiHansen.opacidad}` : "off";
+  if (firmaHansen !== registro.hansenFirma) {
+    borrarEntidades(viewer, registro.hansen);
+    registro.hansen = [];
+    registro.hansenFirma = firmaHansen;
+    if (uiHansen?.activa && hansen) {
+      const puntos = puntosHansen(anio);
+      alFallar(hansen.id, "");
+      registro.hansen = puntos.map((punto) => viewer.entities.add({
+        position: Cesium.Cartesian3.fromDegrees(punto.lon, punto.lat),
+        point: {
+          pixelSize: 8,
+          color: colorGrupo(punto.grupo).withAlpha(uiHansen.opacidad),
+          outlineColor: Cesium.Color.BLACK.withAlpha(uiHansen.opacidad),
+          outlineWidth: 1,
+          heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
+          disableDepthTestDistance: Number.POSITIVE_INFINITY,
+        },
+      }));
+    }
+  }
+
+  const firmaJrc = uiJrc?.activa ? `on|${uiJrc.opacidad}` : "off";
+  if (firmaJrc !== registro.jrcFirma) {
+    borrarEntidades(viewer, registro.jrc);
+    registro.jrc = [];
+    registro.jrcFirma = firmaJrc;
+    if (uiJrc?.activa && jrc) {
+      const puntos = puntosJrc();
+      if (puntos.length === 0) {
+        alFallar(jrc.id, "dato no disponible. El GeoJSON de ocurrencia JRC no trae puntos.");
+      }
+      registro.jrc = puntos.map((punto) => {
+        const color = (punto.ocurrencia >= 50 ? Cesium.Color.fromCssColorString("#0369a1") : Cesium.Color.fromCssColorString("#7dd3fc")).withAlpha(uiJrc.opacidad);
+        return viewer.entities.add({
+          position: Cesium.Cartesian3.fromDegrees(punto.lon, punto.lat),
+          point: {
+            pixelSize: punto.ocurrencia >= 50 ? 7 : 5,
+            color,
+            outlineWidth: 0,
+            heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
+            disableDepthTestDistance: Number.POSITIVE_INFINITY,
+          },
+        });
+      });
+    }
+  }
+
+  const imagen = imagenNisar(fecha);
+  const firmaNisar = uiNisar?.activa && imagen.url ? `${imagen.firma}|${uiNisar.opacidad}` : "off";
+  if (firmaNisar !== registro.nisarFirma) {
+    if (registro.nisar) {
+      viewer.imageryLayers.remove(registro.nisar, true);
+      registro.nisar = null;
+    }
+    registro.nisarFirma = firmaNisar;
+    if (uiNisar?.activa && nisar && imagen.url != null && imagen.oeste != null && imagen.sur != null && imagen.este != null && imagen.norte != null) {
+      try {
+        const provider = await Cesium.SingleTileImageryProvider.fromUrl(imagen.url, {
+          rectangle: Cesium.Rectangle.fromDegrees(imagen.oeste, imagen.sur, imagen.este, imagen.norte),
+          credit: "Vista previa NISAR L2 GCOV · ASF DAAC",
+        });
+        if (cancelado() || viewer.isDestroyed() || registro.nisarFirma !== firmaNisar) return;
+        const layer = viewer.imageryLayers.addImageryProvider(provider);
+        layer.alpha = uiNisar.opacidad;
+        registro.nisar = layer;
+        alFallar(nisar.id, "");
+      } catch {
+        if (!cancelado()) {
+          alFallar(nisar.id, "dato no disponible. No se pudo abrir la vista previa NISAR de esa fecha.");
+        }
+      }
+    }
+  } else if (registro.nisar && uiNisar) {
+    registro.nisar.alpha = uiNisar.opacidad;
+  }
+
+  if (!viewer.isDestroyed()) viewer.scene.requestRender();
+}
+
+function capaSerie(id: string): CapaSerieLocal | undefined {
+  const capa = CAPAS.find((item) => item.id === id);
+  return capa?.tipo === "serie" ? capa : undefined;
+}
+
+function colorGrupo(grupo: string): Cesium.Color {
+  if (grupo === "2019-2025") return Cesium.Color.fromCssColorString("#ef4444");
+  if (grupo === "2011-2018") return Cesium.Color.fromCssColorString("#f97316");
+  return Cesium.Color.fromCssColorString("#facc15");
+}
+
+function borrarEntidades(viewer: Cesium.Viewer, entidades: Cesium.Entity[]): void {
+  if (viewer.isDestroyed()) return;
+  for (const entidad of entidades) viewer.entities.remove(entidad);
 }
 
 function aplicarOpacidadPuntos(entidades: Cesium.Entity[], opacidad: number): void {
